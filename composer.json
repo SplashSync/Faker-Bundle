@@ -19,7 +19,7 @@
 
     "autoload": {
         "psr-4": { 
-            "Splash\\Connectors\\FakerBundle":     "src/"
+            "Splash\\Connectors\\FakerBundle\\":     "src/"
         }
     },
     
