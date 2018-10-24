@@ -40,6 +40,7 @@
         "symfony/symfony":                              "~3.4",
         "symfony/monolog-bundle":                       ">=2.1",
         
+        "doctrine/orm":                                 "^2.4",
         "doctrine/doctrine-bundle":                     "^1.9",
         
         "composer/composer":                            "^1.5",

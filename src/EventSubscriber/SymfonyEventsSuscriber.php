@@ -11,7 +11,7 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- * 
+ *
  * @author Bernard Paquier <contact@splashsync.com>
  */
 
@@ -21,19 +21,19 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 use Splash\Bundle\Events\ObjectsListingEvent;
 
-
 /**
  * Description of FakerEventsSuscriber
  *
  * @author nanard33
  */
-class SymfonyEventsSuscriber implements EventSubscriberInterface {
+class SymfonyEventsSuscriber implements EventSubscriberInterface
+{
     
     /**
      * @abstract    Faker Bundle Configuration
      * @var array
      */
-    private $config;    
+    private $config;
     
     //====================================================================//
     //  CONSTRUCTOR
@@ -41,12 +41,13 @@ class SymfonyEventsSuscriber implements EventSubscriberInterface {
     
     /**
      * @abstract    Service Constructor
-     */    
-    public function __construct(array $Configuration) { 
+     */
+    public function __construct(array $Configuration)
+    {
         //====================================================================//
         // Store Faker Service Configuration
-        $this->config       =   $Configuration;        
-    }     
+        $this->config       =   $Configuration;
+    }
     
     //====================================================================//
     //  SUBSCRIBER
@@ -78,9 +79,9 @@ class SymfonyEventsSuscriber implements EventSubscriberInterface {
     public function onObjectListing(ObjectsListingEvent $event)
     {
         //====================================================================//
-        // Walk on Configuration to Add Objects        
+        // Walk on Configuration to Add Objects
         foreach ($this->config["objects"] as $Object) {
-            $event->addObjectType($Object["id"], "splash.connector.faker.object." . $Object["id"] );
+            $event->addObjectType($Object["id"], "splash.connector.faker.object." . $Object["id"]);
         }
-    }    
+    }
 }

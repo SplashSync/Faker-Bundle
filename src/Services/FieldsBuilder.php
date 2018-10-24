@@ -20,34 +20,34 @@ class FieldsBuilder
      * @abstract    Splash Fields Factory
      * @var FieldsFactory
      */
-    private $FieldsFactory = Null;
+    private $FieldsFactory = null;
 
     /**
      * @abstract    Setup Spash Field Factory
-     * 
+     *
      * @return self
-     */   
+     */
     public function init(FieldsFactory $Factory)
     {
         //====================================================================//
         // Initialize Splash Field Factory Class
-        $this->FieldsFactory    =   $Factory;            
+        $this->FieldsFactory    =   $Factory;
         //====================================================================//
         // Clear Fields Counters
         $this->counters = array();
         
         return $this;
-    }    
+    }
     
     /**
      * @abstract    Return Field Factory Data
-     * 
+     *
      * @return array
-     */   
+     */
     public function publish()
     {
         return $this->FieldsFactory->Publish();
-    }    
+    }
 
     
     
@@ -57,27 +57,27 @@ class FieldsBuilder
 
     /**
      * @abstract    Increment Field Type Counter
-     * 
+     *
      * @return int  New Value
-     */   
+     */
     public function count($Type)
     {
-        if ( !isset($this->counters[$Type]) ) {
+        if (!isset($this->counters[$Type])) {
             $this->counters[$Type]  = 0;
         }
         $this->counters[$Type]++;
         return $this->counters[$Type];
-    }    
+    }
     
     /**
      * @abstract    Add Field to FieldFactory
-     * 
-     * @param string                $FieldType     
-     * @param array                 $Options     
-     * 
-     * @return self  
-     */   
-    public function add($FieldType, $Options = Null)
+     *
+     * @param string                $FieldType
+     * @param array                 $Options
+     *
+     * @return self
+     */
+    public function add($FieldType, $Options = null)
     {
         //==============================================================================
         // Init Parameters
@@ -93,42 +93,42 @@ class FieldsBuilder
                         
         //==============================================================================
         // No Options   => Exit
-        if ( is_null($Options)) {
+        if (is_null($Options)) {
             return $this;
         }
         //==============================================================================
         // Setup Options
-        if ( isset($Options["Group"]) && is_scalar($Options["Group"]) ) {
+        if (isset($Options["Group"]) && is_scalar($Options["Group"])) {
             $this->FieldsFactory->group($Options["Group"]);
-        }         
-        if (in_array("Required", $Options) ) {
+        }
+        if (in_array("Required", $Options)) {
             $this->FieldsFactory->isRequired();
-        } 
-        if (in_array("Listed", $Options) ) {
+        }
+        if (in_array("Listed", $Options)) {
             $this->FieldsFactory->isListed();
-        } 
-        if (in_array("Logged", $Options) ) {
+        }
+        if (in_array("Logged", $Options)) {
             $this->FieldsFactory->isLogged();
-        } 
-        if (in_array("ReadOnly", $Options) ) {
+        }
+        if (in_array("ReadOnly", $Options)) {
             $this->FieldsFactory->ReadOnly();
-        } 
-        if (in_array("WriteOnly", $Options) ) {
+        }
+        if (in_array("WriteOnly", $Options)) {
             $this->FieldsFactory->WriteOnly();
-        } 
+        }
         
         return $this;
-    }     
+    }
     
     /**
      * @abstract    Add Meta Field to FieldFactory
-     * 
-     * @param string                $MetaType     
-     * @param array                 $Options     
-     * 
-     * @return self  
-     */   
-    public function addMeta($MetaType, $Options = Null)
+     *
+     * @param string                $MetaType
+     * @param array                 $Options
+     *
+     * @return self
+     */
+    public function addMeta($MetaType, $Options = null)
     {
         //==============================================================================
         // Init Parameters
@@ -140,21 +140,21 @@ class FieldsBuilder
         $Tag = md5($MetaType . IDSPLIT . FieldsFactory::META_URL);
         
         //==============================================================================
-        //      Detect Meta Data Field Type  
-        switch($MetaType) {
+        //      Detect Meta Data Field Type
+        switch ($MetaType) {
             //==============================================================================
-            //      OPENOBJECT => Mongo ObjectId  
+            //      OPENOBJECT => Mongo ObjectId
             case FieldsFactory::META_OBJECTID:
             //==============================================================================
-            //      OPENOBJECT => Creation Date  
+            //      OPENOBJECT => Creation Date
             case FieldsFactory::META_DATECREATED:
             //==============================================================================
-            //      OPENOBJECT => Source Node Id  
+            //      OPENOBJECT => Source Node Id
             case FieldsFactory::META_OBJECTID:
                 $FieldType = SPL_T_VARCHAR;
                 break;
             //==============================================================================
-            //      UNKNOWN => Exit  
+            //      UNKNOWN => Exit
             default:
                 return $this;
         }
@@ -169,66 +169,65 @@ class FieldsBuilder
                         
         //==============================================================================
         // No Options   => Exit
-        if ( is_null($Options)) {
+        if (is_null($Options)) {
             return $this;
-        }      
+        }
         //==============================================================================
         // Setup Options
-        if ( isset($Options["Group"]) && is_scalar($Options["Group"]) ) {
+        if (isset($Options["Group"]) && is_scalar($Options["Group"])) {
             $this->FieldsFactory->group($Options["Group"]);
-        } 
-        if ( isset($Options["Required"]) ) {
+        }
+        if (isset($Options["Required"])) {
             $this->FieldsFactory->isRequired();
-        } 
-        if ( isset($Options["Listed"]) ) {
+        }
+        if (isset($Options["Listed"])) {
             $this->FieldsFactory->isListed();
-        } 
-        if ( isset($Options["Logged"]) ) {
+        }
+        if (isset($Options["Logged"])) {
             $this->FieldsFactory->isLogged();
-        } 
-        if ( isset($Options["ReadOnly"]) ) {
+        }
+        if (isset($Options["ReadOnly"])) {
             $this->FieldsFactory->ReadOnly();
-        } 
-        if ( isset($Options["WriteOnly"]) ) {
+        }
+        if (isset($Options["WriteOnly"])) {
             $this->FieldsFactory->WriteOnly();
-        } 
+        }
         
         return $this;
-    }     
+    }
     
     /**
      * @abstract    Compare Two Fields Definition Array
-     * 
-     * @param array     $A     
+     *
+     * @param array     $A
      * @param array     $B
-     * 
-     * @return self  
-     */   
-    public function compare($A, $B) {
+     *
+     * @return self
+     */
+    public function compare($A, $B)
+    {
         
         //==============================================================================
         // Compare Each Array Row
         foreach ($A as $key => $value) {
             //==============================================================================
             // Compare Simple Rows
-            if (!is_array($value) && ($B[$key] != $value) ) {
-                return False;
-            } elseif (!is_array($value) ) {
+            if (!is_array($value) && ($B[$key] != $value)) {
+                return false;
+            } elseif (!is_array($value)) {
                 continue;
             }
             //==============================================================================
             // Compare Array Rows
-            if (empty($value) && empty($B[$key]) ) {
+            if (empty($value) && empty($B[$key])) {
                 continue;
             }
-            if ( $this->compare($value,$B[$key]) ) {
+            if ($this->compare($value, $B[$key])) {
                 continue;
             }
-            return False;
-        } 
+            return false;
+        }
         
-        return True;
+        return true;
     }
-            
-            
 }

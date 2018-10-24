@@ -11,7 +11,7 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- * 
+ *
  * @author Bernard Paquier <contact@splashsync.com>
  */
 
@@ -29,19 +29,20 @@ use Splash\Connectors\FakerBundle\Entity\FakeObject;
  *
  * @author nanard33
  */
-class DoctrineEventsSuscriber implements EventSubscriber {
+class DoctrineEventsSuscriber implements EventSubscriber
+{
     
     /**
      * @abstract    Faker Bundle Configuration
      * @var array
      */
-    private $Config; 
+    private $Config;
     
     /**
      * @abstract    Splash Connectors Manager
      * @var ConnectorsManager
      */
-    private $Manager;     
+    private $Manager;
     
     //====================================================================//
     //  CONSTRUCTOR
@@ -49,15 +50,16 @@ class DoctrineEventsSuscriber implements EventSubscriber {
     
     /**
      * @abstract    Service Constructor
-     */    
-    public function __construct(array $Configuration, ConnectorsManager $Manager) { 
+     */
+    public function __construct(array $Configuration, ConnectorsManager $Manager)
+    {
         //====================================================================//
         // Store Faker Service Configuration
-        $this->Config       =   $Configuration;        
+        $this->Config       =   $Configuration;
         //====================================================================//
-        // Store Faker Connector Manager 
-        $this->Manager      =   $Manager;        
-    }     
+        // Store Faker Connector Manager
+        $this->Manager      =   $Manager;
+    }
     
     //====================================================================//
     //  SUBSCRIBER
@@ -97,7 +99,7 @@ class DoctrineEventsSuscriber implements EventSubscriber {
         //====================================================================//
         //  Submit Change
         $this->doCommit($eventArgs->getEntity(), SPL_A_DELETE);
-    }    
+    }
     
     
     private function doCommit($Entity, $Action)
@@ -112,15 +114,14 @@ class DoctrineEventsSuscriber implements EventSubscriber {
         $Servers    =   $this->Manager->getConnectorConfigurations("splash.connectors.standalone");
         //====================================================================//
         //  Walk on Configured Servers
-        foreach (array_keys($Servers)   as $ServerId)
-        {
+        foreach (array_keys($Servers) as $ServerId) {
             $this->Manager->get($ServerId)->commit(
-                    $Entity->getType(),
-                    $Entity->getIdentifier(),
-                    $Action,
-                    "Symfony Faker", "Change Commited Fake " . $Entity->getType()
-                    );                  
+                $Entity->getType(),
+                $Entity->getIdentifier(),
+                $Action,
+                "Symfony Faker",
+                "Change Commited Fake " . $Entity->getType()
+            );
         }
-    }    
-    
+    }
 }

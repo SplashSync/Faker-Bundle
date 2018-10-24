@@ -5,7 +5,7 @@ namespace Splash\Connectors\FakerBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @abstract    Splash Fake/Testing Objects 
+ * @abstract    Splash Fake/Testing Objects
  *
  * @ORM\Table(name="splash__faker__objects")
  * @ORM\Entity(repositoryClass="Splash\Connectors\FakerBundle\Repository\FakeObjectRepository")
@@ -29,47 +29,47 @@ class FakeObject
 
     //==============================================================================
     //      FAKER OBJECT DATA
-    //==============================================================================   
+    //==============================================================================
     
     /**
      * @abstract    Fake Object Type Name
-     * 
+     *
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=255)
      */
-    private $type;  
+    private $type;
 
     /**
      * @abstract    Fake Object Identifier
-     * 
+     *
      * @var string
      *
      * @ORM\Column(name="identifier", type="string", length=255)
      */
-    private $identifier;  
+    private $identifier;
 
     /**
      * @abstract    Fake Object Data
-     * 
+     *
      * @var string
      *
      * @ORM\Column(name="data", type="object")
      */
-    private $data;  
+    private $data;
     
     //==============================================================================
-    //      DATA OPERATIONS  
-    //==============================================================================   
+    //      DATA OPERATIONS
+    //==============================================================================
     
     public function __toString()
     {
         return $this->getType() . "@" . $this->getIdentifier();
-    }      
+    }
     
     //==============================================================================
-    //      GETTERS & SETTERS 
-    //==============================================================================   
+    //      GETTERS & SETTERS
+    //==============================================================================
     
 
     /**
@@ -152,11 +152,11 @@ class FakeObject
      *
      * @return  self
      */
-    public function setData($Data, $ProtectMeta = False)
+    public function setData($Data, $ProtectMeta = false)
     {
         //====================================================================//
         // Raw Write of Object Data
-        if ( !$ProtectMeta ) {
+        if (!$ProtectMeta) {
             $this->data = $Data;
             return $this;
         }
@@ -167,25 +167,23 @@ class FakeObject
         //====================================================================//
         // Write Data One by One
         foreach ($Data as $FieldId => $FieldData) {
-
             //====================================================================//
             // Verify Field is Not a Meta Field
-            $IsMeta = False;
+            $IsMeta = false;
             foreach ($Fields as $Field) {
-                if ( $Field->id !== $FieldId ) {
+                if ($Field->id !== $FieldId) {
                     continue;
                 }
-                if ( \OpenObject\WsSchemasBundle\Entity\WsSchema::isMetaTag($Field->tag) ) {
-                    $IsMeta = True;
+                if (\OpenObject\WsSchemasBundle\Entity\WsSchema::isMetaTag($Field->tag)) {
+                    $IsMeta = true;
                 }
             }
-            if ( $IsMeta ) {
+            if ($IsMeta) {
                 continue;
             }
             //====================================================================//
             // Write Field Data
             $this->data[$FieldId] = $FieldData;
-
         }
         return $this;
     }
@@ -194,17 +192,17 @@ class FakeObject
      * Get data
      *
      * @param   string  $FieldId        Field Name or Null
-     * 
+     *
      * @return array
      */
-    public function getData( $FieldId = Null )
+    public function getData($FieldId = null)
     {
-        if ( $FieldId ) {
-            if ( !isset($this->data[$FieldId]) ) {
+        if ($FieldId) {
+            if (!isset($this->data[$FieldId])) {
                 return null;
-            } 
+            }
             return $this->data[$FieldId];
-        } 
+        }
         return $this->data;
     }
 

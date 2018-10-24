@@ -5,7 +5,7 @@ namespace Splash\Connectors\FakerBundle\Repository;
 class FakeObjectRepository extends \Doctrine\ORM\EntityRepository
 {
     
-    public function getTypeCount($type, $filter = Null) 
+    public function getTypeCount($type, $filter = null)
     {
         $QB = $this->createQueryBuilder("o");
         
@@ -23,5 +23,4 @@ class FakeObjectRepository extends \Doctrine\ORM\EntityRepository
 
         return $QB->getQuery()->getSingleScalarResult();
     }
-    
 }

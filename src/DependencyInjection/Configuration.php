@@ -35,7 +35,7 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('format')->isRequired()->cannotBeEmpty()->end()
                         ->end()
                     ->end()
-                ->end()                
+                ->end()
                 
             ->end()
         ;

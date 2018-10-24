@@ -28,8 +28,8 @@ class SplashFakerExtension extends Extension
         $loader->load('services.yml');
         
         //====================================================================//
-        // Add Splash Standalone Objects Service to Container	
-        foreach ($config["objects"]  as $Object) {
+        // Add Splash Standalone Objects Service to Container
+        foreach ($config["objects"] as $Object) {
             $container
                 ->register('splash.connector.faker.object.' . $Object["id"], 'Splash\Connectors\FakerBundle\Objects\Generic')
                 ->addTag('splash.standalone.object')
@@ -38,6 +38,5 @@ class SplashFakerExtension extends Extension
                 ->setAutowired(true)
                     ;
         }
-
     }
 }
