@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "03f14bb37112c6757cfac68ff446351e",
+    "content-hash": "2215fc8324156d240b229a1275666f67",
     "packages": [
         {
             "name": "splash/php-bundle",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/SplashSync/Php-Bundle.git",
-                "reference": "1bc3fab3e0a1aed1e5d48401a5e780b3288235d2"
+                "reference": "2a6bf4b4364a72445cd3fccc9681ae6e3f190d1a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SplashSync/Php-Bundle/zipball/1bc3fab3e0a1aed1e5d48401a5e780b3288235d2",
-                "reference": "1bc3fab3e0a1aed1e5d48401a5e780b3288235d2",
+                "url": "https://api.github.com/repos/SplashSync/Php-Bundle/zipball/2a6bf4b4364a72445cd3fccc9681ae6e3f190d1a",
+                "reference": "2a6bf4b4364a72445cd3fccc9681ae6e3f190d1a",
                 "shasum": ""
             },
             "require": {
@@ -25,41 +25,28 @@
                 "splash/phpcore": "dev-master"
             },
             "require-dev": {
-                "bmatzner/fontawesome-bundle": "~4.7",
                 "composer/composer": "^1.5",
-                "doctrine/doctrine-bundle": "^1.6",
-                "doctrine/doctrine-cache-bundle": "^1.2",
-                "doctrine/orm": "^2.5",
-                "friendsofsymfony/jsrouting-bundle": ">=2.0",
+                "doctrine/doctrine-bundle": "^1.9",
+                "doctrine/orm": "^2.4",
                 "j13k/yaml-lint": "^1.1",
                 "jakub-onderka/php-parallel-lint": "^1.0",
-                "knplabs/knp-menu-bundle": ">=2.0",
-                "knplabs/knp-time-bundle": ">1.5",
-                "mopa/bootstrap-bundle": "~3.0",
                 "phpmd/phpmd": "^2.6",
                 "phpro/grumphp": "^0.14.0",
-                "phpunit/phpunit": ">5",
+                "phpstan/phpstan-shim": "^0.10",
+                "phpunit/phpunit": ">7",
                 "sclable/xml-lint": "^0.2.4",
                 "sebastian/phpcpd": ">3.0",
                 "seld/jsonlint": "^1.7",
                 "sensio/distribution-bundle": ">=5",
                 "sensio/framework-extra-bundle": ">=3",
                 "sensiolabs/security-checker": "^4.1",
-                "sonata-project/block-bundle": ">=3.0",
+                "splash/faker": "dev-master",
                 "squizlabs/php_codesniffer": "^3.2",
-                "symfony/assetic-bundle": ">=2.8",
                 "symfony/monolog-bundle": ">=2.1",
                 "symfony/phpunit-bridge": "^3.0",
-                "symfony/symfony": "~3.0  | ~3.4",
-                "twbs/bootstrap": "~3.3.0"
+                "symfony/symfony": "~3.4"
             },
             "type": "library",
-            "extra": {
-                "symfony-app-dir": "app",
-                "symfony-bin-dir": "bin",
-                "symfony-var-dir": "var",
-                "symfony-web-dir": "web"
-            },
             "autoload": {
                 "psr-4": {
                     "Splash\\Bundle\\": "src/",
@@ -84,7 +71,7 @@
                 }
             ],
             "description": "Splash Core Bundle for Symfony Applications",
-            "time": "2018-10-23T19:07:58+00:00"
+            "time": "2018-10-24T23:15:04+00:00"
         },
         {
             "name": "splash/phpcore",
@@ -92,12 +79,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/SplashSync/Php-Core.git",
-                "reference": "1345b15cf02beb74d31646c0b694a13e0e5265e6"
+                "reference": "bd5fe3a1f553f89d85c95a0e0d05d5843524f447"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SplashSync/Php-Core/zipball/1345b15cf02beb74d31646c0b694a13e0e5265e6",
-                "reference": "1345b15cf02beb74d31646c0b694a13e0e5265e6",
+                "url": "https://api.github.com/repos/SplashSync/Php-Core/zipball/bd5fe3a1f553f89d85c95a0e0d05d5843524f447",
+                "reference": "bd5fe3a1f553f89d85c95a0e0d05d5843524f447",
                 "shasum": ""
             },
             "require": {
@@ -131,7 +118,7 @@
                 "MIT"
             ],
             "description": "Splash Core Module for Php Applications",
-            "time": "2018-10-17T15:42:43+00:00"
+            "time": "2018-10-24T20:51:54+00:00"
         }
     ],
     "packages-dev": [
@@ -2400,6 +2387,50 @@
                 "stub"
             ],
             "time": "2018-08-05T17:53:17+00:00"
+        },
+        {
+            "name": "phpstan/phpstan-shim",
+            "version": "0.10.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpstan/phpstan-shim.git",
+                "reference": "a274185548d140a7f48cc1eed5b94f3a9068c674"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpstan/phpstan-shim/zipball/a274185548d140a7f48cc1eed5b94f3a9068c674",
+                "reference": "a274185548d140a7f48cc1eed5b94f3a9068c674",
+                "shasum": ""
+            },
+            "require": {
+                "php": "~7.1"
+            },
+            "replace": {
+                "nikic/php-parser": "^4.0.2",
+                "phpstan/phpdoc-parser": "^0.3",
+                "phpstan/phpstan": "self.version"
+            },
+            "bin": [
+                "phpstan",
+                "phpstan.phar"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.10-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHPStan Phar distribution",
+            "time": "2018-10-20T17:45:03+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
