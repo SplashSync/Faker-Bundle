@@ -92,7 +92,7 @@ class Generic extends AbstractObject
      * @abstract Doctrine Entity Manager
      * @var EntityManagerInterface
      */
-    private $_em;
+    private $EntityManager;
 
     /**
      * @var FieldsBuilder
@@ -110,7 +110,7 @@ class Generic extends AbstractObject
         $this->fieldBuilder =   $FieldsBuilder;
         //====================================================================//
         // Link to Doctrine Entity Manager Services
-        $this->_em = $EntityManager;
+        $this->EntityManager = $EntityManager;
     }
 
     /**
@@ -194,14 +194,14 @@ class Generic extends AbstractObject
     /**
      * {@inheritdoc}
      */
-    public function ObjectsList($filter = null, $params = null)
+    public function objectsList($filter = null, $params = null)
     {
         //====================================================================//
         // Stack Trace
         Splash::log()->trace(__CLASS__, __FUNCTION__);
 
         $Response = [];
-        $Repo   =   $this->_em->getRepository('SplashFakerBundle:FakeObject');
+        $Repo   =   $this->EntityManager->getRepository('SplashFakerBundle:FakeObject');
         
         //====================================================================//
         // Prepare List Filters List
@@ -260,7 +260,7 @@ class Generic extends AbstractObject
         Splash::log()->trace(__CLASS__, __FUNCTION__);
         //====================================================================//
         // Search in Repository
-        $this->Entity   =   $this->_em
+        $this->Entity   =   $this->EntityManager
                 ->getRepository('SplashFakerBundle:FakeObject')
                 ->findOneBy(array(
                     "type"      => $this->type,
@@ -304,7 +304,7 @@ class Generic extends AbstractObject
         
         //====================================================================//
         // Persist (but DO NOT FLUSH)
-        $this->_em->persist($this->Entity);
+        $this->EntityManager->persist($this->Entity);
 
         return new ArrayObject($this->Entity->getData(), ArrayObject::ARRAY_AS_PROPS);
     }
@@ -322,7 +322,7 @@ class Generic extends AbstractObject
         // Save
         if ($Needed) {
             $this->Entity->setData($this->Object->getArrayCopy());
-            $this->_em->flush();
+            $this->EntityManager->flush();
         }
         return $this->Entity->getIdentifier();
     }
@@ -337,8 +337,8 @@ class Generic extends AbstractObject
         if ($this->load($id)) {
             //====================================================================//
             // Delete
-            $this->_em->remove($this->Entity);
-            $this->_em->flush();
+            $this->EntityManager->remove($this->Entity);
+            $this->EntityManager->flush();
         }
         return true;
     }
