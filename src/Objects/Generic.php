@@ -302,9 +302,8 @@ class Generic extends AbstractObject {
         $this->Entity->setData(array());
         
         //====================================================================//
-        // Save
-        $this->_em->persist($this->Entity);
-        $this->_em->flush();        
+        // Persist (but DO NOT FLUSH)
+        $this->_em->persist($this->Entity);       
 
         return new ArrayObject($this->Entity->getData(), ArrayObject::ARRAY_AS_PROPS);
     }
@@ -332,11 +331,12 @@ class Generic extends AbstractObject {
      */    
     public function delete($id = null)
     {
-        $Entity = $this->load($id);
-        if($Entity) {
+        //====================================================================//
+        // Try Loading Object to Check if Exists
+        if($this->load($id)) {
             //====================================================================//
             // Delete
-            $this->_em->remove($Entity);
+            $this->_em->remove($this->Entity);
             $this->_em->flush(); 
         }
         return true;
@@ -366,7 +366,7 @@ class Generic extends AbstractObject {
                 
                 //==============================================================================
                 // Short Objects Fields Definition
-                $this->fieldBuilder->add(SPL_T_VARCHAR, array("Listed"));
+                $this->fieldBuilder->add(SPL_T_VARCHAR, array("Listed", "Required"));
                 $this->fieldBuilder->add(SPL_T_BOOL,    array("Listed"));
                 $this->fieldBuilder->add(SPL_T_INT,     array("Listed"));
                 $this->fieldBuilder->add(SPL_T_BOOL,    array("Group" => "Group 1"));
@@ -384,29 +384,29 @@ class Generic extends AbstractObject {
                 
                 //==============================================================================
                 // Simple Objects Fields Definition
-                $this->fieldBuilder->add(SPL_T_VARCHAR,array());
-                $this->fieldBuilder->add(SPL_T_VARCHAR,array());
-                $this->fieldBuilder->add(SPL_T_BOOL,array());
-                $this->fieldBuilder->add(SPL_T_INT,array());
-                $this->fieldBuilder->add(SPL_T_DOUBLE,array());
-                $this->fieldBuilder->add(SPL_T_DATE,array());
+                $this->fieldBuilder->add(SPL_T_VARCHAR, array("Listed", "Required"));
+                $this->fieldBuilder->add(SPL_T_VARCHAR, array());
+                $this->fieldBuilder->add(SPL_T_BOOL,    array());
+                $this->fieldBuilder->add(SPL_T_INT,     array("Listed", "Required"));
+                $this->fieldBuilder->add(SPL_T_DOUBLE,  array());
+                $this->fieldBuilder->add(SPL_T_DATE,    array());
                 $this->fieldBuilder->add(SPL_T_DATETIME,array());
                 $this->fieldBuilder->add(SPL_T_CURRENCY,array());
-                $this->fieldBuilder->add(SPL_T_LANG,array());
-                $this->fieldBuilder->add(SPL_T_STATE,array());
-                $this->fieldBuilder->add(SPL_T_COUNTRY,array());
-                $this->fieldBuilder->add(SPL_T_EMAIL,array());
-                $this->fieldBuilder->add(SPL_T_URL,array());                
-                $this->fieldBuilder->add(SPL_T_PHONE,array());
-                $this->fieldBuilder->add(SPL_T_PRICE,array());
+                $this->fieldBuilder->add(SPL_T_LANG,    array());
+                $this->fieldBuilder->add(SPL_T_STATE,   array());
+                $this->fieldBuilder->add(SPL_T_COUNTRY, array());
+                $this->fieldBuilder->add(SPL_T_EMAIL,   array());
+                $this->fieldBuilder->add(SPL_T_URL,     array());                
+                $this->fieldBuilder->add(SPL_T_PHONE,   array());
+                $this->fieldBuilder->add(SPL_T_PRICE,   array("Required"));
                 
                 break;
             
             case "list":
                 
-                $this->fieldBuilder->add(SPL_T_VARCHAR,array());
-                $this->fieldBuilder->add(SPL_T_BOOL,array());
-                $this->fieldBuilder->add(SPL_T_INT,array());
+                $this->fieldBuilder->add(SPL_T_VARCHAR, array("Listed", "Required"));
+                $this->fieldBuilder->add(SPL_T_BOOL,    array());
+                $this->fieldBuilder->add(SPL_T_INT,     array());
                 
                 //==============================================================================
                 // Simple List Objects Fields Definition
@@ -416,40 +416,40 @@ class Generic extends AbstractObject {
                 $this->fieldBuilder->add(SPL_T_VARCHAR     . LISTSPLIT . SPL_T_LIST,array());
                 $this->fieldBuilder->add(SPL_T_TEXT        . LISTSPLIT . SPL_T_LIST,array());
                 $this->fieldBuilder->add(SPL_T_EMAIL       . LISTSPLIT . SPL_T_LIST,array());
-                $this->fieldBuilder->add(SPL_T_PHONE       . LISTSPLIT . SPL_T_LIST,array());
-//                $this->fieldBuilder->add(SPL_T_DATE        . LISTSPLIT . SPL_T_LIST,array());
-//                $this->fieldBuilder->add(SPL_T_DATETIME    . LISTSPLIT . SPL_T_LIST,array());
-//                $this->fieldBuilder->add(SPL_T_LANG        . LISTSPLIT . SPL_T_LIST,array());
-//                $this->fieldBuilder->add(SPL_T_COUNTRY     . LISTSPLIT . SPL_T_LIST,array());
-//                $this->fieldBuilder->add(SPL_T_STATE       . LISTSPLIT . SPL_T_LIST,array());
-//                $this->fieldBuilder->add(SPL_T_URL         . LISTSPLIT . SPL_T_LIST,array());
-//                $this->fieldBuilder->add(SPL_T_MVARCHAR    . LISTSPLIT . SPL_T_LIST,array());
-//                $this->fieldBuilder->add(SPL_T_MTEXT       . LISTSPLIT . SPL_T_LIST,array());
-//                $this->fieldBuilder->add(SPL_T_PRICE       . LISTSPLIT . SPL_T_LIST,array()); 
+//                $this->fieldBuilder->add(SPL_T_PHONE       . LISTSPLIT . SPL_T_LIST,array());
+                $this->fieldBuilder->add(SPL_T_DATE        . LISTSPLIT . SPL_T_LIST,array());
+                $this->fieldBuilder->add(SPL_T_DATETIME    . LISTSPLIT . SPL_T_LIST,array());
+                $this->fieldBuilder->add(SPL_T_LANG        . LISTSPLIT . SPL_T_LIST,array());
+                $this->fieldBuilder->add(SPL_T_COUNTRY     . LISTSPLIT . SPL_T_LIST,array());
+                $this->fieldBuilder->add(SPL_T_STATE       . LISTSPLIT . SPL_T_LIST,array());
+                $this->fieldBuilder->add(SPL_T_URL         . LISTSPLIT . SPL_T_LIST,array());
+                $this->fieldBuilder->add(SPL_T_MVARCHAR    . LISTSPLIT . SPL_T_LIST,array());
+                $this->fieldBuilder->add(SPL_T_MTEXT       . LISTSPLIT . SPL_T_LIST,array());
+                $this->fieldBuilder->add(SPL_T_PRICE       . LISTSPLIT . SPL_T_LIST,array("Required")); 
                 
                 break;
 
             case "image":
                 
-                $this->fieldBuilder->add(SPL_T_VARCHAR,array());
-                $this->fieldBuilder->add(SPL_T_BOOL,array());
-                $this->fieldBuilder->add(SPL_T_INT,array());
+                $this->fieldBuilder->add(SPL_T_VARCHAR, array("Listed", "Required"));
+                $this->fieldBuilder->add(SPL_T_BOOL,    array());
+                $this->fieldBuilder->add(SPL_T_INT,     array());
                
                 //==============================================================================
                 // Simple but with Image Fields Definition
-                $this->fieldBuilder->add(SPL_T_IMG,array());
+                $this->fieldBuilder->add(SPL_T_IMG,     array());
                 
                 break;             
             
             case "file":
                 
-                $this->fieldBuilder->add(SPL_T_VARCHAR,array());
-                $this->fieldBuilder->add(SPL_T_BOOL,array());
-                $this->fieldBuilder->add(SPL_T_INT,array());
+                $this->fieldBuilder->add(SPL_T_VARCHAR, array("Listed", "Required"));
+                $this->fieldBuilder->add(SPL_T_BOOL,    array());
+                $this->fieldBuilder->add(SPL_T_INT,     array());
                
                 //==============================================================================
                 // Simple but with File Fields Definition
-                $this->fieldBuilder->add(SPL_T_FILE,array());
+                $this->fieldBuilder->add(SPL_T_FILE,    array());
                 
                 break;             
             

@@ -200,6 +200,9 @@ class FakeObject
     public function getData( $FieldId = Null )
     {
         if ( $FieldId ) {
+            if ( !isset($this->data[$FieldId]) ) {
+                return null;
+            } 
             return $this->data[$FieldId];
         } 
         return $this->data;

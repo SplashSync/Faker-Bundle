@@ -19,17 +19,15 @@ namespace Splash\Connectors\FakerBundle\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-//use Splash\Bundle\Connectors\Standalone;
 use Splash\Bundle\Events\ObjectsListingEvent;
 
-//use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Description of FakerEventsSuscriber
  *
  * @author nanard33
  */
-class FakerEventsSuscriber implements EventSubscriberInterface {
+class SymfonyEventsSuscriber implements EventSubscriberInterface {
     
     /**
      * @abstract    Faker Bundle Configuration
@@ -37,9 +35,9 @@ class FakerEventsSuscriber implements EventSubscriberInterface {
      */
     private $config;    
     
-//====================================================================//
-//  CONSTRUCTOR
-//====================================================================//
+    //====================================================================//
+    //  CONSTRUCTOR
+    //====================================================================//
     
     /**
      * @abstract    Service Constructor
@@ -50,6 +48,9 @@ class FakerEventsSuscriber implements EventSubscriberInterface {
         $this->config       =   $Configuration;        
     }     
     
+    //====================================================================//
+    //  SUBSCRIBER
+    //====================================================================//
     
     /**
      * @abstract    Configure Event Subscriber
@@ -57,13 +58,17 @@ class FakerEventsSuscriber implements EventSubscriberInterface {
      */
     public static function getSubscribedEvents()
     {
-        // return the subscribed events, their methods and priorities
         return array(
+            // Standalone Events
             ObjectsListingEvent::NAME   => array(
                array('onObjectListing', 0)
-            ),
+            )
         );
     }
+
+    //====================================================================//
+    //  EVENTS ACTIONS
+    //====================================================================//
 
     /**
      * @abstract    On Standalone Object Listing Event
@@ -77,5 +82,5 @@ class FakerEventsSuscriber implements EventSubscriberInterface {
         foreach ($this->config["objects"] as $Object) {
             $event->addObjectType($Object["id"], "splash.connector.faker.object." . $Object["id"] );
         }
-    }
+    }    
 }

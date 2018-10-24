@@ -1,12 +1,20 @@
 services:
 
     ########################################################################
-    # Splash Faker Standalone Events Listner
-    splash.connector.faker.events:
-        class: Splash\Connectors\FakerBundle\EventSubscriber\FakerEventsSuscriber
+    # Splash Faker Standalone Events Listner for Symfony
+    splash.connector.faker.events.symfony:
+        class: Splash\Connectors\FakerBundle\EventSubscriber\SymfonyEventsSuscriber
         arguments:  ["@=service('service_container').getParameter('splash_faker')"]
         tags:       ["kernel.event_subscriber"]
 
+    ########################################################################
+    # Splash Faker Standalone Events Listner for Doctrine
+    splash.connector.faker.events.doctrine:
+        class: Splash\Connectors\FakerBundle\EventSubscriber\DoctrineEventsSuscriber
+        arguments:  
+            - "@=service('service_container').getParameter('splash_faker')"
+            - "@splash.connectors.manager"
+        tags:       ["doctrine.event_subscriber"]
 
     ########################################################################
     # Splash Faker Field Buidler
