@@ -1,6 +1,6 @@
 parameters:
     git_dir:        .
-    bin_dir:        "./vendor/bin"
+    bin_dir:        bin
     ascii:
         failed:     "./vendor/splash/phpcore/Resources/ascii/grumphp-grumpy.txt"
         succeeded:  "./vendor/splash/phpcore/Resources/ascii/grumphp-happy.txt"
@@ -33,27 +33,26 @@ parameters:
             ignore_patterns: ['vendor']
             
         xmllint: ~
-        yamllint: ~
+        yamllint: 
+            parse_custom_tags: true
         
         phpmd:
-            ruleset:        ["./Build/phpmd.xml"]
+            ruleset:        ["./tests/phpmd.xml"]
             exclude:        
-                - "nusoap.php"
+                - "archives"
                 - "vendor"
                 
         securitychecker: ~
         phpcpd: 
-            exclude:        
-                - "Components/NuSOAP"
+            exclude:
+                - "archives"
+                - "var"               
                 - "vendor"               
+                
         phpstan: 
             level:  0
-            configuration:      "build/phpstan.neon"             
             ignore_patterns:
-                - NuSOAPInterface.php
-                - nusoap.php
-                - fatal.inc.php
-                - server.inc.php
+                - "archives/"
 
     testsuites:
         travis:
@@ -72,4 +71,4 @@ parameters:
                 
         phpstan:
             tasks: 
-                - phpstan 
+                - phpstan
