@@ -30,8 +30,8 @@
     
     
     "require": {
-        "php":                      "^7.0",
-        "splash/php-bundle":        "dev-master"
+        "php":                                          "^7.0",
+        "splash/php-bundle":                            "*"
     },
     
     "require-dev": {
