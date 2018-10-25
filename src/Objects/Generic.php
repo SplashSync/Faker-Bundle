@@ -145,6 +145,7 @@ class Generic extends AbstractObject
      *  @param        string    $FieldName              Field Identifier / Name
      *
      *  @return       void
+     * @SuppressWarnings(PHPMD.ElseExpression)
      */
     public function getCoreFields($Key, $FieldName)
     {

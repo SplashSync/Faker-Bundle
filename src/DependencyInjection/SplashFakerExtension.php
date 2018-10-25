@@ -34,8 +34,8 @@ class SplashFakerExtension extends Extension
         foreach ($config["objects"] as $Object) {
             $container
                 ->register(
-                        'splash.connector.faker.object.' . $Object["id"], 
-                        Generic::class
+                    'splash.connector.faker.object.' . $Object["id"],
+                    Generic::class
                 )
                 ->addTag('splash.standalone.object')
                 ->addMethodCall('setConfiguration', array($Object["id"], $Object["name"], $Object["format"]))

@@ -7,20 +7,20 @@ class FakeObjectRepository extends \Doctrine\ORM\EntityRepository
     
     public function getTypeCount($type, $filter = null)
     {
-        $QB = $this->createQueryBuilder("o");
+        $Builder = $this->createQueryBuilder("o");
         
-        $QB
+        $Builder
             ->select('COUNT(o.id)')
             ->where('o.type = :type')
             ->setParameter('type', $type)
             ;
         
         if ($filter) {
-            $QB
+            $Builder
               ->where('identifier = :filter')
               ->setParameter('filter', $filter);
         }
 
-        return $QB->getQuery()->getSingleScalarResult();
+        return $Builder->getQuery()->getSingleScalarResult();
     }
 }

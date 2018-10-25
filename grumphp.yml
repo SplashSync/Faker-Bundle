@@ -67,7 +67,6 @@ parameters:
                 - phpcpd
                 - xmllint
                 - yamllint
-                - phpstan 
                 
         phpstan:
             tasks: 

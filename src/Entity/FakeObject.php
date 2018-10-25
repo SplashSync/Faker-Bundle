@@ -148,43 +148,14 @@ class FakeObject
      * Set data
      *
      * @param   array   $Data
-     * @param   bool    $ProtectMeta
      *
      * @return  self
      */
-    public function setData($Data, $ProtectMeta = false)
+    public function setData($Data)
     {
         //====================================================================//
         // Raw Write of Object Data
-        if (!$ProtectMeta) {
-            $this->data = $Data;
-            return $this;
-        }
-        //====================================================================//
-        // Meta Data Protected Write of Object Data
-        $Fields = $this->getNode()->getObjectFields($this->getType());
-
-        //====================================================================//
-        // Write Data One by One
-        foreach ($Data as $FieldId => $FieldData) {
-            //====================================================================//
-            // Verify Field is Not a Meta Field
-            $IsMeta = false;
-            foreach ($Fields as $Field) {
-                if ($Field->id !== $FieldId) {
-                    continue;
-                }
-                if (\OpenObject\WsSchemasBundle\Entity\WsSchema::isMetaTag($Field->tag)) {
-                    $IsMeta = true;
-                }
-            }
-            if ($IsMeta) {
-                continue;
-            }
-            //====================================================================//
-            // Write Field Data
-            $this->data[$FieldId] = $FieldData;
-        }
+        $this->data = $Data;
         return $this;
     }
 

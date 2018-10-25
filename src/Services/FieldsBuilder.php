@@ -127,6 +127,9 @@ class FieldsBuilder
      * @param array                 $Options
      *
      * @return self
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function addMeta($MetaType, $Options = null)
     {
@@ -134,10 +137,6 @@ class FieldsBuilder
         // Init Parameters
         $Count  =   $this->count($MetaType);
         $Name   =   "m_" . $MetaType . $Count;
-
-        //==============================================================================
-        // Safety Check - Verify is Meta Type
-        $Tag = md5($MetaType . IDSPLIT . FieldsFactory::META_URL);
         
         //==============================================================================
         //      Detect Meta Data Field Type
@@ -199,30 +198,30 @@ class FieldsBuilder
     /**
      * @abstract    Compare Two Fields Definition Array
      *
-     * @param array     $A
-     * @param array     $B
+     * @param array     $Source
+     * @param array     $Target
      *
      * @return self
      */
-    public function compare($A, $B)
+    public function compare($Source, $Target)
     {
         
         //==============================================================================
         // Compare Each Array Row
-        foreach ($A as $key => $value) {
+        foreach ($Source as $key => $value) {
             //==============================================================================
             // Compare Simple Rows
-            if (!is_array($value) && ($B[$key] != $value)) {
+            if (!is_array($value) && ($Target[$key] != $value)) {
                 return false;
             } elseif (!is_array($value)) {
                 continue;
             }
             //==============================================================================
             // Compare Array Rows
-            if (empty($value) && empty($B[$key])) {
+            if (empty($value) && empty($Target[$key])) {
                 continue;
             }
-            if ($this->compare($value, $B[$key])) {
+            if ($this->compare($value, $Target[$key])) {
                 continue;
             }
             return false;
