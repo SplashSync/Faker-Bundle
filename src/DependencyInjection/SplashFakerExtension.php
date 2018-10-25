@@ -7,6 +7,8 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
+use Splash\Connectors\FakerBundle\Objects\Generic;
+
 /**
  * This is the class that loads and manages your bundle configuration
  *
@@ -31,7 +33,10 @@ class SplashFakerExtension extends Extension
         // Add Splash Standalone Objects Service to Container
         foreach ($config["objects"] as $Object) {
             $container
-                ->register('splash.connector.faker.object.' . $Object["id"], 'Splash\Connectors\FakerBundle\Objects\Generic')
+                ->register(
+                        'splash.connector.faker.object.' . $Object["id"], 
+                        Generic::class
+                )
                 ->addTag('splash.standalone.object')
                 ->addMethodCall('setConfiguration', array($Object["id"], $Object["name"], $Object["format"]))
                 ->setPublic(true)

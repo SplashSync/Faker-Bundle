@@ -4,53 +4,34 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e6bc6a76e41a47e3a76679a8e74bd5ef",
+    "content-hash": "2d5b9147def38766e449697cfd797b16",
     "packages": [
         {
             "name": "splash/php-bundle",
-            "version": "dev-master",
+            "version": "0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SplashSync/Php-Bundle.git",
-                "reference": "f2210086c4600eade8f2acf207e71f80db3baeaf"
+                "reference": "6f3cee35996d858314d663ff514af386cee9ca66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SplashSync/Php-Bundle/zipball/f2210086c4600eade8f2acf207e71f80db3baeaf",
-                "reference": "f2210086c4600eade8f2acf207e71f80db3baeaf",
+                "url": "https://api.github.com/repos/SplashSync/Php-Bundle/zipball/6f3cee35996d858314d663ff514af386cee9ca66",
+                "reference": "6f3cee35996d858314d663ff514af386cee9ca66",
                 "shasum": ""
             },
             "require": {
                 "php": "^5.6|^7.0",
-                "splash/phpcore": "dev-master"
+                "splash/phpcore": "1.4.1"
             },
             "require-dev": {
-                "composer/composer": "^1.5",
-                "doctrine/doctrine-bundle": "^1.9",
-                "doctrine/orm": "^2.4",
-                "j13k/yaml-lint": "^1.1",
-                "jakub-onderka/php-parallel-lint": "^1.0",
-                "phpmd/phpmd": "^2.6",
-                "phpro/grumphp": "^0.14.0",
-                "phpstan/phpstan-shim": "^0.10",
-                "phpunit/phpunit": ">7",
-                "sclable/xml-lint": "^0.2.4",
-                "sebastian/phpcpd": ">3.0",
-                "seld/jsonlint": "^1.7",
-                "sensio/distribution-bundle": ">=5",
-                "sensio/framework-extra-bundle": ">=3",
-                "sensiolabs/security-checker": "^4.1",
-                "splash/faker": "dev-master",
-                "squizlabs/php_codesniffer": "^3.2",
-                "symfony/monolog-bundle": ">=2.1",
-                "symfony/phpunit-bridge": "^3.0",
-                "symfony/symfony": "~3.4"
+                "phpunit/phpunit": "*"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Splash\\Bundle\\": "src/",
-                    "Splash\\Local\\": "src/Local/"
+                    "Splash\\Bundle\\": "",
+                    "Splash\\Local\\": "Local/"
                 },
                 "exclude-from-classmap": [
                     "/Tests/"
@@ -60,48 +41,28 @@
             "license": [
                 "MIT"
             ],
-            "authors": [
-                {
-                    "name": "Splash Sync",
-                    "email": "contact@splashsync.com"
-                },
-                {
-                    "name": "Bernard Paquier",
-                    "email": "eshop.bpaquier@gmail.com"
-                }
-            ],
-            "description": "Splash Core Bundle for Symfony Applications",
-            "time": "2018-10-24T23:24:36+00:00"
+            "description": "Splash Core Bundle for Symfony 2 Applications",
+            "time": "2018-09-18T13:07:38+00:00"
         },
         {
             "name": "splash/phpcore",
-            "version": "dev-master",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SplashSync/Php-Core.git",
-                "reference": "bd5fe3a1f553f89d85c95a0e0d05d5843524f447"
+                "reference": "b98eacb6d1a2fe23443dea6568aab04d84d4b1df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SplashSync/Php-Core/zipball/bd5fe3a1f553f89d85c95a0e0d05d5843524f447",
-                "reference": "bd5fe3a1f553f89d85c95a0e0d05d5843524f447",
+                "url": "https://api.github.com/repos/SplashSync/Php-Core/zipball/b98eacb6d1a2fe23443dea6568aab04d84d4b1df",
+                "reference": "b98eacb6d1a2fe23443dea6568aab04d84d4b1df",
                 "shasum": ""
             },
             "require": {
                 "php": "^5.6|^7.0"
             },
             "require-dev": {
-                "composer/composer": "^1.5",
-                "j13k/yaml-lint": "^1.1",
-                "jakub-onderka/php-parallel-lint": "^1.0",
-                "phpmd/phpmd": "^2.6",
-                "phpro/grumphp": "^0.14.0",
-                "phpunit/phpunit": ">5.4",
-                "sclable/xml-lint": "^0.2.4",
-                "sebastian/phpcpd": ">3.0",
-                "seld/jsonlint": "^1.7",
-                "sensiolabs/security-checker": "^4.1",
-                "squizlabs/php_codesniffer": "^3.2"
+                "phpunit/phpunit": "*"
             },
             "type": "library",
             "autoload": {
@@ -118,7 +79,7 @@
                 "MIT"
             ],
             "description": "Splash Core Module for Php Applications",
-            "time": "2018-10-24T20:51:54+00:00"
+            "time": "2018-04-09T12:38:31+00:00"
         }
     ],
     "packages-dev": [
@@ -4798,9 +4759,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "splash/php-bundle": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

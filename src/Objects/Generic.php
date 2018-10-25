@@ -144,7 +144,7 @@ class Generic extends AbstractObject
      *  @param        string    $Key                    Input List Key
      *  @param        string    $FieldName              Field Identifier / Name
      *
-     *  @return         none
+     *  @return       void
      */
     public function getCoreFields($Key, $FieldName)
     {
@@ -178,7 +178,7 @@ class Generic extends AbstractObject
      *  @param        string    $FieldName              Field Identifier / Name
      *  @param        mixed     $Data                   Field Data
      *
-     *  @return         none
+     *  @return       void
      */
     public function setCoreFields($FieldName, $Data)
     {
