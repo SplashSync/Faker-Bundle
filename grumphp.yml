@@ -50,7 +50,7 @@ parameters:
                 - "vendor"               
                 
         phpstan: 
-            level:  0
+            level:  1
             ignore_patterns:
                 - "archives/"
 
@@ -62,7 +62,7 @@ parameters:
                 - phpcs 
                 - git_blacklist
                 - jsonlint
-                - securitychecker
+#                - securitychecker
                 - phpmd
                 - phpcpd
                 - xmllint
