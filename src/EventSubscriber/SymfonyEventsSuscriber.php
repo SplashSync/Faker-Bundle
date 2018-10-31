@@ -20,6 +20,7 @@ namespace Splash\Connectors\FakerBundle\EventSubscriber;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 use Splash\Bundle\Events\ObjectsListingEvent;
+use Splash\Bundle\Events\ActionsListingEvent;
 
 /**
  * Description of FakerEventsSuscriber
@@ -63,6 +64,9 @@ class SymfonyEventsSuscriber implements EventSubscriberInterface
             // Standalone Events
             ObjectsListingEvent::NAME   => array(
                array('onObjectListing', 0)
+            ),
+            ActionsListingEvent::NAME   => array(
+               array('onActionsListing', 0)
             )
         );
     }
@@ -84,4 +88,20 @@ class SymfonyEventsSuscriber implements EventSubscriberInterface
             $event->addObjectType($Object["id"], "splash.connector.faker.object." . $Object["id"]);
         }
     }
+    
+    /**
+     * @abstract    On Standalone Actions Listing Event
+     * @param   ActionsListingEvent $event
+     * @return  void
+     */
+    public function onActionsListing(ActionsListingEvent $event)
+    {
+        $event->addAction("index",      "SplashFakerBundle:Actions:index");
+        $event->addAction("dummy",      "SplashFakerBundle:Actions:dummy");
+        $event->addAction("fail",       "SplashFakerBundle:Actions:fail");
+        
+        $event->addAction("noClass",    "SplashFakerBundle:Error:index");
+        $event->addAction("noClass2",   "SplashFakerError:Actions:index");
+        $event->addAction("noAction",   "SplashFakerBundle:Actions:error");
+    }    
 }

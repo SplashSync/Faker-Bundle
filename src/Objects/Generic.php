@@ -24,10 +24,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use Splash\Client\Splash;
 use Splash\Components\FieldsFactory;
 
-use Splash\Models\AbstractObject;
 use Splash\Models\Objects\IntelParserTrait;
 use Splash\Models\Objects\SimpleFieldsTrait;
 use Splash\Models\Objects\ListsTrait;
+
+use Splash\Bundle\Models\AbstractStandaloneObject;
 
 use Splash\Connectors\FakerBundle\Entity\FakeObject;
 use Splash\Connectors\FakerBundle\Services\FieldsBuilder;
@@ -37,7 +38,7 @@ use Splash\Connectors\FakerBundle\Services\FieldsBuilder;
  *
  * @author nanard33
  */
-class Generic extends AbstractObject
+class Generic extends AbstractStandaloneObject
 {
     
     // Splash Php Core Traits
@@ -214,7 +215,12 @@ class Generic extends AbstractObject
         }
         //====================================================================//
         // Load Objects List
-        $Data = $Repo->findBy($Search, array(), $params["max"], $params["offset"]);
+        $Data = $Repo->findBy(
+                $Search, 
+                array(), 
+                isset($params["max"])   ? $params["max"] : null, 
+                isset($params["offset"])? $params["offset"] : null
+            );
             
         //====================================================================//
         // Load Object Fields
