@@ -3,7 +3,7 @@ services:
     ########################################################################
     # Splash Faker Standalone Events Listner for Symfony
     splash.connector.faker.events.symfony:
-        class: Splash\Connectors\FakerBundle\EventSubscriber\SymfonyEventsSuscriber
+        class: Splash\Connectors\FakerBundle\EventSubscriber\SymfonyEventsSubscriber
         arguments:  ["@=service('service_container').getParameter('splash_faker')"]
         tags:       ["kernel.event_subscriber"]
 
