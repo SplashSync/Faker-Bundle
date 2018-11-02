@@ -8,15 +8,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ActionsController extends Controller
-{    
+{
+
     /**
      * @abstract    Index Fake Controller Action
-     * 
-     * @param   Request $request
-     * 
+     *
      * @return  Response
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
         //====================================================================//
         // Return Dummy Response
@@ -25,12 +24,10 @@ class ActionsController extends Controller
     
     /**
      * @abstract    Dummy Fake Controller Action
-     * 
-     * @param   Request $request
-     * 
+     *
      * @return  Response
      */
-    public function dummyAction(Request $request)
+    public function dummyAction()
     {
         //====================================================================//
         // Return Dummy Response
@@ -39,15 +36,13 @@ class ActionsController extends Controller
     
     /**
      * @abstract    Fail Test Fake Controller Action
-     * 
-     * @param   Request $request
-     * 
+     *
      * @return  Response
      */
-    public function failAction(Request $request)
+    public function failAction()
     {
         //====================================================================//
         // Return Dummy Response
         return new JsonResponse(array("result" => "Ko"), 500);
-    }    
+    }
 }

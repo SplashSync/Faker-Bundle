@@ -27,7 +27,7 @@ use Splash\Bundle\Events\ActionsListingEvent;
  *
  * @author nanard33
  */
-class SymfonyEventsSuscriber implements EventSubscriberInterface
+class SymfonyEventsSubscriber implements EventSubscriberInterface
 {
     
     /**
@@ -96,12 +96,12 @@ class SymfonyEventsSuscriber implements EventSubscriberInterface
      */
     public function onActionsListing(ActionsListingEvent $event)
     {
-        $event->addAction("index",      "SplashFakerBundle:Actions:index");
-        $event->addAction("dummy",      "SplashFakerBundle:Actions:dummy");
-        $event->addAction("fail",       "SplashFakerBundle:Actions:fail");
+        $event->addAction("index", "SplashFakerBundle:Actions:index");
+        $event->addAction("dummy", "SplashFakerBundle:Actions:dummy");
+        $event->addAction("fail", "SplashFakerBundle:Actions:fail");
         
-        $event->addAction("noClass",    "SplashFakerBundle:Error:index");
-        $event->addAction("noClass2",   "SplashFakerError:Actions:index");
-        $event->addAction("noAction",   "SplashFakerBundle:Actions:error");
-    }    
+        $event->addAction("noClass", "SplashFakerBundle:Error:index");
+        $event->addAction("noClass2", "SplashFakerError:Actions:index");
+        $event->addAction("noAction", "SplashFakerBundle:Actions:error");
+    }
 }

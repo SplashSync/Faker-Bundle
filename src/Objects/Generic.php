@@ -216,11 +216,11 @@ class Generic extends AbstractStandaloneObject
         //====================================================================//
         // Load Objects List
         $Data = $Repo->findBy(
-                $Search, 
-                array(), 
-                isset($params["max"])   ? $params["max"] : null, 
-                isset($params["offset"])? $params["offset"] : null
-            );
+            $Search,
+            array(),
+            isset($params["max"])   ? $params["max"] : null,
+            isset($params["offset"])? $params["offset"] : null
+        );
             
         //====================================================================//
         // Load Object Fields
