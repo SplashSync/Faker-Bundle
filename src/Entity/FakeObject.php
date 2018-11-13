@@ -1,5 +1,20 @@
 <?php
 
+/*
+ *  This file is part of SplashSync Project.
+ *
+ *  Copyright (C) Splash Sync <www.splashsync.com>
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ *
+ *  @author Bernard Paquier <contact@splashsync.com>
+ */
+
 namespace Splash\Connectors\FakerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -12,7 +27,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class FakeObject
 {
-    
     /**
      * @var int
      *
@@ -21,7 +35,7 @@ class FakeObject
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-    
+
     /**
      * @var string
      */
@@ -30,7 +44,7 @@ class FakeObject
     //==============================================================================
     //      FAKER OBJECT DATA
     //==============================================================================
-    
+
     /**
      * @abstract    Fake Object Type Name
      *
@@ -57,25 +71,24 @@ class FakeObject
      * @ORM\Column(name="data", type="object")
      */
     private $data;
-    
+
     //==============================================================================
     //      DATA OPERATIONS
     //==============================================================================
-    
+
     public function __toString()
     {
-        return $this->getType()."@".$this->getIdentifier();
+        return $this->getType().'@'.$this->getIdentifier();
     }
-    
+
     //==============================================================================
     //      GETTERS & SETTERS
     //==============================================================================
-    
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -83,7 +96,7 @@ class FakeObject
     }
 
     /**
-     * Set type
+     * Set type.
      *
      * @param string $type
      *
@@ -97,7 +110,7 @@ class FakeObject
     }
 
     /**
-     * Get type
+     * Get type.
      *
      * @return string
      */
@@ -107,7 +120,7 @@ class FakeObject
     }
 
     /**
-     * Set identifier
+     * Set identifier.
      *
      * @param string $identifier
      *
@@ -121,7 +134,7 @@ class FakeObject
     }
 
     /**
-     * Get identifier
+     * Get identifier.
      *
      * @return string
      */
@@ -131,10 +144,10 @@ class FakeObject
     }
 
     /**
-     * Set Field
+     * Set Field.
      *
-     * @param   string    $ObjectId Object Id
-     * @param   \stdClass $Data     Object Field Data
+     * @param string    $ObjectId Object Id
+     * @param \stdClass $Data     Object Field Data
      *
      * @return $this
      */
@@ -144,13 +157,13 @@ class FakeObject
 
         return $this;
     }
-    
+
     /**
-     * Set data
+     * Set data.
      *
-     * @param   array $Data
+     * @param array $Data
      *
-     * @return  self
+     * @return self
      */
     public function setData($Data)
     {
@@ -162,11 +175,11 @@ class FakeObject
     }
 
     /**
-     * Get data
+     * Get data.
      *
-     * @param   string $FieldId Field Name or Null
+     * @param string $FieldId Field Name or Null
      *
-     * @return array|string|null
+     * @return null|array|string
      */
     public function getData($FieldId = null)
     {
@@ -182,7 +195,7 @@ class FakeObject
     }
 
     /**
-     * Set condition
+     * Set condition.
      *
      * @param string $condition
      *
@@ -196,7 +209,7 @@ class FakeObject
     }
 
     /**
-     * Get condition
+     * Get condition.
      *
      * @return string
      */

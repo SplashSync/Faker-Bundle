@@ -1,70 +1,68 @@
 <?php
 
-/**
- * This file is part of SplashSync Project.
+/*
+ *  This file is part of SplashSync Project.
  *
- * Copyright (C) Splash Sync <www.splashsync.com>
+ *  Copyright (C) Splash Sync <www.splashsync.com>
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
  *
- * @author Bernard Paquier <contact@splashsync.com>
+ *  @author Bernard Paquier <contact@splashsync.com>
  */
 
 namespace Splash\Connectors\FakerBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\JsonResponse;
-
 use Splash\Bundle\Interfaces\ConnectorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ActionsController extends Controller
 {
-
     /**
      * @abstract    Index Fake Controller Action
      *
-     * @return  Response
+     * @return Response
      */
     public function indexAction()
     {
         //====================================================================//
         // Return Dummy Response
-        return new JsonResponse(array("result" => "Ok"));
+        return new JsonResponse(['result' => 'Ok']);
     }
-    
+
     /**
      * @abstract    Validate Fake Controller Action
      *
-     * @param   ConnectorInterface $Connector
+     * @param ConnectorInterface $connector
      *
-     * @return  Response
+     * @return Response
      */
-    public function validateAction(Request $request, ConnectorInterface $Connector)
+    public function validateAction(Request $request, ConnectorInterface $connector)
     {
         //====================================================================//
         // If Currently NEW
-        if (!$Connector->getParameter("faker_validate_selftest", false)) {
-            $Connector->setParameter("faker_validate_selftest", true);
+        if (!$connector->getParameter('faker_validate_selftest', false)) {
+            $connector->setParameter('faker_validate_selftest', true);
         //====================================================================//
         // If Currently Offline
-        } elseif (!$Connector->getParameter("faker_validate_connect", false)) {
-            $Connector->setParameter("faker_validate_connect", true);
+        } elseif (!$connector->getParameter('faker_validate_connect', false)) {
+            $connector->setParameter('faker_validate_connect', true);
         }
         //====================================================================//
         // Update Configuration
-        $Connector->updateConfiguration();
+        $connector->updateConfiguration();
         //====================================================================//
         // Redirect Response
         /** @var string $referer */
-        $referer =   $request->headers->get('referer');
+        $referer = $request->headers->get('referer');
 
         return new RedirectResponse($referer);
     }
@@ -72,42 +70,41 @@ class ActionsController extends Controller
     /**
      * @abstract    Invalidate Fake Controller Action
      *
-     * @param   ConnectorInterface $Connector
+     * @param ConnectorInterface $connector
      *
-     * @return  Response
+     * @return Response
      */
-    public function invalidateAction(Request $request, ConnectorInterface $Connector)
+    public function invalidateAction(Request $request, ConnectorInterface $connector)
     {
         //====================================================================//
         // If Currently Offline
-        if ($Connector->getParameter("faker_validate_connect", false)) {
-            $Connector->setParameter("faker_validate_connect", false);
+        if ($connector->getParameter('faker_validate_connect', false)) {
+            $connector->setParameter('faker_validate_connect', false);
         //====================================================================//
         // If Currently NEW
-        } elseif ($Connector->getParameter("faker_validate_selftest", false)) {
-            $Connector->setParameter("faker_validate_selftest", false);
+        } elseif ($connector->getParameter('faker_validate_selftest', false)) {
+            $connector->setParameter('faker_validate_selftest', false);
         }
         //====================================================================//
         // Update Configuration
-        $Connector->updateConfiguration();
+        $connector->updateConfiguration();
         //====================================================================//
         // Redirect Response
         /** @var string $referer */
-        $referer =   $request->headers->get('referer');
+        $referer = $request->headers->get('referer');
 
         return new RedirectResponse($referer);
     }
 
-    
     /**
      * @abstract    Fail Test Fake Controller Action
      *
-     * @return  Response
+     * @return Response
      */
     public function failAction()
     {
         //====================================================================//
         // Return Dummy Response
-        return new JsonResponse(array("result" => "Ko"), 500);
+        return new JsonResponse(['result' => 'Ko'], 500);
     }
 }

@@ -1,55 +1,52 @@
 <?php
 
-/**
- * This file is part of SplashSync Project.
+/*
+ *  This file is part of SplashSync Project.
  *
- * Copyright (C) Splash Sync <www.splashsync.com>
+ *  Copyright (C) Splash Sync <www.splashsync.com>
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
  *
- * @author Bernard Paquier <contact@splashsync.com>
+ *  @author Bernard Paquier <contact@splashsync.com>
  */
 
 namespace Splash\Connectors\FakerBundle\EventSubscriber;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
-
 use Splash\Bundle\Services\ConnectorsManager;
-
 use Splash\Connectors\FakerBundle\Entity\FakeObject;
 
 /**
- * Description of FakerEventsSuscriber
+ * Description of FakerEventsSuscriber.
  *
  * @author nanard33
  */
 class DoctrineEventsSuscriber implements EventSubscriber
 {
-    
     /**
      * @abstract    Faker Bundle Configuration
      *
      * @var array
      */
     private $Config;
-    
+
     /**
      * @abstract    Splash Connectors Manager
      *
      * @var ConnectorsManager
      */
     private $Manager;
-    
+
     //====================================================================//
     //  CONSTRUCTOR
     //====================================================================//
-    
+
     /**
      * @abstract    Service Constructor
      */
@@ -57,39 +54,38 @@ class DoctrineEventsSuscriber implements EventSubscriber
     {
         //====================================================================//
         // Store Faker Service Configuration
-        $this->Config       =   $Configuration;
+        $this->Config = $Configuration;
         //====================================================================//
         // Store Faker Connector Manager
-        $this->Manager      =   $Manager;
+        $this->Manager = $Manager;
     }
-    
+
     //====================================================================//
     //  SUBSCRIBER
     //====================================================================//
-    
+
     /**
      * @abstract    Configure Event Subscriber
      *
-     * @return  array
+     * @return array
      */
     public function getSubscribedEvents()
     {
         // Doctrine Events
-        return array('postPersist', 'postUpdate', 'preRemove');
+        return ['postPersist', 'postUpdate', 'preRemove'];
     }
 
     //====================================================================//
     //  EVENTS ACTIONS
     //====================================================================//
 
-    
     public function postPersist(LifecycleEventArgs $eventArgs)
     {
         //====================================================================//
         //  Submit Change
         $this->doCommit($eventArgs->getEntity(), SPL_A_CREATE);
     }
-    
+
     public function postUpdate(LifecycleEventArgs $eventArgs)
     {
         //====================================================================//
@@ -103,27 +99,26 @@ class DoctrineEventsSuscriber implements EventSubscriber
         //  Submit Change
         $this->doCommit($eventArgs->getEntity(), SPL_A_DELETE);
     }
-    
-    
+
     private function doCommit($Entity, $Action)
     {
         //====================================================================//
         //  Check Entity is A Faker Object
-        if (get_class($Entity) != FakeObject::class) {
+        if (FakeObject::class !== \get_class($Entity)) {
             return;
         }
         //====================================================================//
         //  Search in Configured Servers using Standalone Connector
-        $Servers    =   $this->Manager->getConnectorConfigurations("splash.connectors.standalone");
+        $Servers = $this->Manager->getConnectorConfigurations('splash.connectors.standalone');
         //====================================================================//
         //  Walk on Configured Servers
         foreach (array_keys($Servers) as $ServerId) {
             //====================================================================//
             //  Load Connector
-            $Connector  =   $this->Manager->get((string) $ServerId);
+            $Connector = $this->Manager->get((string) $ServerId);
             //====================================================================//
             //  Safety Check
-            if (is_null($Connector)) {
+            if (null === $Connector) {
                 continue;
             }
             //====================================================================//
@@ -132,8 +127,8 @@ class DoctrineEventsSuscriber implements EventSubscriber
                 $Entity->getType(),
                 $Entity->getIdentifier(),
                 $Action,
-                "Symfony Faker",
-                "Change Commited Fake ".$Entity->getType()
+                'Symfony Faker',
+                'Change Commited Fake '.$Entity->getType()
             );
         }
     }
