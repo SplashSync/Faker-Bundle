@@ -45,14 +45,14 @@ class SplashFakerExtension extends Extension
 
         //====================================================================//
         // Add Splash Standalone Objects Service to Container
-        foreach ($config['objects'] as $Object) {
+        foreach ($config['objects'] as $object) {
             $container
                 ->register(
-                    'splash.connector.faker.object.'.$Object['id'],
+                    'splash.connector.faker.object.'.$object['id'],
                     Generic::class
                 )
                 ->addTag('splash.standalone.object')
-                ->addMethodCall('setConfiguration', [$Object['id'], $Object['name'], $Object['format']])
+                ->addMethodCall('setConfiguration', [$object['id'], $object['name'], $object['format']])
                 ->setPublic(true)
                 ->setAutowired(true)
                     ;

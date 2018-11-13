@@ -24,6 +24,9 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @abstract    Splash Faker Connector Actions Controller
+ */
 class ActionsController extends Controller
 {
     /**
@@ -41,6 +44,7 @@ class ActionsController extends Controller
     /**
      * @abstract    Validate Fake Controller Action
      *
+     * @param Request            $request
      * @param ConnectorInterface $connector
      *
      * @return Response
@@ -70,6 +74,7 @@ class ActionsController extends Controller
     /**
      * @abstract    Invalidate Fake Controller Action
      *
+     * @param Request            $request
      * @param ConnectorInterface $connector
      *
      * @return Response
