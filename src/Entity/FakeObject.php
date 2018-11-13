@@ -14,7 +14,7 @@ class FakeObject
 {
     
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -52,7 +52,7 @@ class FakeObject
     /**
      * @abstract    Fake Object Data
      *
-     * @var string
+     * @var array
      *
      * @ORM\Column(name="data", type="object")
      */
@@ -64,7 +64,7 @@ class FakeObject
     
     public function __toString()
     {
-        return $this->getType() . "@" . $this->getIdentifier();
+        return $this->getType()."@".$this->getIdentifier();
     }
     
     //==============================================================================
@@ -87,7 +87,7 @@ class FakeObject
      *
      * @param string $type
      *
-     * @return FakeObject
+     * @return $this
      */
     public function setType($type)
     {
@@ -111,7 +111,7 @@ class FakeObject
      *
      * @param string $identifier
      *
-     * @return FakeObject
+     * @return $this
      */
     public function setIdentifier($identifier)
     {
@@ -133,13 +133,14 @@ class FakeObject
     /**
      * Set Field
      *
-     * @param \stdClass $Data
+     * @param   string    $ObjectId Object Id
+     * @param   \stdClass $Data     Object Field Data
      *
-     * @return FakeObject
+     * @return $this
      */
-    public function setField($Id, $Data)
+    public function setField(string $ObjectId, $Data)
     {
-        $this->data[$Id] = $Data;
+        $this->data[$ObjectId] = $Data;
 
         return $this;
     }
@@ -147,7 +148,7 @@ class FakeObject
     /**
      * Set data
      *
-     * @param   array   $Data
+     * @param   array $Data
      *
      * @return  self
      */
@@ -156,15 +157,16 @@ class FakeObject
         //====================================================================//
         // Raw Write of Object Data
         $this->data = $Data;
+
         return $this;
     }
 
     /**
      * Get data
      *
-     * @param   string  $FieldId        Field Name or Null
+     * @param   string $FieldId Field Name or Null
      *
-     * @return array
+     * @return array|string|null
      */
     public function getData($FieldId = null)
     {
@@ -172,8 +174,10 @@ class FakeObject
             if (!isset($this->data[$FieldId])) {
                 return null;
             }
+
             return $this->data[$FieldId];
         }
+
         return $this->data;
     }
 

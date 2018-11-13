@@ -1,0 +1,10 @@
+{% set ValidateUrl      = path( "splash_connector_action" , { "ConnectorName" : connector.profile.name, "WebserviceId" : connector.WebserviceId, "Action" : "validate"}) %}
+{% set InValidateUrl    = path( "splash_connector_action" , { "ConnectorName" : connector.profile.name, "WebserviceId" : connector.WebserviceId, "Action" : "invalidate"}) %}
+
+<div class="row">
+    <div class="col-xs-12">
+        Faker is at NEW Step. Click on Validate to Go NEXT STEP! 
+        <a id="faker_validate" class="btn btn-success pull-right" style="margin-right:3px;" href="{{ ValidateUrl }}">Validate</a>
+        &nbsp;
+    </div>
+</div>

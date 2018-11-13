@@ -27,10 +27,12 @@ use Splash\Components\FieldsFactory;
 use Splash\Models\Objects\IntelParserTrait;
 use Splash\Models\Objects\SimpleFieldsTrait;
 use Splash\Models\Objects\ListsTrait;
+use Splash\Models\Helpers\ObjectsHelper;
 
 use Splash\Bundle\Models\AbstractStandaloneObject;
 
 use Splash\Connectors\FakerBundle\Entity\FakeObject;
+use Splash\Connectors\FakerBundle\Repository\FakeObjectRepository;
 use Splash\Connectors\FakerBundle\Services\FieldsBuilder;
 
 /**
@@ -91,10 +93,11 @@ class Generic extends AbstractStandaloneObject
     
     /**
      * @abstract Doctrine Entity Manager
+     *
      * @var EntityManagerInterface
      */
     private $EntityManager;
-
+    
     /**
      * @var FieldsBuilder
      */
@@ -108,12 +111,90 @@ class Generic extends AbstractStandaloneObject
     {
         //====================================================================//
         // Link to Fake Fields Builder Services
-        $this->fieldBuilder =   $FieldsBuilder;
+        $this->fieldBuilder     = $FieldsBuilder;
         //====================================================================//
         // Link to Doctrine Entity Manager Services
-        $this->EntityManager = $EntityManager;
+        $this->EntityManager    = $EntityManager;
     }
 
+    //====================================================================//
+    // Service SelfTest
+    //====================================================================//
+        
+    public function selftest()
+    {
+        if ($this->getParameter("faker_disable_".$this->type, false)) {
+            return true;
+        }
+        if (!$this->getParameter("faker_validate_selftest", false)) {
+            return  Splash::log()
+                    ->Err($this->getName()." : Faker Selftest Not Validated... Use config page to validate it!");
+        }
+
+        return  Splash::log()->Msg("Faker ".$this->getName()." Object Passed");
+    }
+    
+    //====================================================================//
+    // Service Connect
+    //====================================================================//
+        
+    public function connect()
+    {
+        if ($this->getParameter("faker_disable_".$this->type, false)) {
+            return true;
+        }
+        if (!$this->getParameter("faker_validate_connect", false)) {
+            return  Splash::log()
+                    ->Err($this->getName()."Faker Connect Not Validated... Use config page to validate it!");
+        }
+
+        return  Splash::log()->Msg("Faker ".$this->getName()." Object Passed");
+    }
+
+    //====================================================================//
+    // Profiles for Testing
+    //====================================================================//
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getConnectedTemplate() : string
+    {
+        if ($this->getParameter("faker_disable_".$this->type, false)) {
+            return "";
+        }
+
+        return "@SplashFaker/connected.html.twig";
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function getOfflineTemplate() : string
+    {
+        if ($this->getParameter("faker_disable_".$this->type, false)) {
+            return "";
+        }
+
+        return "@SplashFaker/offline.html.twig";
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getNewTemplate() : string
+    {
+        if ($this->getParameter("faker_disable_".$this->type, false)) {
+            return "";
+        }
+
+        return "@SplashFaker/new.html.twig";
+    }
+    
+    //====================================================================//
+    // Service Configuration
+    //====================================================================//
+        
     /**
      * @param string $type
      * @param string $name
@@ -125,7 +206,11 @@ class Generic extends AbstractStandaloneObject
         $this->name     =   $name;
         $this->format   =   $format;
     }
-  
+
+    //====================================================================//
+    // Generic Objects Functions (See Splash PhpCore IntelliParser)
+    //====================================================================//
+    
     /**
      * @abstract     Build Core Fields using FieldFactory
      */
@@ -142,10 +227,11 @@ class Generic extends AbstractStandaloneObject
     /**
      *  @abstract     Read requested Field
      *
-     *  @param        string    $Key                    Input List Key
-     *  @param        string    $FieldName              Field Identifier / Name
+     *  @param        string $Key       Input List Key
+     *  @param        string $FieldName Field Identifier / Name
      *
      *  @return       void
+     *
      * @SuppressWarnings(PHPMD.ElseExpression)
      */
     public function getCoreFields($Key, $FieldName)
@@ -177,8 +263,8 @@ class Generic extends AbstractStandaloneObject
     /**
      *  @abstract     Write Given Fields
      *
-     *  @param        string    $FieldName              Field Identifier / Name
-     *  @param        mixed     $Data                   Field Data
+     *  @param        string $FieldName Field Identifier / Name
+     *  @param        mixed  $Data      Field Data
      *
      *  @return       void
      */
@@ -203,6 +289,7 @@ class Generic extends AbstractStandaloneObject
         Splash::log()->trace(__CLASS__, __FUNCTION__);
 
         $Response = [];
+        /** @var FakeObjectRepository $Repo */
         $Repo   =   $this->EntityManager->getRepository('SplashFakerBundle:FakeObject');
         
         //====================================================================//
@@ -231,7 +318,7 @@ class Generic extends AbstractStandaloneObject
         /** @var FakeObject $Object */
         foreach ($Data as $Object) {
             $ObjectData =   array(
-                "id"    =>   $Object->getIdentifier()
+                "id"    =>   $Object->getIdentifier(),
                     );
             
             foreach ($Fields as $Field) {
@@ -247,42 +334,51 @@ class Generic extends AbstractStandaloneObject
         // Parse Meta Infos on Result Array
         $Response["meta"] =  array(
             "total"   => $Repo->getTypeCount($this->type, $filter),
-            "current" => count($Data)
+            "current" => count($Data),
             );
         
         //====================================================================//
         // Return result
         return $Response;
     }
+
+    //====================================================================//
+    // Generic Objects CRUD Functions
+    //====================================================================//
     
     /**
      * @abstract    Load Request Object
-     * @param       string  $Id               Object id
-     * @return      mixed
+     *
+     * @param   string $ObjectId Object id
+     *
+     * @return  mixed
      */
-    public function load($Id)
+    public function load($ObjectId)
     {
         //====================================================================//
         // Stack Trace
         Splash::log()->trace(__CLASS__, __FUNCTION__);
         //====================================================================//
         // Search in Repository
-        $this->Entity   =   $this->EntityManager
+        /** @var FakeObject|null $Entity */
+        $Entity   =   $this->EntityManager
                 ->getRepository('SplashFakerBundle:FakeObject')
                 ->findOneBy(array(
                     "type"      => $this->type,
-                    "identifier"=> $Id
+                    "identifier"=> $ObjectId,
                 ));
         //====================================================================//
         // Check Object Entity was Found
-        if (!$this->Entity) {
+        if (!$Entity) {
             return Splash::log()->err(
                 "ErrLocalTpl",
                 __CLASS__,
                 __FUNCTION__,
-                " Unable to load " . $this->name . " (" . $Id . ")."
+                " Unable to load ".$this->name." (".$ObjectId.")."
             );
         }
+        $this->Entity   =   $Entity;
+
         return new ArrayObject(
             is_array($this->Entity->getData()) ? $this->Entity->getData() : array(),
             ArrayObject::ARRAY_AS_PROPS
@@ -292,9 +388,7 @@ class Generic extends AbstractStandaloneObject
     /**
      * @abstract    Create Request Object
      *
-     * @param       array   $List         Given Object Data
-     *
-     * @return      object     New Object
+     * @return  ArrayObject     New Object
      */
     public function create()
     {
@@ -313,13 +407,13 @@ class Generic extends AbstractStandaloneObject
         // Persist (but DO NOT FLUSH)
         $this->EntityManager->persist($this->Entity);
 
-        return new ArrayObject($this->Entity->getData(), ArrayObject::ARRAY_AS_PROPS);
+        return new ArrayObject(array(), ArrayObject::ARRAY_AS_PROPS);
     }
     
     /**
      * @abstract    Update Request Object
      *
-     * @param       array   $Needed         Is This Update Needed
+     * @param       array $Needed Is This Update Needed
      *
      * @return      string      Object Id
      */
@@ -331,6 +425,7 @@ class Generic extends AbstractStandaloneObject
             $this->Entity->setData($this->Object->getArrayCopy());
             $this->EntityManager->flush();
         }
+
         return $this->Entity->getIdentifier();
     }
     
@@ -347,22 +442,30 @@ class Generic extends AbstractStandaloneObject
             $this->EntityManager->remove($this->Entity);
             $this->EntityManager->flush();
         }
+
         return true;
     }
+    
     
     public function getName()
     {
         return $this->name;
     }
     
+    //====================================================================//
+    // Objects Fields Set Generator
+    //====================================================================//
+    
     /**
      * @abstract    Generate Fake Node Field
      *
-     * @param string    $FieldSetType
+     * @param   string $FieldSetType
      *
-     * @return array
+     * @return  array
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    public function generateFieldsSet($FieldSetType)
+    public function generateFieldsSet(string $FieldSetType)
     {
         //====================================================================//
         // Load Field Builder Service
@@ -374,15 +477,18 @@ class Generic extends AbstractStandaloneObject
                 //==============================================================================
                 // Short Objects Fields Definition
                 $this->fieldBuilder->add(SPL_T_VARCHAR, array("Listed", "Required"));
-                $this->fieldBuilder->add(SPL_T_BOOL, array("Listed"));
-                $this->fieldBuilder->add(SPL_T_INT, array("Listed"));
-                $this->fieldBuilder->add(SPL_T_BOOL, array("Group" => "Group 1"));
-                $this->fieldBuilder->add(SPL_T_INT, array("Group" => "Group 1"));
-                $this->fieldBuilder->add(SPL_T_VARCHAR, array("Group" => "Group 1"));
-                $this->fieldBuilder->add(SPL_T_EMAIL, array("Listed"));
-                $this->fieldBuilder->add(SPL_T_PHONE, array("Group" => "Group 2"));
-                $this->fieldBuilder->add(SPL_T_MVARCHAR, array("Group" => "Multilang"));
-                $this->fieldBuilder->add(SPL_T_MTEXT, array("Group" => "Multilang"));
+
+                $this->fieldBuilder->add(ObjectsHelper::encode("short", SPL_T_ID), array("Listed"));
+                
+//                $this->fieldBuilder->add(SPL_T_BOOL, array("Listed"));
+//                $this->fieldBuilder->add(SPL_T_INT, array("Listed"));
+//                $this->fieldBuilder->add(SPL_T_BOOL, array("Group" => "Group 1"));
+//                $this->fieldBuilder->add(SPL_T_INT, array("Group" => "Group 1"));
+//                $this->fieldBuilder->add(SPL_T_VARCHAR, array("Group" => "Group 1"));
+//                $this->fieldBuilder->add(SPL_T_EMAIL, array("Listed"));
+//                $this->fieldBuilder->add(SPL_T_PHONE, array("Group" => "Group 2"));
+//                $this->fieldBuilder->add(SPL_T_MVARCHAR, array("Group" => "Multilang"));
+//                $this->fieldBuilder->add(SPL_T_MTEXT, array("Group" => "Multilang"));
                 
                 break;
             
@@ -405,6 +511,7 @@ class Generic extends AbstractStandaloneObject
                 $this->fieldBuilder->add(SPL_T_URL, array());
                 $this->fieldBuilder->add(SPL_T_PHONE, array());
                 $this->fieldBuilder->add(SPL_T_PRICE, array("Required"));
+                $this->fieldBuilder->add(SPL_T_PRICE, array());
                 
                 break;
             
@@ -415,22 +522,22 @@ class Generic extends AbstractStandaloneObject
                 
                 //==============================================================================
                 // Simple List Objects Fields Definition
-                $this->fieldBuilder->add(SPL_T_BOOL        . LISTSPLIT . SPL_T_LIST, array());
-                $this->fieldBuilder->add(SPL_T_INT         . LISTSPLIT . SPL_T_LIST, array());
-                $this->fieldBuilder->add(SPL_T_DOUBLE      . LISTSPLIT . SPL_T_LIST, array());
-                $this->fieldBuilder->add(SPL_T_VARCHAR     . LISTSPLIT . SPL_T_LIST, array());
-                $this->fieldBuilder->add(SPL_T_TEXT        . LISTSPLIT . SPL_T_LIST, array());
-                $this->fieldBuilder->add(SPL_T_EMAIL       . LISTSPLIT . SPL_T_LIST, array());
+                $this->fieldBuilder->add(SPL_T_BOOL.LISTSPLIT.SPL_T_LIST, array());
+                $this->fieldBuilder->add(SPL_T_INT.LISTSPLIT.SPL_T_LIST, array());
+                $this->fieldBuilder->add(SPL_T_DOUBLE.LISTSPLIT.SPL_T_LIST, array());
+                $this->fieldBuilder->add(SPL_T_VARCHAR.LISTSPLIT.SPL_T_LIST, array());
+                $this->fieldBuilder->add(SPL_T_TEXT.LISTSPLIT.SPL_T_LIST, array());
+                $this->fieldBuilder->add(SPL_T_EMAIL.LISTSPLIT.SPL_T_LIST, array());
 //                $this->fieldBuilder->add(SPL_T_PHONE       . LISTSPLIT . SPL_T_LIST,array());
-                $this->fieldBuilder->add(SPL_T_DATE        . LISTSPLIT . SPL_T_LIST, array());
-                $this->fieldBuilder->add(SPL_T_DATETIME    . LISTSPLIT . SPL_T_LIST, array());
-                $this->fieldBuilder->add(SPL_T_LANG        . LISTSPLIT . SPL_T_LIST, array());
-                $this->fieldBuilder->add(SPL_T_COUNTRY     . LISTSPLIT . SPL_T_LIST, array());
-                $this->fieldBuilder->add(SPL_T_STATE       . LISTSPLIT . SPL_T_LIST, array());
-                $this->fieldBuilder->add(SPL_T_URL         . LISTSPLIT . SPL_T_LIST, array());
-                $this->fieldBuilder->add(SPL_T_MVARCHAR    . LISTSPLIT . SPL_T_LIST, array());
-                $this->fieldBuilder->add(SPL_T_MTEXT       . LISTSPLIT . SPL_T_LIST, array());
-                $this->fieldBuilder->add(SPL_T_PRICE       . LISTSPLIT . SPL_T_LIST, array("Required"));
+                $this->fieldBuilder->add(SPL_T_DATE.LISTSPLIT.SPL_T_LIST, array());
+                $this->fieldBuilder->add(SPL_T_DATETIME.LISTSPLIT.SPL_T_LIST, array());
+                $this->fieldBuilder->add(SPL_T_LANG.LISTSPLIT.SPL_T_LIST, array());
+                $this->fieldBuilder->add(SPL_T_COUNTRY.LISTSPLIT.SPL_T_LIST, array());
+                $this->fieldBuilder->add(SPL_T_STATE.LISTSPLIT.SPL_T_LIST, array());
+                $this->fieldBuilder->add(SPL_T_URL.LISTSPLIT.SPL_T_LIST, array());
+                $this->fieldBuilder->add(SPL_T_MVARCHAR.LISTSPLIT.SPL_T_LIST, array());
+                $this->fieldBuilder->add(SPL_T_MTEXT.LISTSPLIT.SPL_T_LIST, array());
+                $this->fieldBuilder->add(SPL_T_PRICE.LISTSPLIT.SPL_T_LIST, array("Required"));
                 
                 break;
 

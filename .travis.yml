@@ -24,68 +24,42 @@ env:
         - SYMFONY_DEPRECATIONS_HELPER=disabled
         
 ################################################################################
-# Define Test Matrix
-matrix:
-    include:          
-#        # Symfony 3.3 Branch       
-#        - php: 7.0
-#          env: SF_VERSION="3.3.*"        
-#        - php: 7.1
-#          env: SF_VERSION="3.3.*"        
-          
-        # Symfony 3.4 Branch       
-        - php: 7.1
-          env: SF_VERSION="3.4.*"        
-#        - php: 7.2
-#          env: SF_VERSION="3.4.*"        
-#          
-#        # Symfony 4.0 Branch       
-#        - php: 7.1
-#          env: SF_VERSION="4.0.*"  STABILITY="dev"   
-#        - php: 7.2
-#          env: SF_VERSION="4.0.*"  STABILITY="dev"        
-        
-    allow_failures:
-        - env: SF_VERSION="4.0.*"  STABILITY="dev"       
-        
-    # Fast finish allows to set the build as "finished" even if the "allow_failures" matrix elements are not finished yet.
-    fast_finish: true
+# Versions of PHP to test against
+php:
+#    - "5.6"
+    - "7.0"
+    - "7.1"
+    - "7.2"      
 
-################################################################################
-# Prepare Test Environement
-before_install:
-    # Update composer
-    - composer self-update
-    # Setup Travis PHP     
-    - if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then echo "memory_limit = -1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini; fi
-    # Setup Composer Stability if Required   
-    - if ! [ -z "$STABILITY" ]; then composer config minimum-stability ${STABILITY}; fi;
-    # Setup Symfony Version if Required    
-    - if [ "$SF_VERSION" != "" ]; then composer require --no-update symfony/symfony=$SF_VERSION; fi;
-    # With PHP 7 => Load Phpstan   
-    - if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" ]]; then composer require phpstan/phpstan-shim --no-update; fi    
+#################################################################################
+## Prepare Test Environement
+#before_install:
+#    # Setup Travis PHP     
+#    - if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then echo "memory_limit = -1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini; fi
+#    # Setup Composer Stability if Required   
+#    - if ! [ -z "$STABILITY" ]; then composer config minimum-stability ${STABILITY}; fi;
+#    # Setup Symfony Version if Required    
+#    - if [ "$SF_VERSION" != "" ]; then composer require --no-update symfony/symfony=$SF_VERSION; fi;
+  
       
 ################################################################################
 # Install composer dependencies,
 # Create database, schema and fixtures
 install:   
-    - echo "Build Dependencies"
+    # Update composer
+    - composer self-update
+    # With PHP < 7.1 => Remove Phpstan   
+    - if [[ ${TRAVIS_PHP_VERSION:0:3} < "7.1" ]]; then composer remove phpstan/phpstan-shim --no-update; fi      
+    # Build Dependencies
     - composer update  --prefer-dist --no-interaction  
-    
 
 ################################################################################
 # Run script
 script:
-    
     # Execute Grump Travis Testsuite 
-    - php bin/grumphp run --testsuite=travis
-    
+    - php vendor/bin/grumphp run --testsuite=travis
     # With PHP 7 => Execute Grump Phpstan Testsuite 
-    - if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" ]]; then php bin/grumphp run --testsuite=phpstan; fi  
-    
-#    # Execute PhpUnit Tests 
-#    - phpunit
-    
+    - if [[ ${TRAVIS_PHP_VERSION:0:3} >= "7.1" ]]; then php bin/grumphp run --testsuite=phpstan; fi  
     
 # After a build, send email notification with the build results
 notifications:

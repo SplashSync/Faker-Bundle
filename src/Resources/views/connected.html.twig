@@ -1,0 +1,9 @@
+{% set InValidateUrl    = path( "splash_connector_action" , { "ConnectorName" : connector.profile.name, "WebserviceId" : connector.WebserviceId, "Action" : "invalidate"}) %}
+
+<div class="row">
+    <div class="col-xs-12">
+        Faker is at CONNECTED Step. Click on In Validate to Go Back...?? 
+        <a id="faker_invalidate" class="btn btn-danger pull-right" style="margin-right:3px;" href="{{ InValidateUrl }}">Back</a>
+        &nbsp;
+    </div>
+</div>

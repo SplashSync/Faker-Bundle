@@ -2,6 +2,8 @@
 
 namespace Splash\Connectors\FakerBundle\Services;
 
+use ArrayObject;
+
 use Splash\Components\FieldsFactory;
 
 /**
@@ -12,12 +14,14 @@ class FieldsBuilder
 
     /**
      * @abstract    Fields Types Counter
+     *
      * @var     array
      */
     private $counters = array();
     
     /**
      * @abstract    Splash Fields Factory
+     *
      * @var FieldsFactory
      */
     private $FieldsFactory = null;
@@ -42,7 +46,7 @@ class FieldsBuilder
     /**
      * @abstract    Return Field Factory Data
      *
-     * @return array
+     * @return      ArrayObject[]|false
      */
     public function publish()
     {
@@ -51,9 +55,9 @@ class FieldsBuilder
 
     
     
-//====================================================================//
-//  COMMON FUNCTIONS
-//====================================================================//
+    //====================================================================//
+    //  COMMON FUNCTIONS
+    //====================================================================//
 
     /**
      * @abstract    Increment Field Type Counter
@@ -66,30 +70,31 @@ class FieldsBuilder
             $this->counters[$Type]  = 0;
         }
         $this->counters[$Type]++;
+
         return $this->counters[$Type];
     }
     
     /**
      * @abstract    Add Field to FieldFactory
      *
-     * @param string                $FieldType
-     * @param array                 $Options
+     * @param string $FieldType
+     * @param array  $Options
      *
      * @return self
      */
-    public function add($FieldType, $Options = null)
+    public function add(string $FieldType, $Options = null)
     {
         //==============================================================================
         // Init Parameters
         $Count  =   $this->count($FieldType);
-        $Name   =   $FieldType . $Count;
+        $Name   =   preg_replace('/:/', '', $FieldType.$Count);
         //==============================================================================
         // Add Field Core Infos
         $this->FieldsFactory->Create($FieldType)
-                    ->Identifier($Name)
-                    ->Name(strtoupper($Name))
-                    ->Description("Fake Field - Type " . strtoupper($FieldType) . " Item " . $Count)
-                    ->MicroData("http://fake.schema.org/" . $FieldType, $FieldType . $Count);
+                    ->Identifier((string) $Name)
+                    ->Name(strtoupper((string) $Name))
+                    ->Description("Fake Field - Type ".strtoupper($FieldType)." Item ".$Count)
+                    ->MicroData("http://fake.schema.org/".$FieldType, $FieldType.$Count);
                         
         //==============================================================================
         // No Options   => Exit
@@ -99,7 +104,7 @@ class FieldsBuilder
         //==============================================================================
         // Setup Options
         if (isset($Options["Group"]) && is_scalar($Options["Group"])) {
-            $this->FieldsFactory->group($Options["Group"]);
+            $this->FieldsFactory->group((string) $Options["Group"]);
         }
         if (in_array("Required", $Options)) {
             $this->FieldsFactory->isRequired();
@@ -111,10 +116,10 @@ class FieldsBuilder
             $this->FieldsFactory->isLogged();
         }
         if (in_array("ReadOnly", $Options)) {
-            $this->FieldsFactory->ReadOnly();
+            $this->FieldsFactory->isReadOnly();
         }
         if (in_array("WriteOnly", $Options)) {
-            $this->FieldsFactory->WriteOnly();
+            $this->FieldsFactory->isWriteOnly();
         }
         
         return $this;
@@ -123,8 +128,8 @@ class FieldsBuilder
     /**
      * @abstract    Add Meta Field to FieldFactory
      *
-     * @param string                $MetaType
-     * @param array                 $Options
+     * @param string $MetaType
+     * @param array  $Options
      *
      * @return self
      *
@@ -136,7 +141,7 @@ class FieldsBuilder
         //==============================================================================
         // Init Parameters
         $Count  =   $this->count($MetaType);
-        $Name   =   "m_" . $MetaType . $Count;
+        $Name   =   "m_".$MetaType.$Count;
         
         //==============================================================================
         //      Detect Meta Data Field Type
@@ -163,7 +168,7 @@ class FieldsBuilder
         $this->FieldsFactory->Create($FieldType)
                     ->Identifier($Name)
                     ->Name(strtoupper($Name))
-                    ->Description("Fake Field - Meta Type " . strtoupper($MetaType) . " Item " . $Count)
+                    ->Description("Fake Field - Meta Type ".strtoupper($MetaType)." Item ".$Count)
                     ->MicroData(FieldsFactory::META_URL, $MetaType);
                         
         //==============================================================================
@@ -174,7 +179,7 @@ class FieldsBuilder
         //==============================================================================
         // Setup Options
         if (isset($Options["Group"]) && is_scalar($Options["Group"])) {
-            $this->FieldsFactory->group($Options["Group"]);
+            $this->FieldsFactory->group((string) $Options["Group"]);
         }
         if (isset($Options["Required"])) {
             $this->FieldsFactory->isRequired();
@@ -186,10 +191,10 @@ class FieldsBuilder
             $this->FieldsFactory->isLogged();
         }
         if (isset($Options["ReadOnly"])) {
-            $this->FieldsFactory->ReadOnly();
+            $this->FieldsFactory->isReadOnly();
         }
         if (isset($Options["WriteOnly"])) {
-            $this->FieldsFactory->WriteOnly();
+            $this->FieldsFactory->isWriteOnly();
         }
         
         return $this;
@@ -198,10 +203,10 @@ class FieldsBuilder
     /**
      * @abstract    Compare Two Fields Definition Array
      *
-     * @param array     $Source
-     * @param array     $Target
+     * @param array $Source
+     * @param array $Target
      *
-     * @return self
+     * @return bool
      */
     public function compare($Source, $Target)
     {
@@ -224,6 +229,7 @@ class FieldsBuilder
             if ($this->compare($value, $Target[$key])) {
                 continue;
             }
+
             return false;
         }
         

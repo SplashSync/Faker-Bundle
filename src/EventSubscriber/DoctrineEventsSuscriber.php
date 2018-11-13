@@ -34,12 +34,14 @@ class DoctrineEventsSuscriber implements EventSubscriber
     
     /**
      * @abstract    Faker Bundle Configuration
+     *
      * @var array
      */
     private $Config;
     
     /**
      * @abstract    Splash Connectors Manager
+     *
      * @var ConnectorsManager
      */
     private $Manager;
@@ -67,7 +69,8 @@ class DoctrineEventsSuscriber implements EventSubscriber
     
     /**
      * @abstract    Configure Event Subscriber
-     * @return  void
+     *
+     * @return  array
      */
     public function getSubscribedEvents()
     {
@@ -115,12 +118,22 @@ class DoctrineEventsSuscriber implements EventSubscriber
         //====================================================================//
         //  Walk on Configured Servers
         foreach (array_keys($Servers) as $ServerId) {
-            $this->Manager->get($ServerId)->commit(
+            //====================================================================//
+            //  Load Connector
+            $Connector  =   $this->Manager->get((string) $ServerId);
+            //====================================================================//
+            //  Safety Check
+            if (is_null($Connector)) {
+                continue;
+            }
+            //====================================================================//
+            //  Execute Commit
+            $Connector->commit(
                 $Entity->getType(),
                 $Entity->getIdentifier(),
                 $Action,
                 "Symfony Faker",
-                "Change Commited Fake " . $Entity->getType()
+                "Change Commited Fake ".$Entity->getType()
             );
         }
     }
