@@ -83,14 +83,14 @@ class Generic extends AbstractStandaloneObject
     /**
      * @var FakeObject
      */
-    private $Entity;
+    private $entity;
 
     /**
      * @abstract Doctrine Entity Manager
      *
      * @var EntityManagerInterface
      */
-    private $EntityManager;
+    private $entityManager;
 
     /**
      * @var FieldsBuilder
@@ -101,20 +101,31 @@ class Generic extends AbstractStandaloneObject
     // Service Constructor
     //====================================================================//
 
-    public function __construct(FieldsBuilder $FieldsBuilder, EntityManagerInterface $EntityManager)
+    /**
+     * @abstract    Service Constructor
+     *
+     * @param FieldsBuilder          $fieldsBuilder
+     * @param EntityManagerInterface $entityManager
+     */
+    public function __construct(FieldsBuilder $fieldsBuilder, EntityManagerInterface $entityManager)
     {
         //====================================================================//
         // Link to Fake Fields Builder Services
-        $this->fieldBuilder = $FieldsBuilder;
+        $this->fieldBuilder = $fieldsBuilder;
         //====================================================================//
         // Link to Doctrine Entity Manager Services
-        $this->EntityManager = $EntityManager;
+        $this->entityManager = $entityManager;
     }
 
     //====================================================================//
     // Service SelfTest
     //====================================================================//
 
+    /**
+     * @abstract    Execute Self Test for This Object
+     *
+     * @return bool
+     */
     public function selftest()
     {
         if ($this->getParameter('faker_disable_'.$this->type, false)) {
@@ -132,6 +143,11 @@ class Generic extends AbstractStandaloneObject
     // Service Connect
     //====================================================================//
 
+    /**
+     * @abstract    Execute Ping Test for This Object
+     *
+     * @return bool
+     */
     public function connect()
     {
         if ($this->getParameter('faker_disable_'.$this->type, false)) {
@@ -221,52 +237,50 @@ class Generic extends AbstractStandaloneObject
     /**
      *  @abstract     Read requested Field
      *
-     *  @param        string $Key       Input List Key
-     *  @param        string $FieldName Field Identifier / Name
+     *  @param        string $key       Input List Key
+     *  @param        string $fieldName Field Identifier / Name
      *
      * @SuppressWarnings(PHPMD.ElseExpression)
      */
-    public function getCoreFields($Key, $FieldName)
+    public function getCoreFields($key, $fieldName)
     {
         //====================================================================//
         // Stack Trace
         Splash::log()->trace(__CLASS__, __FUNCTION__);
-        //====================================================================//
-        // Read Data
 
         //====================================================================//
         // Detect List Fields
-        $Listname = self::lists()->listName($FieldName);
-        if ($Listname) {
-            self::lists()->initOutput($this->Out, $Listname, $FieldName);
-            if (isset($this->Object->{$Listname})) {
-                $this->Out[$Listname] = $this->Object->{$Listname};
+        $listName = self::lists()->listName($fieldName);
+        if ($listName) {
+            self::lists()->initOutput($this->Out, $listName, $fieldName);
+            if (isset($this->Object->{$listName})) {
+                $this->Out[$listName] = $this->Object->{$listName};
             }
         } else {
-            if (isset($this->Object->{$FieldName})) {
-                $this->Out[$FieldName] = $this->Object->{$FieldName};
+            if (isset($this->Object->{$fieldName})) {
+                $this->Out[$fieldName] = $this->Object->{$fieldName};
             } else {
-                $this->Out[$FieldName] = null;
+                $this->Out[$fieldName] = null;
             }
         }
-        unset($this->In[$Key]);
+        unset($this->In[$key]);
     }
 
     /**
      *  @abstract     Write Given Fields
      *
-     *  @param        string $FieldName Field Identifier / Name
-     *  @param        mixed  $Data      Field Data
+     *  @param        string $fieldName Field Identifier / Name
+     *  @param        mixed  $data      Field Data
      */
-    public function setCoreFields($FieldName, $Data)
+    public function setCoreFields($fieldName, $data)
     {
         //====================================================================//
         // Stack Trace
         Splash::log()->trace(__CLASS__, __FUNCTION__);
         //====================================================================//
         // Read Data
-        $this->setSimple($FieldName, $Data);
-        unset($this->In[$FieldName]);
+        $this->setSimple($fieldName, $data);
+        unset($this->In[$fieldName]);
     }
 
     /**
@@ -280,7 +294,7 @@ class Generic extends AbstractStandaloneObject
 
         $Response = [];
         /** @var FakeObjectRepository $Repo */
-        $Repo = $this->EntityManager->getRepository('SplashFakerBundle:FakeObject');
+        $Repo = $this->entityManager->getRepository('SplashFakerBundle:FakeObject');
 
         //====================================================================//
         // Prepare List Filters List
@@ -339,11 +353,11 @@ class Generic extends AbstractStandaloneObject
     /**
      * @abstract    Load Request Object
      *
-     * @param string $ObjectId Object id
+     * @param string $objectId Object id
      *
      * @return mixed
      */
-    public function load($ObjectId)
+    public function load($objectId)
     {
         //====================================================================//
         // Stack Trace
@@ -351,11 +365,11 @@ class Generic extends AbstractStandaloneObject
         //====================================================================//
         // Search in Repository
         /** @var null|FakeObject $Entity */
-        $Entity = $this->EntityManager
+        $Entity = $this->entityManager
             ->getRepository('SplashFakerBundle:FakeObject')
             ->findOneBy([
                 'type' => $this->type,
-                'identifier' => $ObjectId,
+                'identifier' => $objectId,
             ]);
         //====================================================================//
         // Check Object Entity was Found
@@ -364,13 +378,13 @@ class Generic extends AbstractStandaloneObject
                 'ErrLocalTpl',
                 __CLASS__,
                 __FUNCTION__,
-                ' Unable to load '.$this->name.' ('.$ObjectId.').'
+                ' Unable to load '.$this->name.' ('.$objectId.').'
             );
         }
-        $this->Entity = $Entity;
+        $this->entity = $Entity;
 
         return new ArrayObject(
-            \is_array($this->Entity->getData()) ? $this->Entity->getData() : [],
+            \is_array($this->entity->getData()) ? $this->entity->getData() : [],
             ArrayObject::ARRAY_AS_PROPS
         );
     }
@@ -388,14 +402,14 @@ class Generic extends AbstractStandaloneObject
 
         //====================================================================//
         // Create New Entity
-        $this->Entity = new FakeObject();
-        $this->Entity->setType($this->type);
-        $this->Entity->setIdentifier(uniqid());
-        $this->Entity->setData([]);
+        $this->entity = new FakeObject();
+        $this->entity->setType($this->type);
+        $this->entity->setIdentifier(uniqid());
+        $this->entity->setData([]);
 
         //====================================================================//
         // Persist (but DO NOT FLUSH)
-        $this->EntityManager->persist($this->Entity);
+        $this->entityManager->persist($this->entity);
 
         return new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
     }
@@ -403,39 +417,42 @@ class Generic extends AbstractStandaloneObject
     /**
      * @abstract    Update Request Object
      *
-     * @param array $Needed Is This Update Needed
+     * @param array $needed Is This Update Needed
      *
      * @return string Object Id
      */
-    public function update($Needed)
+    public function update($needed)
     {
         //====================================================================//
         // Save
-        if ($Needed) {
-            $this->Entity->setData($this->Object->getArrayCopy());
-            $this->EntityManager->flush();
+        if ($needed) {
+            $this->entity->setData($this->Object->getArrayCopy());
+            $this->entityManager->flush();
         }
 
-        return $this->Entity->getIdentifier();
+        return $this->entity->getIdentifier();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function delete($id = null)
+    public function delete($objectId = null)
     {
         //====================================================================//
         // Try Loading Object to Check if Exists
-        if ($this->load($id)) {
+        if ($this->load($objectId)) {
             //====================================================================//
             // Delete
-            $this->EntityManager->remove($this->Entity);
-            $this->EntityManager->flush();
+            $this->entityManager->remove($this->entity);
+            $this->entityManager->flush();
         }
 
         return true;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return $this->name;
@@ -448,20 +465,20 @@ class Generic extends AbstractStandaloneObject
     /**
      * @abstract    Generate Fake Node Field
      *
-     * @param string $FieldSetType
+     * @param string $fieldSetType
      *
      * @return array
      *
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    public function generateFieldsSet(string $FieldSetType)
+    public function generateFieldsSet(string $fieldSetType)
     {
         //====================================================================//
         // Load Field Builder Service
         $this->fieldBuilder->Init($this->fieldsFactory());
         //==============================================================================
         // Populate Fields Array
-        switch ($FieldSetType) {
+        switch ($fieldSetType) {
             case 'short':
                 //==============================================================================
                 // Short Objects Fields Definition
