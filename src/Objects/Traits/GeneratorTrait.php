@@ -49,7 +49,7 @@ trait GeneratorTrait
                 // Short Objects Fields Definition
                 $this->fieldBuilder->add(SPL_T_VARCHAR, array('Listed', 'Required'));
 
-                $this->fieldBuilder->add(ObjectsHelper::encode('short', SPL_T_ID), array('Listed'));
+                $this->fieldBuilder->add((string) ObjectsHelper::encode('short', SPL_T_ID), array('Listed'));
 
 //                $this->fieldBuilder->add(SPL_T_BOOL, array("Listed"));
 //                $this->fieldBuilder->add(SPL_T_INT, array("Listed"));
