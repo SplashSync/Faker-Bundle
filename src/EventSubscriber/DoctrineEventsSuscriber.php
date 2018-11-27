@@ -126,7 +126,7 @@ class DoctrineEventsSuscriber implements EventSubscriber
     {
         //====================================================================//
         //  Check Entity is A Faker Object
-        if (FakeObject::class !== \get_class($entity)) {
+        if (!($entity instanceof FakeObject)) {
             return;
         }
         //====================================================================//

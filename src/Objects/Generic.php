@@ -212,7 +212,7 @@ class Generic extends AbstractStandaloneObject
         Splash::log()->trace(__CLASS__, __FUNCTION__);
 
         $response = array();
-        /** @var FakeObjectRepository $Repo */
+        /** @var FakeObjectRepository $repository */
         $repository = $this->entityManager->getRepository('SplashFakerBundle:FakeObject');
 
         //====================================================================//
