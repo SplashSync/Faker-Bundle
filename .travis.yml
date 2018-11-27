@@ -50,6 +50,8 @@ install:
     - composer self-update
     # With PHP < 7.1 => Remove Phpstan   
     - if [[ ${TRAVIS_PHP_VERSION:0:3} < "7.1" ]]; then composer remove phpstan/phpstan-shim --no-update; fi      
+    - if [[ ${TRAVIS_PHP_VERSION:0:3} < "7.1" ]]; then composer remove phpstan/phpstan-symfony --no-update; fi      
+    - if [[ ${TRAVIS_PHP_VERSION:0:3} < "7.1" ]]; then composer remove phpstan/phpstan-phpunit --no-update; fi      
     # Build Dependencies
     - composer update  --prefer-dist --no-interaction  
 

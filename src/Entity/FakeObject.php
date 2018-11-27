@@ -76,6 +76,11 @@ class FakeObject
     //      DATA OPERATIONS
     //==============================================================================
 
+    /**
+     * @abstract Convert Object to String
+     *
+     * @return string
+     */
     public function __toString()
     {
         return $this->getType().'@'.$this->getIdentifier();
@@ -146,14 +151,14 @@ class FakeObject
     /**
      * Set Field.
      *
-     * @param string    $ObjectId Object Id
-     * @param \stdClass $Data     Object Field Data
+     * @param string    $objectId   Object Id
+     * @param \stdClass $objectData Object Field Data
      *
      * @return $this
      */
-    public function setField(string $ObjectId, $Data)
+    public function setField(string $objectId, $objectData)
     {
-        $this->data[$ObjectId] = $Data;
+        $this->data[$objectId] = $objectData;
 
         return $this;
     }
@@ -161,15 +166,15 @@ class FakeObject
     /**
      * Set data.
      *
-     * @param array $Data
+     * @param array $objectData
      *
      * @return self
      */
-    public function setData($Data)
+    public function setData($objectData)
     {
         //====================================================================//
         // Raw Write of Object Data
-        $this->data = $Data;
+        $this->data = $objectData;
 
         return $this;
     }
@@ -177,18 +182,18 @@ class FakeObject
     /**
      * Get data.
      *
-     * @param string $FieldId Field Name or Null
+     * @param string $fieldId Field Name or Null
      *
      * @return null|array|string
      */
-    public function getData($FieldId = null)
+    public function getData($fieldId = null)
     {
-        if ($FieldId) {
-            if (!isset($this->data[$FieldId])) {
+        if ($fieldId) {
+            if (!isset($this->data[$fieldId])) {
                 return null;
             }
 
-            return $this->data[$FieldId];
+            return $this->data[$fieldId];
         }
 
         return $this->data;

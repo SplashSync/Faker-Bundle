@@ -34,14 +34,14 @@ class DoctrineEventsSuscriber implements EventSubscriber
      *
      * @var array
      */
-    private $Config;
+    private $config;
 
     /**
      * @abstract    Splash Connectors Manager
      *
      * @var ConnectorsManager
      */
-    private $Manager;
+    private $manager;
 
     //====================================================================//
     //  CONSTRUCTOR
@@ -49,15 +49,18 @@ class DoctrineEventsSuscriber implements EventSubscriber
 
     /**
      * @abstract    Service Constructor
+     *
+     * @param array             $configuration
+     * @param ConnectorsManager $manager
      */
-    public function __construct(array $Configuration, ConnectorsManager $Manager)
+    public function __construct(array $configuration, ConnectorsManager $manager)
     {
         //====================================================================//
         // Store Faker Service Configuration
-        $this->Config = $Configuration;
+        $this->config = $configuration;
         //====================================================================//
         // Store Faker Connector Manager
-        $this->Manager = $Manager;
+        $this->manager = $manager;
     }
 
     //====================================================================//
@@ -79,6 +82,11 @@ class DoctrineEventsSuscriber implements EventSubscriber
     //  EVENTS ACTIONS
     //====================================================================//
 
+    /**
+     * @abstract    After Doctrine Persist Event
+     *
+     * @param LifecycleEventArgs $eventArgs
+     */
     public function postPersist(LifecycleEventArgs $eventArgs)
     {
         //====================================================================//
@@ -86,6 +94,11 @@ class DoctrineEventsSuscriber implements EventSubscriber
         $this->doCommit($eventArgs->getEntity(), SPL_A_CREATE);
     }
 
+    /**
+     * @abstract    After Doctrine Update Event
+     *
+     * @param LifecycleEventArgs $eventArgs
+     */
     public function postUpdate(LifecycleEventArgs $eventArgs)
     {
         //====================================================================//
@@ -93,6 +106,11 @@ class DoctrineEventsSuscriber implements EventSubscriber
         $this->doCommit($eventArgs->getEntity(), SPL_A_UPDATE);
     }
 
+    /**
+     * @abstract    Before Doctrine Remove Event
+     *
+     * @param LifecycleEventArgs $eventArgs
+     */
     public function preRemove(LifecycleEventArgs $eventArgs)
     {
         //====================================================================//
@@ -100,35 +118,41 @@ class DoctrineEventsSuscriber implements EventSubscriber
         $this->doCommit($eventArgs->getEntity(), SPL_A_DELETE);
     }
 
-    private function doCommit($Entity, $Action)
+    /**
+     * @abstract    Object Commit for All Servers using Standalone Connector
+     *
+     * @param object $entity
+     * @param string $action
+     */
+    private function doCommit($entity, $action)
     {
         //====================================================================//
         //  Check Entity is A Faker Object
-        if (FakeObject::class !== \get_class($Entity)) {
+        if (FakeObject::class !== \get_class($entity)) {
             return;
         }
         //====================================================================//
         //  Search in Configured Servers using Standalone Connector
-        $Servers = $this->Manager->getConnectorConfigurations('splash.connectors.standalone');
+        $servers = $this->manager->getConnectorConfigurations('splash.connectors.standalone');
         //====================================================================//
         //  Walk on Configured Servers
-        foreach (array_keys($Servers) as $ServerId) {
+        foreach (array_keys($servers) as $serverId) {
             //====================================================================//
             //  Load Connector
-            $Connector = $this->Manager->get((string) $ServerId);
+            $connector = $this->manager->get((string) $serverId);
             //====================================================================//
             //  Safety Check
-            if (null === $Connector) {
+            if (null === $connector) {
                 continue;
             }
             //====================================================================//
             //  Execute Commit
-            $Connector->commit(
-                $Entity->getType(),
-                $Entity->getIdentifier(),
-                $Action,
+            $connector->commit(
+                $entity->getType(),
+                $entity->getIdentifier(),
+                $action,
                 'Symfony Faker',
-                'Change Commited Fake '.$Entity->getType()
+                'Change Commited Fake '.$entity->getType()
             );
         }
     }

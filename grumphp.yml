@@ -18,4 +18,4 @@
 #############################################        
 # Import Config. from Generic Bundle
 imports:
-    - { resource: "./vendor/splash/php-bundle/tests/grumphp.base.yml" }
+    - { resource: "./vendor/splash/php-bundle/src/Resources/grumphp/grumphp.base.yml" }

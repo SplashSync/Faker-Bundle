@@ -108,5 +108,4 @@ trait ConnectorTrait
 
         return '@SplashFaker/new.html.twig';
     }
-
 }

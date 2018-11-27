@@ -194,7 +194,7 @@ class Generic extends AbstractStandaloneObject
      *  @param        mixed  $data      Field Data
      */
     public function setCoreFields($fieldName, $data)
-    {        
+    {
         //====================================================================//
         // Stack Trace
         Splash::log()->trace(__CLASS__, __FUNCTION__);
@@ -213,22 +213,22 @@ class Generic extends AbstractStandaloneObject
         // Stack Trace
         Splash::log()->trace(__CLASS__, __FUNCTION__);
 
-        $Response = [];
+        $response = [];
         /** @var FakeObjectRepository $Repo */
-        $Repo = $this->entityManager->getRepository('SplashFakerBundle:FakeObject');
+        $repository = $this->entityManager->getRepository('SplashFakerBundle:FakeObject');
 
         //====================================================================//
         // Prepare List Filters List
-        $Search = [
+        $search = [
             'type' => $this->type,
         ];
         if (!empty($filter)) {
-            $Search['identifier'] = $filter;
+            $search['identifier'] = $filter;
         }
         //====================================================================//
         // Load Objects List
-        $Data = $Repo->findBy(
-            $Search,
+        $data = $repository->findBy(
+            $search,
             [],
             isset($params['max']) ? $params['max'] : null,
             isset($params['offset']) ? $params['offset'] : null
@@ -236,35 +236,35 @@ class Generic extends AbstractStandaloneObject
 
         //====================================================================//
         // Load Object Fields
-        $Fields = $this->fields();
+        $fields = $this->fields();
 
         //====================================================================//
         // Parse Data on Result Array
-        /** @var FakeObject $Object */
-        foreach ($Data as $Object) {
-            $ObjectData = [
-                'id' => $Object->getIdentifier(),
+        /** @var FakeObject $object */
+        foreach ($data as $object) {
+            $objectData = [
+                'id' => $object->getIdentifier(),
             ];
 
-            foreach ($Fields as $Field) {
-                if ($Field['inlist']) {
-                    $ObjectData[$Field['id']] = $Object->getData($Field['id']);
+            foreach ($fields as $field) {
+                if ($field['inlist']) {
+                    $objectData[$field['id']] = $object->getData($field['id']);
                 }
             }
 
-            $Response[] = $ObjectData;
+            $response[] = $objectData;
         }
 
         //====================================================================//
         // Parse Meta Infos on Result Array
-        $Response['meta'] = [
-            'total' => $Repo->getTypeCount($this->type, $filter),
-            'current' => \count($Data),
+        $response['meta'] = [
+            'total' => $repository->getTypeCount($this->type, $filter),
+            'current' => \count($data),
         ];
 
         //====================================================================//
         // Return result
-        return $Response;
+        return $response;
     }
 
 
@@ -275,5 +275,4 @@ class Generic extends AbstractStandaloneObject
     {
         return $this->name;
     }
-
 }

@@ -43,12 +43,14 @@ class SymfonyEventsSubscriber implements EventSubscriberInterface
 
     /**
      * @abstract    Service Constructor
+     *
+     * @param array $configuration
      */
-    public function __construct(array $Configuration)
+    public function __construct(array $configuration)
     {
         //====================================================================//
         // Store Faker Service Configuration
-        $this->config = $Configuration;
+        $this->config = $configuration;
     }
 
     //====================================================================//
@@ -89,8 +91,8 @@ class SymfonyEventsSubscriber implements EventSubscriberInterface
     {
         //====================================================================//
         // Walk on Configuration to Add Objects
-        foreach ($this->config['objects'] as $Object) {
-            $event->addObjectType($Object['id'], 'splash.connector.faker.object.'.$Object['id']);
+        foreach ($this->config['objects'] as $object) {
+            $event->addObjectType($object['id'], 'splash.connector.faker.object.'.$object['id']);
         }
     }
 
@@ -121,10 +123,10 @@ class SymfonyEventsSubscriber implements EventSubscriberInterface
     {
         //====================================================================//
         // Add Option to Disable Objects
-        foreach ($this->config['objects'] as $Object) {
+        foreach ($this->config['objects'] as $object) {
             $event->getBuilder()
-                ->add('faker_disable_'.$Object['id'], CheckboxType::class, [
-                    'label' => $Object['name'].' Disable Test Mode',
+                ->add('faker_disable_'.$object['id'], CheckboxType::class, [
+                    'label' => $object['name'].' Disable Test Mode',
                     'required' => false,
                 ])
             ;

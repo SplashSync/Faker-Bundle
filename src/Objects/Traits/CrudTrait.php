@@ -54,8 +54,8 @@ trait CrudTrait
         Splash::log()->trace(__CLASS__, __FUNCTION__);
         //====================================================================//
         // Search in Repository
-        /** @var null|FakeObject $Entity */
-        $Entity = $this->entityManager
+        /** @var null|FakeObject $entity */
+        $entity = $this->entityManager
             ->getRepository('SplashFakerBundle:FakeObject')
             ->findOneBy([
                 'type' => $this->type,
@@ -63,7 +63,7 @@ trait CrudTrait
             ]);
         //====================================================================//
         // Check Object Entity was Found
-        if (!$Entity) {
+        if (!$entity) {
             return Splash::log()->err(
                 'ErrLocalTpl',
                 __CLASS__,
@@ -71,7 +71,7 @@ trait CrudTrait
                 ' Unable to load '.$this->name.' ('.$objectId.').'
             );
         }
-        $this->entity = $Entity;
+        $this->entity = $entity;
 
         return new ArrayObject(
             \is_array($this->entity->getData()) ? $this->entity->getData() : [],
@@ -100,6 +100,7 @@ trait CrudTrait
         //====================================================================//
         // Persist (but DO NOT FLUSH)
         $this->entityManager->persist($this->entity);
+
         return new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
     }
 
@@ -138,5 +139,4 @@ trait CrudTrait
 
         return true;
     }
-
 }
