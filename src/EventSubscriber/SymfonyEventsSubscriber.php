@@ -3,7 +3,7 @@
 /*
  *  This file is part of SplashSync Project.
  *
- *  Copyright (C) Splash Sync <www.splashsync.com>
+ *  Copyright (C) 2015-2018 Splash Sync  <www.splashsync.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -11,8 +11,6 @@
  *
  *  For the full copyright and license information, please view the LICENSE
  *  file that was distributed with this source code.
- *
- *  @author Bernard Paquier <contact@splashsync.com>
  */
 
 namespace Splash\Connectors\FakerBundle\EventSubscriber;
@@ -64,18 +62,18 @@ class SymfonyEventsSubscriber implements EventSubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
-        return [
+        return array(
             // Standalone Events
-            ObjectsListingEvent::NAME => [
-                ['onObjectListing', 0],
-            ],
-            ActionsListingEvent::NAME => [
-                ['onActionsListing', 0],
-            ],
-            FormListingEvent::NAME => [
-                ['onFormListing', 0],
-            ],
-        ];
+            ObjectsListingEvent::NAME => array(
+                array('onObjectListing', 0),
+            ),
+            ActionsListingEvent::NAME => array(
+                array('onActionsListing', 0),
+            ),
+            FormListingEvent::NAME => array(
+                array('onFormListing', 0),
+            ),
+        );
     }
 
     //====================================================================//
@@ -125,10 +123,10 @@ class SymfonyEventsSubscriber implements EventSubscriberInterface
         // Add Option to Disable Objects
         foreach ($this->config['objects'] as $object) {
             $event->getBuilder()
-                ->add('faker_disable_'.$object['id'], CheckboxType::class, [
+                ->add('faker_disable_'.$object['id'], CheckboxType::class, array(
                     'label' => $object['name'].' Disable Test Mode',
                     'required' => false,
-                ])
+                ))
             ;
         }
     }

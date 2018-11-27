@@ -3,7 +3,7 @@
 /*
  *  This file is part of SplashSync Project.
  *
- *  Copyright (C) Splash Sync <www.splashsync.com>
+ *  Copyright (C) 2015-2018 Splash Sync  <www.splashsync.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -11,8 +11,6 @@
  *
  *  For the full copyright and license information, please view the LICENSE
  *  file that was distributed with this source code.
- *
- *  @author Bernard Paquier <contact@splashsync.com>
  */
 
 namespace Splash\Connectors\FakerBundle\Objects;
@@ -213,15 +211,15 @@ class Generic extends AbstractStandaloneObject
         // Stack Trace
         Splash::log()->trace(__CLASS__, __FUNCTION__);
 
-        $response = [];
+        $response = array();
         /** @var FakeObjectRepository $Repo */
         $repository = $this->entityManager->getRepository('SplashFakerBundle:FakeObject');
 
         //====================================================================//
         // Prepare List Filters List
-        $search = [
+        $search = array(
             'type' => $this->type,
-        ];
+        );
         if (!empty($filter)) {
             $search['identifier'] = $filter;
         }
@@ -229,7 +227,7 @@ class Generic extends AbstractStandaloneObject
         // Load Objects List
         $data = $repository->findBy(
             $search,
-            [],
+            array(),
             isset($params['max']) ? $params['max'] : null,
             isset($params['offset']) ? $params['offset'] : null
         );
@@ -242,9 +240,9 @@ class Generic extends AbstractStandaloneObject
         // Parse Data on Result Array
         /** @var FakeObject $object */
         foreach ($data as $object) {
-            $objectData = [
+            $objectData = array(
                 'id' => $object->getIdentifier(),
-            ];
+            );
 
             foreach ($fields as $field) {
                 if ($field['inlist']) {
@@ -257,16 +255,15 @@ class Generic extends AbstractStandaloneObject
 
         //====================================================================//
         // Parse Meta Infos on Result Array
-        $response['meta'] = [
+        $response['meta'] = array(
             'total' => $repository->getTypeCount($this->type, $filter),
             'current' => \count($data),
-        ];
+        );
 
         //====================================================================//
         // Return result
         return $response;
     }
-
 
     /**
      * {@inheritdoc}

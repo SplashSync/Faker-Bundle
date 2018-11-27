@@ -3,7 +3,7 @@
 /*
  *  This file is part of SplashSync Project.
  *
- *  Copyright (C) Splash Sync <www.splashsync.com>
+ *  Copyright (C) 2015-2018 Splash Sync  <www.splashsync.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -11,8 +11,6 @@
  *
  *  For the full copyright and license information, please view the LICENSE
  *  file that was distributed with this source code.
- *
- *  @author Bernard Paquier <contact@splashsync.com>
  */
 
 namespace Splash\Connectors\FakerBundle\Objects\Traits;
@@ -35,7 +33,6 @@ use Splash\Models\Objects\SimpleFieldsTrait;
  */
 trait CrudTrait
 {
-
     //====================================================================//
     // Generic Objects CRUD Functions
     //====================================================================//
@@ -57,10 +54,10 @@ trait CrudTrait
         /** @var null|FakeObject $entity */
         $entity = $this->entityManager
             ->getRepository('SplashFakerBundle:FakeObject')
-            ->findOneBy([
+            ->findOneBy(array(
                 'type' => $this->type,
                 'identifier' => $objectId,
-            ]);
+            ));
         //====================================================================//
         // Check Object Entity was Found
         if (!$entity) {
@@ -74,7 +71,7 @@ trait CrudTrait
         $this->entity = $entity;
 
         return new ArrayObject(
-            \is_array($this->entity->getData()) ? $this->entity->getData() : [],
+            \is_array($this->entity->getData()) ? $this->entity->getData() : array(),
             ArrayObject::ARRAY_AS_PROPS
         );
     }
@@ -95,13 +92,13 @@ trait CrudTrait
         $this->entity = new FakeObject();
         $this->entity->setType($this->type);
         $this->entity->setIdentifier(uniqid());
-        $this->entity->setData([]);
+        $this->entity->setData(array());
 
         //====================================================================//
         // Persist (but DO NOT FLUSH)
         $this->entityManager->persist($this->entity);
 
-        return new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
+        return new ArrayObject(array(), ArrayObject::ARRAY_AS_PROPS);
     }
 
     /**
