@@ -60,8 +60,10 @@ install:
 script:
     # Execute Grump Travis Testsuite 
     - php vendor/bin/grumphp run --testsuite=travis
+    # With PHP 7 => Execute Grump CsFixer Testsuite 
+    - if [[ ${TRAVIS_PHP_VERSION:0:3} > "7.0" ]]; then php vendor/bin/grumphp run --testsuite=csfixer; fi  
     # With PHP 7 => Execute Grump Phpstan Testsuite 
-    - if [[ ${TRAVIS_PHP_VERSION:0:3} >= "7.1" ]]; then php vendor/bin/grumphp run --testsuite=phpstan; fi  
+    - if [[ ${TRAVIS_PHP_VERSION:0:3} > "7.0" ]]; then php vendor/bin/grumphp run --testsuite=phpstan; fi  
     
 # After a build, send email notification with the build results
 notifications:
