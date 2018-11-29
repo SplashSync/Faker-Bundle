@@ -26,72 +26,77 @@ class Generic extends AbstractStandaloneWidget
     //====================================================================//
     // Define Standard Options for this Widget
     // Override this array to change default options for your widget
-    public static $OPTIONS       = array(
-        "Width"     =>      self::SIZE_DEFAULT,
-        'UseCache'      =>  true,
-        'CacheLifeTime' =>  1,
+    public static $OPTIONS = array(
+        'Width' => self::SIZE_DEFAULT,
+        'UseCache' => true,
+        'CacheLifeTime' => 1,
     );
     /**
      * @abstract  Widget Name
      */
-    protected static $NAME            =  "Faker Generic Widget";
-    
+    protected static $NAME = 'Faker Generic Widget';
+
     /**
      * @abstract  Widget Description
      */
-    protected static $DESCRIPTION     =  "Fake Widgets for Démo";
-    
+    protected static $DESCRIPTION = 'Fake Widgets for Démo';
+
     /**
      * @abstract  Widget Icon (FontAwesome or Glyph ico tag)
      */
-    protected static $ICO     =  "fa fa-user-secret";
-    
+    protected static $ICO = 'fa fa-user-secret';
+
     //====================================================================//
     // Class Main Functions
     //====================================================================//
-    
+
     /**
-     *      @abstract   Return Widget Customs Options
+     * @abstract   Return Widget Customs Options
+     *
+     * @return array
      */
     public function options()
     {
         return self::$OPTIONS;
     }
-        
+
     /**
-     *      @abstract   Return Widget Customs Parameters
+     * @abstract   Return Widget Customs Parameters
+     *
+     * @return array|false
      */
     public function getParameters()
     {
         switch ($this->getSplashType()) {
-            case "Morris":
+            case 'Morris':
                 //====================================================================//
                 // Select Chart Rendering Mode
                 $this->fieldsFactory()->create(SPL_T_TEXT)
-                    ->Identifier("chart_type")
-                    ->Name("Rendering Mode")
+                    ->Identifier('chart_type')
+                    ->Name('Rendering Mode')
                     ->isRequired()
-                    ->AddChoice("Line", "Line Chart")
-                    ->AddChoice("Bar", "Bar Chart")
-                    ->AddChoice("Area", "Area Chart")
+                    ->AddChoice('Line', 'Line Chart')
+                    ->AddChoice('Bar', 'Bar Chart')
+                    ->AddChoice('Area', 'Area Chart')
                         ;
 
                 break;
             default:
                 break;
         }
-        
+
         //====================================================================//
         // Publish Fields
         return $this->fieldsFactory()->publish();
     }
-    
+
     /**
      * @abstract    Return requested Customer Data
      *
-     * @param       array   $params               Widget Inputs Parameters
+     * @param array $params Widget Inputs Parameters
      *
-     * @return      array
+     * @return array
+     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function get($params = null)
@@ -99,29 +104,29 @@ class Generic extends AbstractStandaloneWidget
         //====================================================================//
         // Stack Trace
         Splash::log()->trace(__CLASS__, __FUNCTION__);
-        
+
         //====================================================================//
         // Setup Widget Core Informations
         //====================================================================//
 
         $this->setTitle($this->getName());
         $this->setIcon($this->getIcon());
-               
+
         //====================================================================//
         // Build Blocks
         //====================================================================//
         switch ($this->getSplashType()) {
-            case "Empty":
+            case 'Empty':
                 break;
-            case "Text":
+            case 'Text':
                 $this->buildTextBlock();
 
                 break;
-            case "Notifications":
+            case 'Notifications':
                 $this->buildNotificationsBlock();
 
                 break;
-            case "Morris":
+            case 'Morris':
                 $this->buildMorrisBlock($params);
 
                 break;
@@ -138,19 +143,19 @@ class Generic extends AbstractStandaloneWidget
         // Publish Widget
         return $this->render();
     }
-    
+
     //====================================================================//
     // Class Tooling Functions
     //====================================================================//
-    
+
     /**
      * {@inheritdoc}
      */
     public function getName()
     {
-        return "Faker " . $this->getSplashType() . " Widget";
+        return 'Faker '.$this->getSplashType().' Widget';
     }
-        
+
     //====================================================================//
     // Blocks Generation Functions
     //====================================================================//
@@ -162,9 +167,9 @@ class Generic extends AbstractStandaloneWidget
     {
         //====================================================================//
         // Into Text Block
-        $this->blocksFactory()->addTextBlock("This widget show only TEXT!!");
+        $this->blocksFactory()->addTextBlock('This widget show only TEXT!!');
     }
-    
+
     /**
      *   @abstract     Block Building - Notifications Demo Widget
      */
@@ -173,33 +178,35 @@ class Generic extends AbstractStandaloneWidget
         //====================================================================//
         // If test was passed
         $this->blocksFactory()->addNotificationsBlock(array(
-            "info" => "Just for information",
-            "success" => "Success Message!",
-            "warning" => "Yes I'm a warning message!",
-            "error" => "This is not an Error..."
+            'info' => 'Just for information',
+            'success' => 'Success Message!',
+            'warning' => "Yes I'm a warning message!",
+            'error' => 'This is not an Error...',
         ));
     }
-    
+
     /**
-     *   @abstract     Block Building - Chart Demo Widget
+     * @abstract     Block Building - Chart Demo Widget
+     *
+     * @param array $params
      */
     private function buildMorrisBlock(array $params = null)
     {
         $next = rand(0, 100);
         $next2 = rand(0, 100);
         $values = array();
-        for ($i=1 ; $i<25 ; $i++) {
+        for ($i = 1; $i < 25; ++$i) {
             $values[] = array(
-                "label"     => "2017 W" . $i,
-                "value"     => $next,
-                "value2"    => $next2
+                'label' => '2017 W'.$i,
+                'value' => $next,
+                'value2' => $next2,
             );
             $next += rand(-50, 50);
             $next2 += rand(-50, 50);
         }
         //====================================================================//
         // Detect Mode
-        $mode = isset($params["chart_type"]) ? $params["chart_type"] : "Line";
+        $mode = isset($params['chart_type']) ? $params['chart_type'] : 'Line';
         //====================================================================//
         // Morris Block
         $this->blocksFactory()->addMorrisGraphBlock($values, $mode);
