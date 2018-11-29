@@ -4,7 +4,6 @@ services:
     # Splash Faker Standalone Events Listner for Symfony
     splash.connector.faker.events.symfony:
         class: Splash\Connectors\FakerBundle\EventSubscriber\SymfonyEventsSubscriber
-        arguments:  ["@=service('service_container').getParameter('splash_faker')"]
         tags:       ["kernel.event_subscriber"]
 
     ########################################################################
@@ -12,7 +11,6 @@ services:
     splash.connector.faker.events.doctrine:
         class: Splash\Connectors\FakerBundle\EventSubscriber\DoctrineEventsSuscriber
         arguments:  
-            - "@=service('service_container').getParameter('splash_faker')"
             - "@splash.connectors.manager"
         tags:       ["doctrine.event_subscriber"]
 
@@ -21,3 +19,37 @@ services:
     Splash\Connectors\FakerBundle\Services\FieldsBuilder:
         class: Splash\Connectors\FakerBundle\Services\FieldsBuilder
  
+    ########################################################################
+    # Splash Faker Generic Objects
+    splash.connector.faker.object:
+        class:      Splash\Connectors\FakerBundle\Objects\Generic
+        public:     true
+        autowire:   true
+        tags:
+            # Register Faker Standalone Connector Objects           
+            - { name: "splash.standalone.object", type : "short" }            
+            - { name: "splash.standalone.object", type : "simple" }
+            - { name: "splash.standalone.object", type : "list" }
+            - { name: "splash.standalone.object", type : "image" }
+            # Register Faker Actions
+            - { name: "splash.standalone.action", type : "master",      action: "SplashFakerBundle:Actions:master"}
+            - { name: "splash.standalone.action", type : "index",       action: "SplashFakerBundle:Actions:index"}
+            - { name: "splash.standalone.action", type : "validate",    action: "SplashFakerBundle:Actions:validate"}
+            - { name: "splash.standalone.action", type : "invalidate",  action: "SplashFakerBundle:Actions:invalidate"}
+            - { name: "splash.standalone.action", type : "fail",        action: "SplashFakerBundle:Actions:fail"}
+            
+    ########################################################################
+    # Splash Faker Generic Widget
+    splash.connector.faker.widget:
+        class:      Splash\Connectors\FakerBundle\Widgets\Generic
+        public:     true
+        autowire:   true
+        tags:
+            # Register Faker Standalone Connector Widget           
+            - { name: "splash.standalone.widget", type : "Empty" }            
+            - { name: "splash.standalone.widget", type : "Text" }            
+            - { name: "splash.standalone.widget", type : "Notifications" }            
+            - { name: "splash.standalone.widget", type : "Morris" }            
+            
+            
+            

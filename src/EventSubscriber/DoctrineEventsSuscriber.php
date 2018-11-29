@@ -28,13 +28,6 @@ use Splash\Connectors\FakerBundle\Entity\FakeObject;
 class DoctrineEventsSuscriber implements EventSubscriber
 {
     /**
-     * @abstract    Faker Bundle Configuration
-     *
-     * @var array
-     */
-    private $config;
-
-    /**
      * @abstract    Splash Connectors Manager
      *
      * @var ConnectorsManager
@@ -48,14 +41,10 @@ class DoctrineEventsSuscriber implements EventSubscriber
     /**
      * @abstract    Service Constructor
      *
-     * @param array             $configuration
      * @param ConnectorsManager $manager
      */
-    public function __construct(array $configuration, ConnectorsManager $manager)
+    public function __construct(ConnectorsManager $manager)
     {
-        //====================================================================//
-        // Store Faker Service Configuration
-        $this->config = $configuration;
         //====================================================================//
         // Store Faker Connector Manager
         $this->manager = $manager;

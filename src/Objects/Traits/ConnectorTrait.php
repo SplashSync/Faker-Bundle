@@ -33,7 +33,7 @@ trait ConnectorTrait
      */
     public function selftest()
     {
-        if ($this->getParameter('faker_disable_'.$this->type, false)) {
+        if ($this->getParameter('faker_disable_'.$this->getSplashType(), false)) {
             return true;
         }
         if (!$this->getParameter('faker_validate_selftest', false)) {
@@ -41,7 +41,7 @@ trait ConnectorTrait
                 ->Err($this->getName().' : Faker Selftest Not Validated... Use config page to validate it!');
         }
 
-        return  Splash::log()->Msg('Faker '.$this->getName().' Object Passed');
+        return  Splash::log()->Msg($this->getName().' Selftest Object Passed');
     }
 
     //====================================================================//
@@ -55,7 +55,7 @@ trait ConnectorTrait
      */
     public function connect()
     {
-        if ($this->getParameter('faker_disable_'.$this->type, false)) {
+        if ($this->getParameter('faker_disable_'.$this->getSplashType(), false)) {
             return true;
         }
         if (!$this->getParameter('faker_validate_connect', false)) {
@@ -75,7 +75,7 @@ trait ConnectorTrait
      */
     public function getConnectedTemplate(): string
     {
-        if ($this->getParameter('faker_disable_'.$this->type, false)) {
+        if ($this->getParameter('faker_disable_'.$this->getSplashType(), false)) {
             return '';
         }
 
@@ -87,7 +87,7 @@ trait ConnectorTrait
      */
     public function getOfflineTemplate(): string
     {
-        if ($this->getParameter('faker_disable_'.$this->type, false)) {
+        if ($this->getParameter('faker_disable_'.$this->getSplashType(), false)) {
             return '';
         }
 
@@ -99,7 +99,7 @@ trait ConnectorTrait
      */
     public function getNewTemplate(): string
     {
-        if ($this->getParameter('faker_disable_'.$this->type, false)) {
+        if ($this->getParameter('faker_disable_'.$this->getSplashType(), false)) {
             return '';
         }
 

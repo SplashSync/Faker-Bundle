@@ -55,7 +55,7 @@ trait CrudTrait
         $entity = $this->entityManager
             ->getRepository('SplashFakerBundle:FakeObject')
             ->findOneBy(array(
-                'type' => $this->type,
+                'type' => $this->getSplashType(),
                 'identifier' => $objectId,
             ));
         //====================================================================//
@@ -65,7 +65,7 @@ trait CrudTrait
                 'ErrLocalTpl',
                 __CLASS__,
                 __FUNCTION__,
-                ' Unable to load '.$this->name.' ('.$objectId.').'
+                ' Unable to load '.$this->getName().' ('.$objectId.').'
             );
         }
         $this->entity = $entity;
@@ -90,7 +90,7 @@ trait CrudTrait
         //====================================================================//
         // Create New Entity
         $this->entity = new FakeObject();
-        $this->entity->setType($this->type);
+        $this->entity->setType($this->getSplashType());
         $this->entity->setIdentifier(uniqid());
         $this->entity->setData(array());
 

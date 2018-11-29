@@ -69,21 +69,6 @@ class Generic extends AbstractStandaloneObject
     //====================================================================//
 
     /**
-     *  @var string
-     */
-    protected $type;
-
-    /**
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * @var string
-     */
-    protected $format;
-
-    /**
      * @var FakeObject
      */
     protected $entity;
@@ -121,22 +106,6 @@ class Generic extends AbstractStandaloneObject
     }
 
     //====================================================================//
-    // Service Configuration
-    //====================================================================//
-
-    /**
-     * @param string $type
-     * @param string $name
-     * @param string $format
-     */
-    public function setConfiguration(string $type, string $name, string $format)
-    {
-        $this->type = $type;
-        $this->name = $name;
-        $this->format = $format;
-    }
-
-    //====================================================================//
     // Generic Objects Functions (See Splash PhpCore IntelliParser)
     //====================================================================//
 
@@ -150,7 +119,7 @@ class Generic extends AbstractStandaloneObject
         Splash::log()->trace(__CLASS__, __FUNCTION__);
         //====================================================================//
         // Generate Fake Fields
-        $this->generateFieldsSet($this->format);
+        $this->generateFieldsSet($this->getSplashType());
     }
 
     /**
@@ -218,7 +187,7 @@ class Generic extends AbstractStandaloneObject
         //====================================================================//
         // Prepare List Filters List
         $search = array(
-            'type' => $this->type,
+            'type' => $this->getSplashType(),
         );
         if (!empty($filter)) {
             $search['identifier'] = $filter;
@@ -256,7 +225,7 @@ class Generic extends AbstractStandaloneObject
         //====================================================================//
         // Parse Meta Infos on Result Array
         $response['meta'] = array(
-            'total' => $repository->getTypeCount($this->type, $filter),
+            'total' => $repository->getTypeCount($this->getSplashType(), $filter),
             'current' => \count($data),
         );
 
@@ -270,6 +239,6 @@ class Generic extends AbstractStandaloneObject
      */
     public function getName()
     {
-        return $this->name;
+        return "Faker ".$this->getSplashType();
     }
 }

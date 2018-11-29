@@ -15,7 +15,6 @@
 
 namespace Splash\Connectors\FakerBundle\DependencyInjection;
 
-use Splash\Connectors\FakerBundle\Objects\Generic;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
@@ -33,27 +32,7 @@ class SplashFakerExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $configuration = new Configuration();
-        $config = $this->processConfiguration($configuration, $configs);
-
-        $container->setParameter('splash_faker', $config);
-
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
-
-        //====================================================================//
-        // Add Splash Standalone Objects Service to Container
-        foreach ($config['objects'] as $object) {
-            $container
-                ->register(
-                    'splash.connector.faker.object.'.$object['id'],
-                    Generic::class
-                )
-                ->addTag('splash.standalone.object')
-                ->addMethodCall('setConfiguration', array($object['id'], $object['name'], $object['format']))
-                ->setPublic(true)
-                ->setAutowired(true)
-                    ;
-        }
     }
 }

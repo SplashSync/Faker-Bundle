@@ -15,7 +15,8 @@
 
 namespace Splash\Connectors\FakerBundle\Controller;
 
-use Splash\Bundle\Interfaces\ConnectorInterface;
+use Splash\Bundle\Models\AbstractConnector;
+use Splash\Bundle\Models\Local\ActionsTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -27,6 +28,20 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ActionsController extends Controller
 {
+    use ActionsTrait;
+    
+    /**
+     * @abstract    Master Fake Controller Action
+     *
+     * @return Response
+     */
+    public function masterAction()
+    {
+        //====================================================================//
+        // Return Dummy Response
+        return new JsonResponse(array('result' => 'Ok'));
+    }
+    
     /**
      * @abstract    Index Fake Controller Action
      *
@@ -42,12 +57,12 @@ class ActionsController extends Controller
     /**
      * @abstract    Validate Fake Controller Action
      *
-     * @param Request            $request
-     * @param ConnectorInterface $connector
+     * @param Request           $request
+     * @param AbstractConnector $connector
      *
      * @return Response
      */
-    public function validateAction(Request $request, ConnectorInterface $connector)
+    public function validateAction(Request $request, AbstractConnector $connector)
     {
         //====================================================================//
         // If Currently NEW
@@ -65,6 +80,9 @@ class ActionsController extends Controller
         // Redirect Response
         /** @var string $referer */
         $referer = $request->headers->get('referer');
+        if (empty($referer)) {
+            return self::getDefaultResponse();
+        }
 
         return new RedirectResponse($referer);
     }
@@ -72,12 +90,12 @@ class ActionsController extends Controller
     /**
      * @abstract    Invalidate Fake Controller Action
      *
-     * @param Request            $request
-     * @param ConnectorInterface $connector
+     * @param Request           $request
+     * @param AbstractConnector $connector
      *
      * @return Response
      */
-    public function invalidateAction(Request $request, ConnectorInterface $connector)
+    public function invalidateAction(Request $request, AbstractConnector $connector)
     {
         //====================================================================//
         // If Currently Offline
@@ -95,6 +113,9 @@ class ActionsController extends Controller
         // Redirect Response
         /** @var string $referer */
         $referer = $request->headers->get('referer');
+        if (empty($referer)) {
+            return self::getDefaultResponse();
+        }
 
         return new RedirectResponse($referer);
     }
