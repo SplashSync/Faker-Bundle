@@ -17,6 +17,7 @@ namespace Splash\Connectors\FakerBundle\EventSubscriber;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Splash\Bundle\Connectors\Standalone;
 use Splash\Bundle\Services\ConnectorsManager;
 use Splash\Connectors\FakerBundle\Entity\FakeObject;
 
@@ -120,7 +121,7 @@ class DoctrineEventsSuscriber implements EventSubscriber
         }
         //====================================================================//
         //  Search in Configured Servers using Standalone Connector
-        $servers = $this->manager->getConnectorConfigurations('splash.connectors.standalone');
+        $servers = $this->manager->getConnectorConfigurations(Standalone::NAME);
         //====================================================================//
         //  Walk on Configured Servers
         foreach (array_keys($servers) as $serverId) {
