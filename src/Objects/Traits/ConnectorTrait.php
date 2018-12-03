@@ -45,28 +45,6 @@ trait ConnectorTrait
     }
 
     //====================================================================//
-    // Service Connect
-    //====================================================================//
-
-    /**
-     * @abstract    Execute Ping Test for This Object
-     *
-     * @return bool
-     */
-    public function connect()
-    {
-        if ($this->getParameter('faker_disable_'.$this->getSplashType(), false)) {
-            return true;
-        }
-        if (!$this->getParameter('faker_validate_connect', false)) {
-            return  Splash::log()
-                ->Err($this->getName().'Faker Connect Not Validated... Use config page to validate it!');
-        }
-
-        return  Splash::log()->Msg('Faker '.$this->getName().' Object Passed');
-    }
-
-    //====================================================================//
     // Profiles for Testing
     //====================================================================//
 
