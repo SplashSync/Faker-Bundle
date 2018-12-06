@@ -179,7 +179,7 @@ class Generic extends AbstractStandaloneObject
 
         $response = array();
         /** @var FakeObjectRepository $repository */
-        $repository = $this->entityManager->getRepository('SplashFakerBundle:FakeObject');
+        $repository = $this->entityManager->getRepository('FakerBundle:FakeObject');
 
         //====================================================================//
         // Prepare List Filters List

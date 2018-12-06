@@ -16,17 +16,8 @@
 namespace Splash\Connectors\Faker\Objects\Traits;
 
 use ArrayObject;
-use Doctrine\ORM\EntityManagerInterface;
-use Splash\Bundle\Models\AbstractStandaloneObject;
 use Splash\Client\Splash;
-use Splash\Components\FieldsFactory;
 use Splash\Connectors\Faker\Entity\FakeObject;
-use Splash\Connectors\Faker\Repository\FakeObjectRepository;
-use Splash\Connectors\Faker\Services\FieldsBuilder;
-use Splash\Models\Helpers\ObjectsHelper;
-use Splash\Models\Objects\IntelParserTrait;
-use Splash\Models\Objects\ListsTrait;
-use Splash\Models\Objects\SimpleFieldsTrait;
 
 /**
  * @abstract Generic Faker Objects CRUD
@@ -53,7 +44,7 @@ trait CrudTrait
         // Search in Repository
         /** @var null|FakeObject $entity */
         $entity = $this->entityManager
-            ->getRepository('SplashFakerBundle:FakeObject')
+            ->getRepository('FakerBundle:FakeObject')
             ->findOneBy(array(
                 'type' => $this->getSplashType(),
                 'identifier' => $objectId,
