@@ -57,7 +57,7 @@ trait ConnectorTrait
             return '';
         }
 
-        return '@SplashFaker/connected.html.twig';
+        return '@Faker/connected.html.twig';
     }
 
     /**
@@ -69,7 +69,7 @@ trait ConnectorTrait
             return '';
         }
 
-        return '@SplashFaker/offline.html.twig';
+        return '@Faker/offline.html.twig';
     }
 
     /**
@@ -81,6 +81,6 @@ trait ConnectorTrait
             return '';
         }
 
-        return '@SplashFaker/new.html.twig';
+        return '@Faker/new.html.twig';
     }
 }
