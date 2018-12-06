@@ -13,16 +13,16 @@
  *  file that was distributed with this source code.
  */
 
-namespace Splash\Connectors\FakerBundle\Objects\Traits;
+namespace Splash\Connectors\Faker\Objects\Traits;
 
 use ArrayObject;
 use Doctrine\ORM\EntityManagerInterface;
 use Splash\Bundle\Models\AbstractStandaloneObject;
 use Splash\Client\Splash;
 use Splash\Components\FieldsFactory;
-use Splash\Connectors\FakerBundle\Entity\FakeObject;
-use Splash\Connectors\FakerBundle\Repository\FakeObjectRepository;
-use Splash\Connectors\FakerBundle\Services\FieldsBuilder;
+use Splash\Connectors\Faker\Entity\FakeObject;
+use Splash\Connectors\Faker\Repository\FakeObjectRepository;
+use Splash\Connectors\Faker\Services\FieldsBuilder;
 use Splash\Models\Helpers\ObjectsHelper;
 use Splash\Models\Objects\IntelParserTrait;
 use Splash\Models\Objects\ListsTrait;

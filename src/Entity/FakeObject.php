@@ -13,7 +13,7 @@
  *  file that was distributed with this source code.
  */
 
-namespace Splash\Connectors\FakerBundle\Entity;
+namespace Splash\Connectors\Faker\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -21,7 +21,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @abstract    Splash Fake/Testing Objects
  *
  * @ORM\Table(name="splash__faker__objects")
- * @ORM\Entity(repositoryClass="Splash\Connectors\FakerBundle\Repository\FakeObjectRepository")
+ * @ORM\Entity(repositoryClass="Splash\Connectors\Faker\Repository\FakeObjectRepository")
  */
 class FakeObject
 {

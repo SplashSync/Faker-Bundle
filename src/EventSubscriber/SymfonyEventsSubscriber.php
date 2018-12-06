@@ -13,7 +13,7 @@
  *  file that was distributed with this source code.
  */
 
-namespace Splash\Connectors\FakerBundle\EventSubscriber;
+namespace Splash\Connectors\Faker\EventSubscriber;
 
 //use Splash\Bundle\Events\Standalone\ActionsListingEvent;
 use Splash\Bundle\Events\Standalone\FormListingEvent;

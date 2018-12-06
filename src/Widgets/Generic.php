@@ -13,7 +13,7 @@
  *  file that was distributed with this source code.
  */
 
-namespace  Splash\Connectors\FakerBundle\Widgets;
+namespace  Splash\Connectors\Faker\Widgets;
 
 use Splash\Bundle\Models\AbstractStandaloneWidget;
 use Splash\Core\SplashCore      as Splash;

@@ -13,13 +13,13 @@
  *  file that was distributed with this source code.
  */
 
-namespace Splash\Connectors\FakerBundle;
+namespace Splash\Connectors\Faker;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * @abstract    Splmash Faker Connector Symfony Bundle Class
+ * @abstract    Splash Faker Connector Symfony Bundle Class
  */
-class SplashFakerBundle extends Bundle
+class FakerBundle extends Bundle
 {
 }

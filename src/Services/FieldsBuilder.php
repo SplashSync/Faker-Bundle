@@ -13,7 +13,7 @@
  *  file that was distributed with this source code.
  */
 
-namespace Splash\Connectors\FakerBundle\Services;
+namespace Splash\Connectors\Faker\Services;
 
 use ArrayObject;
 use Splash\Components\FieldsFactory;

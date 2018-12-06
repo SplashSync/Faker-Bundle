@@ -13,7 +13,7 @@
  *  file that was distributed with this source code.
  */
 
-namespace Splash\Connectors\FakerBundle\Objects\Traits;
+namespace Splash\Connectors\Faker\Objects\Traits;
 
 use Splash\Components\FieldsFactory;
 use Splash\Models\Helpers\ObjectsHelper;

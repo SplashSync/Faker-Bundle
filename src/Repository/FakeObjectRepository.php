@@ -13,7 +13,7 @@
  *  file that was distributed with this source code.
  */
 
-namespace Splash\Connectors\FakerBundle\Repository;
+namespace Splash\Connectors\Faker\Repository;
 
 /**
  * @abstract    Splash Faker Objects Storage repository
