@@ -108,7 +108,7 @@ trait CrudTrait
             $this->entityManager->flush();
         }
 
-        return $this->entity->getIdentifier();
+        return $this->getObjectIdentifier();
     }
 
     /**
@@ -126,5 +126,17 @@ trait CrudTrait
         }
 
         return true;
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function getObjectIdentifier()
+    {
+        if (empty($this->entity->getIdentifier())) {
+            return false;
+        }
+
+        return (string) $this->entity->getIdentifier();
     }
 }
