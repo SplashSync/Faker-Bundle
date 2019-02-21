@@ -137,6 +137,6 @@ trait CrudTrait
             return false;
         }
 
-        return (string) $this->entity->getIdentifier();
+        return $this->entity->getIdentifier();
     }
 }
