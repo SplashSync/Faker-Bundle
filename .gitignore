@@ -49,3 +49,4 @@
 /.web-server-pid
 /.php_cs.cache
 /nbproject
+/src/.php_cs.cache
