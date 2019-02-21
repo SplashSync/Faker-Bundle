@@ -59,7 +59,7 @@ class FieldsBuilder
     /**
      * @abstract    Return Field Factory Data
      *
-     * @return ArrayObject[]|false
+     * @return array|false
      */
     public function publish()
     {
