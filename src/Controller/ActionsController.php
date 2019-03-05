@@ -29,7 +29,7 @@ use Symfony\Component\HttpFoundation\Response;
 class ActionsController extends Controller
 {
     use ActionsTrait;
-    
+
     /**
      * @abstract    Master Fake Controller Action
      *
@@ -41,7 +41,7 @@ class ActionsController extends Controller
         // Return Dummy Response
         return new JsonResponse(array('result' => 'Ok'));
     }
-    
+
     /**
      * @abstract    Index Fake Controller Action
      *

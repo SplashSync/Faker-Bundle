@@ -36,7 +36,7 @@ class Generic extends AbstractStandaloneObject
     use IntelParserTrait;
     use SimpleFieldsTrait;
     use ListsTrait;
-    
+
     // Faker Traits
     use Traits\GeneratorTrait;
     use Traits\CrudTrait;
@@ -113,7 +113,7 @@ class Generic extends AbstractStandaloneObject
     {
         //====================================================================//
         // Stack Trace
-        Splash::log()->trace(__CLASS__, __FUNCTION__);
+        Splash::log()->trace();
         //====================================================================//
         // Generate Fake Fields
         $this->generateFieldsSet($this->getSplashType());
@@ -131,7 +131,7 @@ class Generic extends AbstractStandaloneObject
     {
         //====================================================================//
         // Stack Trace
-        Splash::log()->trace(__CLASS__, __FUNCTION__);
+        Splash::log()->trace();
 
         //====================================================================//
         // Detect List Fields
@@ -161,7 +161,7 @@ class Generic extends AbstractStandaloneObject
     {
         //====================================================================//
         // Stack Trace
-        Splash::log()->trace(__CLASS__, __FUNCTION__);
+        Splash::log()->trace();
         //====================================================================//
         // Read Data
         $this->setSimple($fieldName, $data);
@@ -175,7 +175,7 @@ class Generic extends AbstractStandaloneObject
     {
         //====================================================================//
         // Stack Trace
-        Splash::log()->trace(__CLASS__, __FUNCTION__);
+        Splash::log()->trace();
 
         $response = array();
         /** @var FakeObjectRepository $repository */

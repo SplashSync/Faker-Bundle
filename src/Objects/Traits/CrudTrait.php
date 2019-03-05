@@ -39,7 +39,7 @@ trait CrudTrait
     {
         //====================================================================//
         // Stack Trace
-        Splash::log()->trace(__CLASS__, __FUNCTION__);
+        Splash::log()->trace();
         //====================================================================//
         // Search in Repository
         /** @var null|FakeObject $entity */
@@ -76,7 +76,7 @@ trait CrudTrait
     {
         //====================================================================//
         // Stack Trace
-        Splash::log()->trace(__CLASS__, __FUNCTION__);
+        Splash::log()->trace();
 
         //====================================================================//
         // Create New Entity
@@ -127,7 +127,7 @@ trait CrudTrait
 
         return true;
     }
-    
+
     /**
      * {@inheritdoc}
      */

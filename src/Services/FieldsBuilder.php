@@ -15,7 +15,6 @@
 
 namespace Splash\Connectors\Faker\Services;
 
-use ArrayObject;
 use Splash\Components\FieldsFactory;
 
 /**
