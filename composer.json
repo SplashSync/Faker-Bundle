@@ -39,6 +39,7 @@
     
     "require-dev": {
         "splash/php-bundle":                            "dev-master",
+        "splash/console":                               "dev-master",
         
         "phpunit/phpunit":                              ">6",
         
