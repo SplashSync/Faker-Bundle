@@ -51,3 +51,5 @@
 /nbproject
 /src/.php_cs.cache
 /.gh-pages/
+/docs/assets/vendor/tiny-emitter/yarn.lock
+/docs/yarn.lock
