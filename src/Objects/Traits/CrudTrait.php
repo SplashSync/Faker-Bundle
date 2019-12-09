@@ -20,7 +20,7 @@ use Splash\Client\Splash;
 use Splash\Connectors\Faker\Entity\FakeObject;
 
 /**
- * @abstract Generic Faker Objects CRUD
+ * Generic Faker Objects CRUD
  */
 trait CrudTrait
 {
@@ -44,7 +44,7 @@ trait CrudTrait
         // Search in Repository
         /** @var null|FakeObject $entity */
         $entity = $this->entityManager
-            ->getRepository('FakerBundle:FakeObject')
+            ->getRepository(FakeObject::class)
             ->findOneBy(array(
                 'type' => $this->getSplashType(),
                 'identifier' => $objectId,
@@ -52,10 +52,7 @@ trait CrudTrait
         //====================================================================//
         // Check Object Entity was Found
         if (!$entity) {
-            return Splash::log()->err(
-                'ErrLocalTpl',
-                __CLASS__,
-                __FUNCTION__,
+            return Splash::log()->errTrace(
                 ' Unable to load '.$this->getName().' ('.$objectId.').'
             );
         }
@@ -97,7 +94,7 @@ trait CrudTrait
      *
      * @param array $needed Is This Update Needed
      *
-     * @return string Object Id
+     * @return false|string Object Id
      */
     public function update($needed)
     {

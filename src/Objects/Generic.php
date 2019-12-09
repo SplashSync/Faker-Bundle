@@ -26,7 +26,7 @@ use Splash\Models\Objects\ListsTrait;
 use Splash\Models\Objects\SimpleFieldsTrait;
 
 /**
- * Description of Generic.
+ * Generic Faker Object.
  *
  * @author nanard33
  */
@@ -52,12 +52,12 @@ class Generic extends AbstractStandaloneObject
 //    protected static    $DISABLED        =  True;
 
     /**
-     *  Object Description (Translated by Module).
+     * {@inheritdoc}
      */
     protected static $DESCRIPTION = 'Faker Object';
 
     /**
-     *  Object Icon (FontAwesome or Glyph ico tag).
+     * {@inheritdoc}
      */
     protected static $ICO = 'fa fa-magic';
 
@@ -71,7 +71,7 @@ class Generic extends AbstractStandaloneObject
     protected $entity;
 
     /**
-     * @abstract Doctrine Entity Manager
+     * Doctrine Entity Manager
      *
      * @var EntityManagerInterface
      */
@@ -87,7 +87,7 @@ class Generic extends AbstractStandaloneObject
     //====================================================================//
 
     /**
-     * @abstract    Service Constructor
+     * Service Constructor
      *
      * @param FieldsBuilder          $fieldsBuilder
      * @param EntityManagerInterface $entityManager
@@ -107,7 +107,9 @@ class Generic extends AbstractStandaloneObject
     //====================================================================//
 
     /**
-     * @abstract     Build Core Fields using FieldFactory
+     * Build Core Fields using FieldFactory
+     * 
+     * @return void
      */
     public function buildCoreFields()
     {
@@ -120,10 +122,12 @@ class Generic extends AbstractStandaloneObject
     }
 
     /**
-     *  @abstract     Read requested Field
+     * Read requested Field
      *
-     *  @param        string $key       Input List Key
-     *  @param        string $fieldName Field Identifier / Name
+     * @param string $key       Input List Key
+     * @param string $fieldName Field Identifier / Name
+     *
+     * @return void
      *
      * @SuppressWarnings(PHPMD.ElseExpression)
      */
@@ -152,10 +156,12 @@ class Generic extends AbstractStandaloneObject
     }
 
     /**
-     *  @abstract     Write Given Fields
+     * Write Given Fields
      *
-     *  @param        string $fieldName Field Identifier / Name
-     *  @param        mixed  $data      Field Data
+     * @param string $fieldName Field Identifier / Name
+     * @param mixed  $data      Field Data
+     *
+     * @return void
      */
     public function setCoreFields($fieldName, $data)
     {
@@ -179,7 +185,7 @@ class Generic extends AbstractStandaloneObject
 
         $response = array();
         /** @var FakeObjectRepository $repository */
-        $repository = $this->entityManager->getRepository('FakerBundle:FakeObject');
+        $repository = $this->entityManager->getRepository(FakeObject::class);
 
         //====================================================================//
         // Prepare List Filters List

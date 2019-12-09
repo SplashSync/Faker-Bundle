@@ -22,7 +22,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 /**
- * Description of FakerEventsSuscriber.
+ * Faker Objects Symfony Events Subscriber.
  *
  * @author nanard33
  */
@@ -33,7 +33,7 @@ class SymfonyEventsSubscriber implements EventSubscriberInterface
     //====================================================================//
 
     /**
-     * @abstract    Configure Event Subscriber
+     * Configure Event Subscriber
      *
      * @return array
      */
@@ -51,11 +51,11 @@ class SymfonyEventsSubscriber implements EventSubscriberInterface
     //====================================================================//
 
     /**
-     * @abstract    On Standalone Form Listing Event => Populate Edit Form
+     * On Standalone Form Listing Event => Populate Edit Form
      *
      * @param FormListingEvent $event
      */
-    public function onFormListing(FormListingEvent $event)
+    public function onFormListing(FormListingEvent $event): void
     {
         //====================================================================//
         // Add Fake Option

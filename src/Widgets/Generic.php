@@ -19,7 +19,7 @@ use Splash\Bundle\Models\AbstractStandaloneWidget;
 use Splash\Core\SplashCore      as Splash;
 
 /**
- * @abstract    SelfTest Template Widget for Splash Standalone Connector
+ * SelfTest Template Widget for Splash Standalone Connector
  */
 class Generic extends AbstractStandaloneWidget
 {
@@ -31,18 +31,19 @@ class Generic extends AbstractStandaloneWidget
         'UseCache' => true,
         'CacheLifeTime' => 1,
     );
+    
     /**
-     * @abstract  Widget Name
+     * {@inheritdoc}
      */
     protected static $NAME = 'Faker Generic Widget';
 
     /**
-     * @abstract  Widget Description
+     * {@inheritdoc}
      */
     protected static $DESCRIPTION = 'Fake Widgets for Démo';
 
     /**
-     * @abstract  Widget Icon (FontAwesome or Glyph ico tag)
+     * {@inheritdoc}
      */
     protected static $ICO = 'fa fa-user-secret';
 
@@ -51,7 +52,7 @@ class Generic extends AbstractStandaloneWidget
     //====================================================================//
 
     /**
-     * @abstract   Return Widget Customs Options
+     * Return Widget Customs Options
      *
      * @return array
      */
@@ -61,7 +62,7 @@ class Generic extends AbstractStandaloneWidget
     }
 
     /**
-     * @abstract   Return Widget Customs Parameters
+     * Return Widget Customs Parameters
      *
      * @return array|false
      */
@@ -91,13 +92,11 @@ class Generic extends AbstractStandaloneWidget
     }
 
     /**
-     * @abstract    Return requested Customer Data
+     * Return requested Customer Data
      *
      * @param array $params Widget Inputs Parameters
      *
      * @return array
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function get($params = null)
     {
@@ -161,7 +160,9 @@ class Generic extends AbstractStandaloneWidget
     //====================================================================//
 
     /**
-     *   @abstract     Block Building - Text Demo Widget
+     * Block Building - Text Demo Widget
+     * 
+     * @return void
      */
     private function buildTextBlock()
     {
@@ -171,7 +172,9 @@ class Generic extends AbstractStandaloneWidget
     }
 
     /**
-     *   @abstract     Block Building - Notifications Demo Widget
+     * Block Building - Notifications Demo Widget
+     * 
+     * @return void
      */
     private function buildNotificationsBlock()
     {
@@ -186,9 +189,11 @@ class Generic extends AbstractStandaloneWidget
     }
 
     /**
-     * @abstract     Block Building - Chart Demo Widget
+     * Block Building - Chart Demo Widget
      *
      * @param array $params
+     * 
+     * @return void
      */
     private function buildMorrisBlock(array $params = null)
     {

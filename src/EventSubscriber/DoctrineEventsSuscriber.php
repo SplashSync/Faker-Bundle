@@ -22,14 +22,14 @@ use Splash\Bundle\Services\ConnectorsManager;
 use Splash\Connectors\Faker\Entity\FakeObject;
 
 /**
- * Description of FakerEventsSuscriber.
+ * Faker Objects Doctrine Events Subscriber.
  *
  * @author nanard33
  */
 class DoctrineEventsSuscriber implements EventSubscriber
 {
     /**
-     * @abstract    Splash Connectors Manager
+     * Splash Connectors Manager
      *
      * @var ConnectorsManager
      */
@@ -40,7 +40,7 @@ class DoctrineEventsSuscriber implements EventSubscriber
     //====================================================================//
 
     /**
-     * @abstract    Service Constructor
+     * Service Constructor
      *
      * @param ConnectorsManager $manager
      */
@@ -56,7 +56,7 @@ class DoctrineEventsSuscriber implements EventSubscriber
     //====================================================================//
 
     /**
-     * @abstract    Configure Event Subscriber
+     * Configure Event Subscriber
      *
      * @return array
      */
@@ -71,11 +71,11 @@ class DoctrineEventsSuscriber implements EventSubscriber
     //====================================================================//
 
     /**
-     * @abstract    After Doctrine Persist Event
+     * After Doctrine Persist Event
      *
      * @param LifecycleEventArgs $eventArgs
      */
-    public function postPersist(LifecycleEventArgs $eventArgs)
+    public function postPersist(LifecycleEventArgs $eventArgs): void
     {
         //====================================================================//
         //  Submit Change
@@ -83,11 +83,11 @@ class DoctrineEventsSuscriber implements EventSubscriber
     }
 
     /**
-     * @abstract    After Doctrine Update Event
+     * After Doctrine Update Event
      *
      * @param LifecycleEventArgs $eventArgs
      */
-    public function postUpdate(LifecycleEventArgs $eventArgs)
+    public function postUpdate(LifecycleEventArgs $eventArgs): void
     {
         //====================================================================//
         //  Submit Change
@@ -95,11 +95,11 @@ class DoctrineEventsSuscriber implements EventSubscriber
     }
 
     /**
-     * @abstract    Before Doctrine Remove Event
+     * Before Doctrine Remove Event
      *
      * @param LifecycleEventArgs $eventArgs
      */
-    public function preRemove(LifecycleEventArgs $eventArgs)
+    public function preRemove(LifecycleEventArgs $eventArgs): void
     {
         //====================================================================//
         //  Submit Change
@@ -107,12 +107,12 @@ class DoctrineEventsSuscriber implements EventSubscriber
     }
 
     /**
-     * @abstract    Object Commit for All Servers using Standalone Connector
+     * Object Commit for All Servers using Standalone Connector
      *
      * @param object $entity
      * @param string $action
      */
-    private function doCommit($entity, $action)
+    private function doCommit($entity, $action): void
     {
         //====================================================================//
         //  Check Entity is A Faker Object

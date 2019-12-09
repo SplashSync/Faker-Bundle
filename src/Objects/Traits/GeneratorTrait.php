@@ -19,7 +19,7 @@ use Splash\Components\FieldsFactory;
 use Splash\Models\Helpers\ObjectsHelper;
 
 /**
- * @abstract    Faker Generic Object Fields Generator
+ * Faker Generic Object Fields Generator
  */
 trait GeneratorTrait
 {
@@ -28,11 +28,11 @@ trait GeneratorTrait
     //====================================================================//
 
     /**
-     * @abstract    Generate Fake Node Field
+     * Generate Fake Node Field
      *
      * @param string $fieldSetType
      *
-     * @return array
+     * @return void
      *
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
