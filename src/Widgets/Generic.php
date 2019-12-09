@@ -31,7 +31,7 @@ class Generic extends AbstractStandaloneWidget
         'UseCache' => true,
         'CacheLifeTime' => 1,
     );
-    
+
     /**
      * {@inheritdoc}
      */
@@ -161,7 +161,7 @@ class Generic extends AbstractStandaloneWidget
 
     /**
      * Block Building - Text Demo Widget
-     * 
+     *
      * @return void
      */
     private function buildTextBlock()
@@ -173,7 +173,7 @@ class Generic extends AbstractStandaloneWidget
 
     /**
      * Block Building - Notifications Demo Widget
-     * 
+     *
      * @return void
      */
     private function buildNotificationsBlock()
@@ -192,7 +192,7 @@ class Generic extends AbstractStandaloneWidget
      * Block Building - Chart Demo Widget
      *
      * @param array $params
-     * 
+     *
      * @return void
      */
     private function buildMorrisBlock(array $params = null)

@@ -108,7 +108,7 @@ class Generic extends AbstractStandaloneObject
 
     /**
      * Build Core Fields using FieldFactory
-     * 
+     *
      * @return void
      */
     public function buildCoreFields()
