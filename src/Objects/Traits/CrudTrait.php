@@ -114,6 +114,11 @@ trait CrudTrait
     public function delete($objectId = null)
     {
         //====================================================================//
+        // Safety Check
+        if (null == $objectId) {
+            return true;
+        }
+        //====================================================================//
         // Try Loading Object to Check if Exists
         if ($this->load($objectId)) {
             //====================================================================//
