@@ -1,9 +1,7 @@
 ################################################################################
-# Project language
+# Platform config
 language: php
-# Allows use container-based infrastructure
-sudo: false
-#sudo: required
+os: linux
 dist: trusty
 
 ################################################################################
