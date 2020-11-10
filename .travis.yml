@@ -1,26 +1,20 @@
 ################################################################################
-# Platform config
-language: php
-os: linux
-dist: trusty
-
+#
+# * This file is part of SplashSync Project.
+# *
+# * Copyright (C) Splash Sync <www.splashsync.com>
+# *
+# * This program is distributed in the hope that it will be useful,
+# * but WITHOUT ANY WARRANTY; without even the implied warranty of
+# * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# *
+# * For the full copyright and license information, please view the LICENSE
+# * file that was distributed with this source code.
+# *
+# * @author Bernard Paquier <contact@splashsync.com>
+#
 ################################################################################
-# Start mysql service
-services:
-  - mysql
 
-################################################################################
-# Cache composer packages so "composer install" is faster
-cache:
-    directories:
-        - $HOME/.composer/cache/files
-
-################################################################################
-# Define an environment variable
-env:
-    global:
-        - SYMFONY_DEPRECATIONS_HELPER=disabled
-        
 ################################################################################
 # Versions of PHP to test against
 php:
@@ -29,29 +23,13 @@ php:
     - "7.3"      
 
 ################################################################################
-# Prepare Test Environement
-before_install:
-    # Setup Travis PHP     
-    - if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then echo "memory_limit = -1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini; fi
-#    # Setup Composer Stability if Required   
-#    - if ! [ -z "$STABILITY" ]; then composer config minimum-stability ${STABILITY}; fi;
-#    # Setup Symfony Version if Required    
-#    - if [ "$SF_VERSION" != "" ]; then composer require --no-update symfony/symfony=$SF_VERSION; fi;
-  
-      
-################################################################################
-# Install composer dependencies,
-# Create database, schema and fixtures
-install:   
-    # Update composer
-    - composer self-update
-    # With PHP < 7.1 => Remove Phpstan   
-    - if [[ ${TRAVIS_PHP_VERSION:0:3} < "7.1" ]]; then composer remove phpstan/phpstan-shim     --no-update --dev; fi      
-    - if [[ ${TRAVIS_PHP_VERSION:0:3} < "7.1" ]]; then composer remove phpstan/phpstan-phpunit  --no-update --dev; fi      
-    - if [[ ${TRAVIS_PHP_VERSION:0:3} < "7.1" ]]; then composer remove phpstan/phpstan-symfony  --no-update --dev; fi      
-    - if [[ ${TRAVIS_PHP_VERSION:0:3} < "7.1" ]]; then composer remove phpstan/phpstan-doctrine  --no-update --dev; fi      
-    # Build Dependencies
-    - composer update  --prefer-dist --no-interaction  
+# Install & Configure Environnement
+install:
+  ################################################################################
+  # Setup Travis
+  - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/travis/configure.sh | sh
+  # Build Module (Composer)
+  - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/travis/composer.sh | sh
 
 ################################################################################
 # Run script
@@ -61,8 +39,40 @@ script:
     # With PHP 7 => Execute Grump CsFixer Testsuite 
     - if [[ ${TRAVIS_PHP_VERSION:0:3} > "7.0" ]]; then php vendor/bin/grumphp run --testsuite=csfixer; fi  
     # With PHP 7 => Execute Grump Phpstan Testsuite 
-    - if [[ ${TRAVIS_PHP_VERSION:0:3} > "7.0" ]]; then php vendor/bin/grumphp run --testsuite=phpstan; fi  
-    
+    - if [[ ${TRAVIS_PHP_VERSION:0:3} > "7.0" ]]; then php vendor/bin/grumphp run --testsuite=phpstan; fi
+
+################################################################################
+# Run After Script
+after_script:
+  - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/travis/after.sh | sh
+
+################################################################################
+# GENERIC CONFIGURATION
+################################################################################
+
+################################################################################
+# Platform config
+language: php
+os: linux
+
+################################################################################
+# Start mysql service
+services:
+  - mysql
+
+################################################################################
+# Cache composer packages so "composer install" is faster
+cache:
+  directories:
+    - $HOME/.composer/cache/files
+
+################################################################################
+# Define an environment variable
+env:
+  global:
+    - SYMFONY_DEPRECATIONS_HELPER=disabled
+
+################################################################################
 # After a build, send email notification with the build results
 notifications:
   email:         
