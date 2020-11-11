@@ -37,6 +37,7 @@ stages:
     # Execute Grump Travis Testsuite
     - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/travis/grumphp.sh | sh
   after_script:
+    ################################################################################
     # Run After Script
     - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/travis/after.sh | sh
 
