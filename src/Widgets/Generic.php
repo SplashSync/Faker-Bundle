@@ -3,7 +3,7 @@
 /*
  *  This file is part of SplashSync Project.
  *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2015-2021 Splash Sync  <www.splashsync.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -56,7 +56,7 @@ class Generic extends AbstractStandaloneWidget
      *
      * @return array
      */
-    public function options()
+    public function options(): array
     {
         return self::$OPTIONS;
     }
@@ -98,7 +98,7 @@ class Generic extends AbstractStandaloneWidget
      *
      * @return array
      */
-    public function get($params = null)
+    public function get($params = null): array
     {
         //====================================================================//
         // Stack Trace
@@ -150,7 +150,7 @@ class Generic extends AbstractStandaloneWidget
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'Faker '.$this->getSplashType().' Widget';
     }
@@ -191,7 +191,7 @@ class Generic extends AbstractStandaloneWidget
     /**
      * Block Building - Chart Demo Widget
      *
-     * @param array $params
+     * @param null|array $params
      *
      * @return void
      */
@@ -211,7 +211,7 @@ class Generic extends AbstractStandaloneWidget
         }
         //====================================================================//
         // Detect Mode
-        $mode = isset($params['chart_type']) ? $params['chart_type'] : 'Line';
+        $mode = $params['chart_type'] ?? 'Line';
         //====================================================================//
         // Morris Block
         $this->blocksFactory()->addMorrisGraphBlock($values, $mode);

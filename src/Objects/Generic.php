@@ -3,7 +3,7 @@
 /*
  *  This file is part of SplashSync Project.
  *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2015-2021 Splash Sync  <www.splashsync.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -27,8 +27,6 @@ use Splash\Models\Objects\SimpleFieldsTrait;
 
 /**
  * Generic Faker Object.
- *
- * @author nanard33
  */
 class Generic extends AbstractStandaloneObject
 {
@@ -47,7 +45,7 @@ class Generic extends AbstractStandaloneObject
     //====================================================================//
 
     /**
-     *  Object Disable Flag. Uncomment thius line to Override this flag and disable Object.
+     *  Object Disable Flag. Uncomment this line to Override this flag and disable Object.
      */
 //    protected static    $DISABLED        =  True;
 
@@ -177,7 +175,7 @@ class Generic extends AbstractStandaloneObject
     /**
      * {@inheritdoc}
      */
-    public function objectsList($filter = null, $params = null)
+    public function objectsList($filter = null, $params = null): array
     {
         //====================================================================//
         // Stack Trace
@@ -240,7 +238,7 @@ class Generic extends AbstractStandaloneObject
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return "Faker ".$this->getSplashType();
     }

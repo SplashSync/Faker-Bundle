@@ -3,7 +3,7 @@
 /*
  *  This file is part of SplashSync Project.
  *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2015-2021 Splash Sync  <www.splashsync.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -48,18 +48,7 @@ trait GeneratorTrait
                 //==============================================================================
                 // Short Objects Fields Definition
                 $this->fieldBuilder->add(SPL_T_VARCHAR, array('Listed', 'Required'));
-
                 $this->fieldBuilder->add((string) ObjectsHelper::encode('short', SPL_T_ID), array('Listed'));
-
-//                $this->fieldBuilder->add(SPL_T_BOOL, array("Listed"));
-//                $this->fieldBuilder->add(SPL_T_INT, array("Listed"));
-//                $this->fieldBuilder->add(SPL_T_BOOL, array("Group" => "Group 1"));
-//                $this->fieldBuilder->add(SPL_T_INT, array("Group" => "Group 1"));
-//                $this->fieldBuilder->add(SPL_T_VARCHAR, array("Group" => "Group 1"));
-//                $this->fieldBuilder->add(SPL_T_EMAIL, array("Listed"));
-//                $this->fieldBuilder->add(SPL_T_PHONE, array("Group" => "Group 2"));
-//                $this->fieldBuilder->add(SPL_T_MVARCHAR, array("Group" => "Multilang"));
-//                $this->fieldBuilder->add(SPL_T_MTEXT, array("Group" => "Multilang"));
 
                 break;
             case 'simple':
@@ -79,8 +68,8 @@ trait GeneratorTrait
                 $this->fieldBuilder->add(SPL_T_EMAIL, array());
                 $this->fieldBuilder->add(SPL_T_URL, array());
                 $this->fieldBuilder->add(SPL_T_PHONE, array());
+                $this->fieldBuilder->add(SPL_T_INLINE, array());
                 $this->fieldBuilder->add(SPL_T_PRICE, array('Required'));
-//                $this->fieldBuilder->add(SPL_T_PRICE, []);
 
                 break;
             case 'list':
@@ -96,7 +85,6 @@ trait GeneratorTrait
                 $this->fieldBuilder->add(SPL_T_VARCHAR.LISTSPLIT.SPL_T_LIST, array('Required'));
                 $this->fieldBuilder->add(SPL_T_TEXT.LISTSPLIT.SPL_T_LIST, array('Required'));
                 $this->fieldBuilder->add(SPL_T_EMAIL.LISTSPLIT.SPL_T_LIST, array('Required'));
-//                $this->fieldBuilder->add(SPL_T_PHONE       . LISTSPLIT . SPL_T_LIST,array());
                 $this->fieldBuilder->add(SPL_T_DATE.LISTSPLIT.SPL_T_LIST, array('Required'));
                 $this->fieldBuilder->add(SPL_T_DATETIME.LISTSPLIT.SPL_T_LIST, array('Required'));
                 $this->fieldBuilder->add(SPL_T_LANG.LISTSPLIT.SPL_T_LIST, array('Required'));
@@ -105,6 +93,7 @@ trait GeneratorTrait
                 $this->fieldBuilder->add(SPL_T_URL.LISTSPLIT.SPL_T_LIST, array('Required'));
                 $this->fieldBuilder->add(SPL_T_MVARCHAR.LISTSPLIT.SPL_T_LIST, array('Required'));
                 $this->fieldBuilder->add(SPL_T_MTEXT.LISTSPLIT.SPL_T_LIST, array('Required'));
+                $this->fieldBuilder->add(SPL_T_INLINE.LISTSPLIT.SPL_T_LIST, array('Required'));
                 $this->fieldBuilder->add(SPL_T_PRICE.LISTSPLIT.SPL_T_LIST, array('Required'));
 
                 break;

@@ -23,8 +23,10 @@ parameters:
 
     # For Building Splash Documentation
     doc-enable:         true
-    doc-contents:       ["php-composer", "php-docker", "splash"]
+    doc-contents:       ["php-composer", "php-docker", "splash-faq"]
     
+    # For Building Splash Module
+    mod-enable:         false
     # For Building Splash Manifest
     yml-enable:         false
 
@@ -32,4 +34,5 @@ parameters:
 # Import Generic + Splash Console Configs
 imports:
     - { resource: "./vendor/badpixxel/php-sdk/grumphp/generic.yml" }
+    - { resource: "./vendor/badpixxel/php-sdk/grumphp/extras.yml" }
     - { resource: "./vendor/splash/console/src/Resources/grumphp/*.yml" }

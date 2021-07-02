@@ -3,7 +3,7 @@
 /*
  *  This file is part of SplashSync Project.
  *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2015-2021 Splash Sync  <www.splashsync.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -23,10 +23,8 @@ use Splash\Connectors\Faker\Entity\FakeObject;
 
 /**
  * Faker Objects Doctrine Events Subscriber.
- *
- * @author nanard33
  */
-class DoctrineEventsSuscriber implements EventSubscriber
+class DoctrineEventsSubscriber implements EventSubscriber
 {
     /**
      * Splash Connectors Manager
@@ -60,7 +58,7 @@ class DoctrineEventsSuscriber implements EventSubscriber
      *
      * @return array
      */
-    public function getSubscribedEvents()
+    public function getSubscribedEvents(): array
     {
         // Doctrine Events
         return array('postPersist', 'postUpdate', 'preRemove');
@@ -79,7 +77,7 @@ class DoctrineEventsSuscriber implements EventSubscriber
     {
         //====================================================================//
         //  Submit Change
-        $this->doCommit($eventArgs->getEntity(), SPL_A_CREATE);
+        $this->doCommit($eventArgs->getObject(), SPL_A_CREATE);
     }
 
     /**
@@ -91,7 +89,7 @@ class DoctrineEventsSuscriber implements EventSubscriber
     {
         //====================================================================//
         //  Submit Change
-        $this->doCommit($eventArgs->getEntity(), SPL_A_UPDATE);
+        $this->doCommit($eventArgs->getObject(), SPL_A_UPDATE);
     }
 
     /**
@@ -103,7 +101,7 @@ class DoctrineEventsSuscriber implements EventSubscriber
     {
         //====================================================================//
         //  Submit Change
-        $this->doCommit($eventArgs->getEntity(), SPL_A_DELETE);
+        $this->doCommit($eventArgs->getObject(), SPL_A_DELETE);
     }
 
     /**
@@ -112,7 +110,7 @@ class DoctrineEventsSuscriber implements EventSubscriber
      * @param object $entity
      * @param string $action
      */
-    private function doCommit($entity, $action): void
+    private function doCommit(object $entity, string $action): void
     {
         //====================================================================//
         //  Check Entity is A Faker Object
@@ -140,7 +138,7 @@ class DoctrineEventsSuscriber implements EventSubscriber
                 $entity->getIdentifier(),
                 $action,
                 'Symfony Faker',
-                'Change Commited Fake '.$entity->getType()
+                'Change Committed Fake '.$entity->getType()
             );
         }
     }

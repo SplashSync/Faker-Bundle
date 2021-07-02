@@ -3,7 +3,7 @@
 /*
  *  This file is part of SplashSync Project.
  *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2015-2021 Splash Sync  <www.splashsync.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -29,11 +29,11 @@ trait CrudTrait
     //====================================================================//
 
     /**
-     * @abstract    Load Request Object
+     * Load Request Object
      *
      * @param string $objectId Object id
      *
-     * @return mixed
+     * @return ArrayObject|false
      */
     public function load($objectId)
     {
@@ -65,11 +65,11 @@ trait CrudTrait
     }
 
     /**
-     * @abstract    Create Request Object
+     * Create Request Object
      *
      * @return ArrayObject New Object
      */
-    public function create()
+    public function create(): ArrayObject
     {
         //====================================================================//
         // Stack Trace
@@ -90,9 +90,9 @@ trait CrudTrait
     }
 
     /**
-     * @abstract    Update Request Object
+     * Update Request Object
      *
-     * @param array $needed Is This Update Needed
+     * @param bool $needed Is This Update Needed
      *
      * @return false|string Object Id
      */
@@ -111,7 +111,7 @@ trait CrudTrait
     /**
      * {@inheritdoc}
      */
-    public function delete($objectId = null)
+    public function delete($objectId = null): bool
     {
         //====================================================================//
         // Safety Check

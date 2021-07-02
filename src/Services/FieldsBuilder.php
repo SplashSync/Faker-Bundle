@@ -3,7 +3,7 @@
 /*
  *  This file is part of SplashSync Project.
  *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2015-2021 Splash Sync  <www.splashsync.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -18,32 +18,32 @@ namespace Splash\Connectors\Faker\Services;
 use Splash\Components\FieldsFactory;
 
 /**
- * @abstract    Fake Nodes Fields Builder Service
+ * Fake Nodes Fields Builder Service
  */
 class FieldsBuilder
 {
     /**
-     * @abstract    Fields Types Counter
+     * Fields Types Counter
      *
      * @var array
      */
     private $counters = array();
 
     /**
-     * @abstract    Splash Fields Factory
+     * Splash Fields Factory
      *
      * @var FieldsFactory
      */
     private $fieldsFactory;
 
     /**
-     * @abstract    Setup Spash Field Factory
+     * Setup Splash Field Factory
      *
      * @param FieldsFactory $factory Splash objects Fields Factory
      *
      * @return self
      */
-    public function init(FieldsFactory $factory)
+    public function init(FieldsFactory $factory): self
     {
         //====================================================================//
         // Initialize Splash Field Factory Class
@@ -56,13 +56,13 @@ class FieldsBuilder
     }
 
     /**
-     * @abstract    Return Field Factory Data
+     * Return Field Factory Data
      *
      * @return array|false
      */
     public function publish()
     {
-        return $this->fieldsFactory->Publish();
+        return $this->fieldsFactory->publish();
     }
 
     //====================================================================//
@@ -70,31 +70,31 @@ class FieldsBuilder
     //====================================================================//
 
     /**
-     * @abstract    Increment Field Type Counter
+     * Increment Field Type Counter
      *
      * @param mixed $type
      *
      * @return int New Value
      */
-    public function count($type)
+    public function count($type): int
     {
         if (!isset($this->counters[$type])) {
             $this->counters[$type] = 0;
         }
         ++$this->counters[$type];
 
-        return $this->counters[$type];
+        return (int) $this->counters[$type];
     }
 
     /**
-     * @abstract    Add Field to FieldFactory
+     * Add Field to FieldFactory
      *
-     * @param string $fieldType
-     * @param array  $options
+     * @param string     $fieldType
+     * @param null|array $options
      *
-     * @return self
+     * @return $this
      */
-    public function add(string $fieldType, $options = null)
+    public function add(string $fieldType, array $options = null): self
     {
         //==============================================================================
         // Init Parameters
@@ -102,11 +102,12 @@ class FieldsBuilder
         $name = preg_replace('/:/', '', $fieldType.$count);
         //==============================================================================
         // Add Field Core Infos
-        $this->fieldsFactory->Create($fieldType)
-            ->Identifier((string) $name)
-            ->Name(strtoupper((string) $name))
-            ->Description('Fake Field - Type '.strtoupper($fieldType).' Item '.$count)
-            ->MicroData('http://fake.schema.org/'.$fieldType, $fieldType.$count);
+        $this->fieldsFactory->create($fieldType)
+            ->identifier((string) $name)
+            ->name(strtoupper((string) $name))
+            ->description('Fake Field - Type '.strtoupper($fieldType).' Item '.$count)
+            ->microData('http://fake.schema.org/'.$fieldType, $fieldType.$count)
+        ;
 
         //==============================================================================
         // No Options   => Exit
@@ -138,23 +139,22 @@ class FieldsBuilder
     }
 
     /**
-     * @abstract    Add Meta Field to FieldFactory
+     * Add Meta Field to FieldFactory
      *
-     * @param string $metaType
-     * @param array  $options
+     * @param string     $metaType
+     * @param null|array $options
      *
      * @return self
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    public function addMeta($metaType, $options = null)
+    public function addMeta(string $metaType, array $options = null): self
     {
         //==============================================================================
         // Init Parameters
         $count = $this->count($metaType);
         $name = 'm_'.$metaType.$count;
-
         //==============================================================================
         //      Detect Meta Data Field Type
         switch ($metaType) {
@@ -166,7 +166,7 @@ class FieldsBuilder
             case FieldsFactory::META_DATECREATED:
             //==============================================================================
             //      OPENOBJECT => Source Node Id
-            case FieldsFactory::META_OBJECTID:
+            case FieldsFactory::META_ORIGIN_NODE_ID:
                 $fieldType = SPL_T_VARCHAR;
 
                 break;
@@ -175,15 +175,14 @@ class FieldsBuilder
             default:
                 return $this;
         }
-
         //==============================================================================
         // Add Field Core Infos
-        $this->fieldsFactory->Create($fieldType)
-            ->Identifier($name)
-            ->Name(strtoupper($name))
-            ->Description('Fake Field - Meta Type '.strtoupper($metaType).' Item '.$count)
-            ->MicroData(FieldsFactory::META_URL, $metaType);
-
+        $this->fieldsFactory->create($fieldType)
+            ->identifier($name)
+            ->name(strtoupper($name))
+            ->description('Fake Field - Meta Type '.strtoupper($metaType).' Item '.$count)
+            ->microData(FieldsFactory::META_URL, $metaType)
+        ;
         //==============================================================================
         // No Options   => Exit
         if (null === $options) {
@@ -214,14 +213,14 @@ class FieldsBuilder
     }
 
     /**
-     * @abstract    Compare Two Fields Definition Array
+     * Compare Two Fields Definition Array
      *
      * @param array $source
      * @param array $target
      *
      * @return bool
      */
-    public function compare($source, $target)
+    public function compare(array $source, array$target): bool
     {
         //==============================================================================
         // Compare Each Array Row

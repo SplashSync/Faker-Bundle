@@ -3,7 +3,7 @@
 /*
  *  This file is part of SplashSync Project.
  *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2015-2021 Splash Sync  <www.splashsync.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -17,21 +17,21 @@ namespace Splash\Connectors\Faker\Controller;
 
 use Splash\Bundle\Models\AbstractConnector;
 use Splash\Bundle\Models\Local\ActionsTrait;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @abstract    Splash Faker Connector Actions Controller
+ * Splash Faker Connector Actions Controller
  */
-class ActionsController extends Controller
+class ActionsController extends AbstractController
 {
     use ActionsTrait;
 
     /**
-     * @abstract    Master Fake Controller Action
+     * Master Fake Controller Action
      *
      * @return Response
      */
@@ -43,7 +43,7 @@ class ActionsController extends Controller
     }
 
     /**
-     * @abstract    Index Fake Controller Action
+     * Index Fake Controller Action
      *
      * @return Response
      */
@@ -88,7 +88,7 @@ class ActionsController extends Controller
     }
 
     /**
-     * @abstract    Invalidate Fake Controller Action
+     * Invalidate Fake Controller Action
      *
      * @param Request           $request
      * @param AbstractConnector $connector
@@ -121,7 +121,7 @@ class ActionsController extends Controller
     }
 
     /**
-     * @abstract    Fail Test Fake Controller Action
+     * Fail Test Fake Controller Action
      *
      * @return Response
      */

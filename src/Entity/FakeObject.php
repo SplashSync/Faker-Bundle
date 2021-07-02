@@ -3,7 +3,7 @@
 /*
  *  This file is part of SplashSync Project.
  *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2015-2021 Splash Sync  <www.splashsync.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -18,7 +18,7 @@ namespace Splash\Connectors\Faker\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @abstract    Splash Fake/Testing Objects
+ * Splash Fake/Testing Objects
  *
  * @ORM\Table(name="splash__faker__objects")
  * @ORM\Entity(repositoryClass="Splash\Connectors\Faker\Repository\FakeObjectRepository")
@@ -44,7 +44,7 @@ class FakeObject
     //==============================================================================
 
     /**
-     * @abstract    Fake Object Type Name
+     * Fake Object Type Name
      *
      * @var string
      *
@@ -53,7 +53,7 @@ class FakeObject
     private $type;
 
     /**
-     * @abstract    Fake Object Identifier
+     * Fake Object Identifier
      *
      * @var string
      *
@@ -62,7 +62,7 @@ class FakeObject
     private $identifier;
 
     /**
-     * @abstract    Fake Object Data
+     * Fake Object Data
      *
      * @var array
      *
@@ -75,7 +75,7 @@ class FakeObject
     //==============================================================================
 
     /**
-     * @abstract Convert Object to String
+     * Convert Object to String
      *
      * @return string
      */
