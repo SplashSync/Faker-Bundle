@@ -55,3 +55,4 @@
 /docs/yarn.lock
 /.idea/
 /.php-cs-fixer.cache
+/public/
