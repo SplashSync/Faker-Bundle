@@ -16,7 +16,7 @@
 namespace Splash\Connectors\Faker\EventSubscriber;
 
 use Doctrine\Common\EventSubscriber;
-use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Splash\Bundle\Connectors\Standalone;
 use Splash\Bundle\Services\ConnectorsManager;
 use Splash\Connectors\Faker\Entity\FakeObject;
