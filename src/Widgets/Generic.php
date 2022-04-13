@@ -3,7 +3,7 @@
 /*
  *  This file is part of SplashSync Project.
  *
- *  Copyright (C) 2015-2021 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) Splash Sync  <www.splashsync.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -23,10 +23,10 @@ use Splash\Core\SplashCore      as Splash;
  */
 class Generic extends AbstractStandaloneWidget
 {
-    //====================================================================//
-    // Define Standard Options for this Widget
-    // Override this array to change default options for your widget
-    public static $OPTIONS = array(
+    /**
+     * {@inheritdoc}
+     */
+    public static array $options = array(
         'Width' => self::SIZE_DEFAULT,
         'UseCache' => true,
         'CacheLifeTime' => 1,
@@ -35,51 +35,41 @@ class Generic extends AbstractStandaloneWidget
     /**
      * {@inheritdoc}
      */
-    protected static $NAME = 'Faker Generic Widget';
+    protected static string $name = 'Faker Generic Widget';
 
     /**
      * {@inheritdoc}
      */
-    protected static $DESCRIPTION = 'Fake Widgets for Démo';
+    protected static string $description = 'Fake Widgets for Démo';
 
     /**
      * {@inheritdoc}
      */
-    protected static $ICO = 'fa fa-user-secret';
+    protected static string $ico = 'fa fa-user-secret';
 
     //====================================================================//
     // Class Main Functions
     //====================================================================//
 
     /**
-     * Return Widget Customs Options
+     * Return Widget Customs Parameters
      *
      * @return array
      */
-    public function options(): array
-    {
-        return self::$OPTIONS;
-    }
-
-    /**
-     * Return Widget Customs Parameters
-     *
-     * @return array|false
-     */
-    public function getParameters()
+    public function getParameters(): array
     {
         switch ($this->getSplashType()) {
             case 'Morris':
                 //====================================================================//
                 // Select Chart Rendering Mode
                 $this->fieldsFactory()->create(SPL_T_TEXT)
-                    ->Identifier('chart_type')
-                    ->Name('Rendering Mode')
+                    ->identifier('chart_type')
+                    ->name('Rendering Mode')
                     ->isRequired()
-                    ->AddChoice('Line', 'Line Chart')
-                    ->AddChoice('Bar', 'Bar Chart')
-                    ->AddChoice('Area', 'Area Chart')
-                        ;
+                    ->addChoice('Line', 'Line Chart')
+                    ->addChoice('Bar', 'Bar Chart')
+                    ->addChoice('Area', 'Area Chart')
+                ;
 
                 break;
             default:
@@ -88,7 +78,7 @@ class Generic extends AbstractStandaloneWidget
 
         //====================================================================//
         // Publish Fields
-        return $this->fieldsFactory()->publish();
+        return $this->fieldsFactory()->publish() ?? array();
     }
 
     /**

@@ -3,7 +3,7 @@
 /*
  *  This file is part of SplashSync Project.
  *
- *  Copyright (C) 2015-2021 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) Splash Sync  <www.splashsync.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,6 +15,7 @@
 
 namespace Splash\Connectors\Faker\Objects;
 
+use ArrayObject;
 use Doctrine\ORM\EntityManagerInterface;
 use Splash\Bundle\Models\AbstractStandaloneObject;
 use Splash\Client\Splash;
@@ -45,19 +46,14 @@ class Generic extends AbstractStandaloneObject
     //====================================================================//
 
     /**
-     *  Object Disable Flag. Uncomment this line to Override this flag and disable Object.
+     * {@inheritdoc}
      */
-//    protected static    $DISABLED        =  True;
+    protected static string $description = 'Faker Object';
 
     /**
      * {@inheritdoc}
      */
-    protected static $DESCRIPTION = 'Faker Object';
-
-    /**
-     * {@inheritdoc}
-     */
-    protected static $ICO = 'fa fa-magic';
+    protected static string $ico = 'fa fa-magic';
 
     //====================================================================//
     // Private variables
@@ -66,19 +62,24 @@ class Generic extends AbstractStandaloneObject
     /**
      * @var FakeObject
      */
-    protected $entity;
+    protected FakeObject $entity;
+
+    /**
+     * @var ArrayObject
+     */
+    protected object $object;
 
     /**
      * Doctrine Entity Manager
      *
      * @var EntityManagerInterface
      */
-    protected $entityManager;
+    protected EntityManagerInterface $entityManager;
 
     /**
      * @var FieldsBuilder
      */
-    protected $fieldBuilder;
+    protected FieldsBuilder $fieldBuilder;
 
     //====================================================================//
     // Service Constructor
@@ -129,7 +130,7 @@ class Generic extends AbstractStandaloneObject
      *
      * @SuppressWarnings(PHPMD.ElseExpression)
      */
-    public function getCoreFields($key, $fieldName)
+    public function getCoreFields(string $key, string $fieldName): void
     {
         //====================================================================//
         // Stack Trace
@@ -161,7 +162,7 @@ class Generic extends AbstractStandaloneObject
      *
      * @return void
      */
-    public function setCoreFields($fieldName, $data)
+    public function setCoreFields(string $fieldName, $data): void
     {
         //====================================================================//
         // Stack Trace

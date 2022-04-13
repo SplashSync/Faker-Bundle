@@ -3,7 +3,7 @@
 /*
  *  This file is part of SplashSync Project.
  *
- *  Copyright (C) 2015-2021 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) Splash Sync  <www.splashsync.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -33,9 +33,9 @@ trait CrudTrait
      *
      * @param string $objectId Object id
      *
-     * @return ArrayObject|false
+     * @return null|ArrayObject
      */
-    public function load($objectId)
+    public function load(string $objectId): ?ArrayObject
     {
         //====================================================================//
         // Stack Trace
@@ -52,9 +52,11 @@ trait CrudTrait
         //====================================================================//
         // Check Object Entity was Found
         if (!$entity) {
-            return Splash::log()->errTrace(
+            Splash::log()->errTrace(
                 ' Unable to load '.$this->getName().' ('.$objectId.').'
             );
+
+            return null;
         }
         $this->entity = $entity;
 
@@ -94,13 +96,14 @@ trait CrudTrait
      *
      * @param bool $needed Is This Update Needed
      *
-     * @return false|string Object Id
+     * @return null|string Object ID
      */
-    public function update($needed)
+    public function update(bool $needed): ?string
     {
         //====================================================================//
         // Save
         if ($needed) {
+            // @phpstan-ignore-next-line
             $this->entity->setData($this->object->getArrayCopy());
             $this->entityManager->flush();
         }
@@ -111,7 +114,7 @@ trait CrudTrait
     /**
      * {@inheritdoc}
      */
-    public function delete($objectId = null): bool
+    public function delete(string $objectId): bool
     {
         //====================================================================//
         // Safety Check
@@ -133,10 +136,10 @@ trait CrudTrait
     /**
      * {@inheritdoc}
      */
-    public function getObjectIdentifier()
+    public function getObjectIdentifier(): ?string
     {
         if (empty($this->entity->getIdentifier())) {
-            return false;
+            return null;
         }
 
         return $this->entity->getIdentifier();

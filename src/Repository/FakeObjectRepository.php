@@ -3,7 +3,7 @@
 /*
  *  This file is part of SplashSync Project.
  *
- *  Copyright (C) 2015-2021 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) Splash Sync  <www.splashsync.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,12 +15,13 @@
 
 namespace Splash\Connectors\Faker\Repository;
 
+use Doctrine\ORM\EntityRepository;
 use Exception;
 
 /**
  * Splash Faker Objects Storage repository
  */
-class FakeObjectRepository extends \Doctrine\ORM\EntityRepository
+class FakeObjectRepository extends EntityRepository
 {
     /**
      * Count Number of Objects of Same Type
@@ -48,7 +49,7 @@ class FakeObjectRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('filter', $filter)
             ;
         }
-
+        // @phpstan-ignore-next-line
         return $builder->getQuery()->getSingleScalarResult();
     }
 }

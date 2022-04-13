@@ -3,7 +3,7 @@
 /*
  *  This file is part of SplashSync Project.
  *
- *  Copyright (C) 2015-2021 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) Splash Sync  <www.splashsync.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -32,7 +32,7 @@ class FakeObject
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected ?int $id;
 
     /**
      * @var string
@@ -50,7 +50,7 @@ class FakeObject
      *
      * @ORM\Column(name="type", type="string", length=255)
      */
-    private $type;
+    private string $type;
 
     /**
      * Fake Object Identifier
@@ -59,7 +59,7 @@ class FakeObject
      *
      * @ORM\Column(name="identifier", type="string", length=255)
      */
-    private $identifier;
+    private string $identifier;
 
     /**
      * Fake Object Data
@@ -68,7 +68,7 @@ class FakeObject
      *
      * @ORM\Column(name="data", type="object")
      */
-    private $data;
+    private array $data = array();
 
     //==============================================================================
     //      DATA OPERATIONS
@@ -89,13 +89,13 @@ class FakeObject
     //==============================================================================
 
     /**
-     * Get id.
+     * Get ID.
      *
-     * @return int
+     * @return null|int
      */
-    public function getId()
+    public function getId(): ?int
     {
-        return $this->id;
+        return $this->id ?? null;
     }
 
     /**
@@ -105,7 +105,7 @@ class FakeObject
      *
      * @return $this
      */
-    public function setType($type)
+    public function setType(string $type): self
     {
         $this->type = $type;
 
@@ -117,7 +117,7 @@ class FakeObject
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
@@ -129,7 +129,7 @@ class FakeObject
      *
      * @return $this
      */
-    public function setIdentifier($identifier)
+    public function setIdentifier(string $identifier): self
     {
         $this->identifier = $identifier;
 
@@ -141,7 +141,7 @@ class FakeObject
      *
      * @return string
      */
-    public function getIdentifier()
+    public function getIdentifier(): string
     {
         return $this->identifier;
     }
@@ -149,12 +149,12 @@ class FakeObject
     /**
      * Set Field.
      *
-     * @param string    $objectId   Object Id
-     * @param \stdClass $objectData Object Field Data
+     * @param string            $objectId   Object ID
+     * @param null|array|scalar $objectData Object Field Data
      *
      * @return $this
      */
-    public function setField(string $objectId, $objectData)
+    public function setField(string $objectId, $objectData): self
     {
         $this->data[$objectId] = $objectData;
 
@@ -164,11 +164,11 @@ class FakeObject
     /**
      * Set data.
      *
-     * @param array $objectData
+     * @param array<null|array|scalar> $objectData
      *
      * @return self
      */
-    public function setData($objectData)
+    public function setData(array $objectData): self
     {
         //====================================================================//
         // Raw Write of Object Data
@@ -180,11 +180,11 @@ class FakeObject
     /**
      * Get data.
      *
-     * @param string $fieldId Field Name or Null
+     * @param null|string $fieldId Field Name or Null
      *
      * @return null|array|string
      */
-    public function getData($fieldId = null)
+    public function getData(string $fieldId = null)
     {
         if ($fieldId) {
             if (!isset($this->data[$fieldId])) {
@@ -204,7 +204,7 @@ class FakeObject
      *
      * @return self
      */
-    public function setCondition($condition)
+    public function setCondition($condition): self
     {
         $this->condition = $condition;
 

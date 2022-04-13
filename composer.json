@@ -32,12 +32,12 @@
     },
 
     "require": {
-        "php":                                          "^7.2|^8.0",
-        "splash/php-bundle":                            "@stable"
+        "php":                                          "^7.4|^8.0",
+        "splash/php-bundle":                            "dev-master"
     },
     
     "require-dev": {
-        "badpixxel/php-sdk":                            "dev-main",
+        "badpixxel/php-sdk":                            "~2.0",
 
         "splash/php-bundle":                            "dev-master",
         "splash/console":                               "dev-master",
