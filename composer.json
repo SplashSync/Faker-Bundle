@@ -33,13 +33,13 @@
 
     "require": {
         "php":                                          "^7.2|^8.0",
-        "splash/php-bundle":                            "@stable"
+        "splash/php-bundle":                            "~1.7"
     },
     
     "require-dev": {
-        "badpixxel/php-sdk":                            "dev-main",
+        "badpixxel/php-sdk":                            "~1.0",
 
-        "splash/php-bundle":                            "dev-master",
+        "splash/php-bundle":                            "1.0.x-dev",
         "splash/console":                               "dev-master",
         
         "symfony/symfony":                              "~4.4",
