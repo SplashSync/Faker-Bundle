@@ -27,6 +27,8 @@ use Splash\Models\Objects\SimpleFieldsTrait;
 
 /**
  * Generic Faker Object.
+ *
+ * @SuppressWarnings(PHPMD.CamelCasePropertyName)
  */
 class Generic extends AbstractStandaloneObject
 {
