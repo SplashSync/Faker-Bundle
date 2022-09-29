@@ -17,6 +17,7 @@ namespace Splash\Connectors\Faker\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Exception;
+use Splash\Connectors\Faker\Entity\FakeObject;
 
 /**
  * Splash Faker Objects Storage repository
@@ -51,5 +52,42 @@ class FakeObjectRepository extends EntityRepository
         }
         // @phpstan-ignore-next-line
         return $builder->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * Identify Object Using Primary Keys
+     *
+     * @param string                $type
+     * @param array<string, string> $keys Primary Keys List
+     *
+     * @throws Exception
+     *
+     * @return null|FakeObject
+     */
+    public function findByPrimaryKeys(string $type, array $keys): ?FakeObject
+    {
+        $builder = $this->createQueryBuilder('o');
+        //====================================================================//
+        // Filter on Object Type
+        $builder
+            ->where($builder->expr()->eq("o.type", ":fakeObjectType"))
+            ->setParameter(":fakeObjectType", $type)
+        ;
+        //====================================================================//
+        // Walk on Primary Keys
+        foreach ($keys as $name => $value) {
+            //====================================================================//
+            // Build data Serialized Value
+            $serialized = serialize(array($name => $value));
+            $serializedString = substr($serialized, 5, strlen($serialized) - 6);
+            //====================================================================//
+            // Add Value to Query Builder
+            $builder
+                ->andWhere($builder->expr()->like("o.data", ":".$name))
+                ->setParameter(":".$name, '%'.$serializedString.'%')
+            ;
+        }
+        // @phpstan-ignore-next-line
+        return $builder->getQuery()->getOneOrNullResult();
     }
 }

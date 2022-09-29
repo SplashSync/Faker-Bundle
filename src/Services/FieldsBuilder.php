@@ -93,6 +93,9 @@ class FieldsBuilder
      * @param null|array $options
      *
      * @return $this
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function add(string $fieldType, array $options = null): self
     {
@@ -122,8 +125,14 @@ class FieldsBuilder
         if (\in_array('Required', $options, true)) {
             $this->fieldsFactory->isRequired();
         }
+        if (\in_array('Primary', $options, true)) {
+            $this->fieldsFactory->isPrimary();
+        }
         if (\in_array('Listed', $options, true)) {
             $this->fieldsFactory->isListed();
+        }
+        if (\in_array('ListHidden', $options, true)) {
+            $this->fieldsFactory->isListHidden();
         }
         if (\in_array('Logged', $options, true)) {
             $this->fieldsFactory->isLogged();

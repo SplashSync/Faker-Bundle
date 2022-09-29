@@ -28,6 +28,7 @@ services:
             # Register Faker Standalone Connector Objects           
             - { name: "splash.standalone.object", type : "short" }            
             - { name: "splash.standalone.object", type : "simple" }
+            - { name: "splash.standalone.object", type : "primary" }
             - { name: "splash.standalone.object", type : "list" }
             - { name: "splash.standalone.object", type : "image" }
             # Register Faker Actions

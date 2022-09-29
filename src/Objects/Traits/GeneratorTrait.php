@@ -55,7 +55,7 @@ trait GeneratorTrait
                 //==============================================================================
                 // Simple Objects Fields Definition
                 $this->fieldBuilder->add(SPL_T_VARCHAR, array('Listed', 'Required'));
-                $this->fieldBuilder->add(SPL_T_VARCHAR, array());
+                $this->fieldBuilder->add(SPL_T_VARCHAR, array('ListHidden'));
                 $this->fieldBuilder->add(SPL_T_BOOL, array());
                 $this->fieldBuilder->add(SPL_T_INT, array('Listed', 'Required'));
                 $this->fieldBuilder->add(SPL_T_DOUBLE, array());
@@ -70,6 +70,16 @@ trait GeneratorTrait
                 $this->fieldBuilder->add(SPL_T_PHONE, array());
                 $this->fieldBuilder->add(SPL_T_INLINE, array());
                 $this->fieldBuilder->add(SPL_T_PRICE, array('Required'));
+
+                break;
+            case 'primary':
+                //==============================================================================
+                // Short Objects Fields Definition
+                $this->fieldBuilder->add(SPL_T_VARCHAR, array('Listed', 'Required', 'Primary'));
+                $this->fieldBuilder->add((string) ObjectsHelper::encode('short', SPL_T_ID), array('Listed'));
+                $this->fieldBuilder->add(SPL_T_BOOL, array());
+                $this->fieldBuilder->add(SPL_T_INT, array('Listed', 'Required'));
+                $this->fieldBuilder->add(SPL_T_DOUBLE, array());
 
                 break;
             case 'list':

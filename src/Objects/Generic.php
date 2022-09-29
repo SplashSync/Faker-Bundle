@@ -24,12 +24,13 @@ use Splash\Connectors\Faker\Repository\FakeObjectRepository;
 use Splash\Connectors\Faker\Services\FieldsBuilder;
 use Splash\Models\Objects\IntelParserTrait;
 use Splash\Models\Objects\ListsTrait;
+use Splash\Models\Objects\PrimaryKeysAwareInterface;
 use Splash\Models\Objects\SimpleFieldsTrait;
 
 /**
  * Generic Faker Object.
  */
-class Generic extends AbstractStandaloneObject
+class Generic extends AbstractStandaloneObject implements PrimaryKeysAwareInterface
 {
     // Splash Php Core Traits
     use IntelParserTrait;
@@ -234,6 +235,23 @@ class Generic extends AbstractStandaloneObject
         //====================================================================//
         // Return result
         return $response;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getByPrimary(array $keys): ?string
+    {
+        //====================================================================//
+        // Stack Trace
+        Splash::log()->trace();
+        /** @var FakeObjectRepository $repository */
+        $repository = $this->entityManager->getRepository(FakeObject::class);
+        //====================================================================//
+        // Get Repository
+        $object = $repository->findByPrimaryKeys($this->getSplashType(), $keys);
+
+        return $object ? $object->getIdentifier() : null;
     }
 
     /**
