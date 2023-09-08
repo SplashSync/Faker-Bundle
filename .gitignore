@@ -57,3 +57,4 @@
 /.php-cs-fixer.cache
 /public/
 /var/
+/.phpunit.result.cache
