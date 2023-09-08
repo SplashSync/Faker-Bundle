@@ -21,6 +21,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Splash Fake/Testing Objects
  *
  * @ORM\Table(name="splash__faker__objects")
+ *
  * @ORM\Entity(repositoryClass="Splash\Connectors\Faker\Repository\FakeObjectRepository")
  */
 class FakeObject
@@ -29,7 +30,9 @@ class FakeObject
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected ?int $id;

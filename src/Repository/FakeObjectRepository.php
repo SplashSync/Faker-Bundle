@@ -46,10 +46,11 @@ class FakeObjectRepository extends EntityRepository
 
         if ($filter) {
             $builder
-                ->where('identifier = :filter')
+                ->andWhere('o.identifier = :filter')
                 ->setParameter('filter', $filter)
             ;
         }
+
         // @phpstan-ignore-next-line
         return $builder->getQuery()->getSingleScalarResult();
     }
@@ -87,6 +88,7 @@ class FakeObjectRepository extends EntityRepository
                 ->setParameter(":".$name, '%'.$serializedString.'%')
             ;
         }
+
         // @phpstan-ignore-next-line
         return $builder->getQuery()->getOneOrNullResult();
     }

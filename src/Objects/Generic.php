@@ -111,7 +111,7 @@ class Generic extends AbstractStandaloneObject implements PrimaryKeysAwareInterf
      *
      * @return void
      */
-    public function buildCoreFields()
+    public function buildCoreFields(): void
     {
         //====================================================================//
         // Stack Trace
@@ -200,8 +200,8 @@ class Generic extends AbstractStandaloneObject implements PrimaryKeysAwareInterf
         $data = $repository->findBy(
             $search,
             array(),
-            isset($params['max']) ? $params['max'] : null,
-            isset($params['offset']) ? $params['offset'] : null
+            $params['max'] ?? null,
+            $params['offset'] ?? null
         );
 
         //====================================================================//

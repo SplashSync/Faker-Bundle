@@ -1,4 +1,13 @@
 services:
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    ################################################################################
+    # AutoWire for Controllers
+    Splash\Connectors\Faker\Actions\:
+        resource: '../../Actions'
+        tags: ['controller.service_arguments', 'container.service_subscriber']
 
     ########################################################################
     # Splash Faker Standalone Events Listener for Symfony
@@ -32,11 +41,11 @@ services:
             - { name: "splash.standalone.object", type : "list" }
             - { name: "splash.standalone.object", type : "image" }
             # Register Faker Actions
-            - { name: "splash.standalone.action", type : "master",      action: "FakerBundle:Actions:master"}
-            - { name: "splash.standalone.action", type : "index",       action: "FakerBundle:Actions:index"}
-            - { name: "splash.standalone.action", type : "validate",    action: "FakerBundle:Actions:validate"}
-            - { name: "splash.standalone.action", type : "invalidate",  action: "FakerBundle:Actions:invalidate"}
-            - { name: "splash.standalone.action", type : "fail",        action: "FakerBundle:Actions:fail"}
+            - { name: "splash.standalone.action", type : "master",      action: "\\Splash\\Connectors\\Faker\\Actions\\Master" }
+            - { name: "splash.standalone.action", type : "index",       action: "\\Splash\\Connectors\\Faker\\Actions\\Master" }
+            - { name: "splash.standalone.action", type : "validate",    action: "\\Splash\\Connectors\\Faker\\Actions\\Validate" }
+            - { name: "splash.standalone.action", type : "invalidate",  action: "\\Splash\\Connectors\\Faker\\Actions\\Invalidate" }
+            - { name: "splash.standalone.action", type : "fail",        action: "\\Splash\\Connectors\\Faker\\Actions\\Fail" }
             
     ########################################################################
     # Splash Faker Generic Widget

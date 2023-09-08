@@ -56,3 +56,4 @@
 /.idea/
 /.php-cs-fixer.cache
 /public/
+/var/

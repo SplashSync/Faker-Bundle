@@ -170,17 +170,17 @@ class FieldsBuilder
             //==============================================================================
             //      OPENOBJECT => Mongo ObjectId
             case FieldsFactory::META_OBJECTID:
-            //==============================================================================
-            //      OPENOBJECT => Creation Date
+                //==============================================================================
+                //      OPENOBJECT => Creation Date
             case FieldsFactory::META_DATECREATED:
-            //==============================================================================
-            //      OPENOBJECT => Source Node Id
+                //==============================================================================
+                //      OPENOBJECT => Source Node Id
             case FieldsFactory::META_ORIGIN_NODE_ID:
                 $fieldType = SPL_T_VARCHAR;
 
                 break;
-            //==============================================================================
-            //      UNKNOWN => Exit
+                //==============================================================================
+                //      UNKNOWN => Exit
             default:
                 return $this;
         }

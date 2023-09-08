@@ -59,17 +59,17 @@ trait GeneratorTrait
                 $this->fieldBuilder->add(SPL_T_BOOL, array());
                 $this->fieldBuilder->add(SPL_T_INT, array('Listed', 'Required'));
                 $this->fieldBuilder->add(SPL_T_DOUBLE, array());
-                $this->fieldBuilder->add(SPL_T_DATE, array());
-                $this->fieldBuilder->add(SPL_T_DATETIME, array());
-                $this->fieldBuilder->add(SPL_T_CURRENCY, array());
-                $this->fieldBuilder->add(SPL_T_LANG, array());
-                $this->fieldBuilder->add(SPL_T_STATE, array());
-                $this->fieldBuilder->add(SPL_T_COUNTRY, array());
-                $this->fieldBuilder->add(SPL_T_EMAIL, array());
-                $this->fieldBuilder->add(SPL_T_URL, array());
-                $this->fieldBuilder->add(SPL_T_PHONE, array());
-                $this->fieldBuilder->add(SPL_T_INLINE, array());
-                $this->fieldBuilder->add(SPL_T_PRICE, array('Required'));
+                $this->fieldBuilder->add(SPL_T_DATE, array("Group" => "Group 1"));
+                $this->fieldBuilder->add(SPL_T_DATETIME, array("Group" => "Group 1"));
+                $this->fieldBuilder->add(SPL_T_CURRENCY, array("Group" => "Group 1"));
+                $this->fieldBuilder->add(SPL_T_LANG, array("Group" => "Group 1"));
+                $this->fieldBuilder->add(SPL_T_STATE, array("Group" => "Group 1"));
+                $this->fieldBuilder->add(SPL_T_COUNTRY, array("Group" => "Group 1"));
+                $this->fieldBuilder->add(SPL_T_EMAIL, array("Group" => "Group 2"));
+                $this->fieldBuilder->add(SPL_T_URL, array("Group" => "Group 2"));
+                $this->fieldBuilder->add(SPL_T_PHONE, array("Group" => "Group 2"));
+                $this->fieldBuilder->add(SPL_T_INLINE, array("Group" => "Group 2"));
+                $this->fieldBuilder->add(SPL_T_PRICE, array('Required', "Group" => "Group 2"));
 
                 break;
             case 'primary':

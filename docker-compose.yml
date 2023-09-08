@@ -42,16 +42,6 @@ services:
             - ./:/var/www/html
             - vendor-php80:/var/www/html/vendor
 
-    ################################################################################
-    # PHP 7.4
-    php-7.4:
-        image:      registry.gitlab.com/badpixxel-projects/php-sdk:php-7.4
-        container_name: php-faker-7.4
-        volumes:
-            - ./:/var/www/html
-            - vendor-php74:/var/www/html/vendor
-
 volumes:
     vendor-php81: ~
     vendor-php80: ~
-    vendor-php74: ~
