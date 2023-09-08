@@ -18,23 +18,23 @@
 ################################################################
 # Defined Pipeline Stages
 stages:
-  - tests
+  - quality
   - deploy
 
 ################################################################
 # Functional Tests
 ################################################################
 
-.core_tests:    &core_tests
-    stage:      tests
+.quality_tests:    &quality_tests
+    stage:      quality
     tags:
         - Dedicated
     script:
         ################################################################################
         # Configure Environment
         - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/ci/configure.sh | sh
-        # Composer Build
-        - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/ci/composer.sh | sh
+       # Install Symfony
+        - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/symfony/install.sh | sh
         # Execute Grump Travis Testsuite
         - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/ci/grumphp.sh | sh
     after_script:
@@ -44,11 +44,11 @@ stages:
 
 tests:php-8.1:
       image: registry.gitlab.com/badpixxel-projects/php-sdk:php-8.0
-      <<: *core_tests
+      <<: *quality_tests
 
 tests:php-8.0:
-    image: registry.gitlab.com/badpixxel-projects/php-sdk:php-8.0
-    <<: *core_tests
+      image: registry.gitlab.com/badpixxel-projects/php-sdk:php-8.0
+      <<: *quality_tests
 
 ################################################################
 # Build Documentation
