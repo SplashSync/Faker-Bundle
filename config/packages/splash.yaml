@@ -1,0 +1,15 @@
+
+splash:
+    ################################################################################
+    # List of Available Connector Connections
+    ################################################################################
+    connections:
+
+        ########################################################################
+        # Faker Server
+        faker:
+            id:                 ThisIsFakerWsId
+            key:                ThisIsNotASecretKeyForFaker
+            name:               Serveur 1 (Faker)
+            host:               "http://127.0.0.1:8000/ws/soap"
+            server_host:        "http://127.0.0.1:8000"
