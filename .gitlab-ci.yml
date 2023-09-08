@@ -22,33 +22,60 @@ stages:
   - deploy
 
 ################################################################
-# Functional Tests
+# Base Job
 ################################################################
 
-.quality_tests:    &quality_tests
-    stage:      quality
+.base:    &base
     tags:
         - Dedicated
-    script:
+    before_script:
         ################################################################################
         # Configure Environment
         - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/ci/configure.sh | sh
-       # Install Symfony
+        # Install Symfony
         - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/symfony/install.sh | sh
-        # Execute Grump Travis Testsuite
-        - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/ci/grumphp.sh | sh
     after_script:
         ################################################################################
         # Run After Script
         - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/ci/after.sh | sh
 
-tests:php-8.1:
-      image: registry.gitlab.com/badpixxel-projects/php-sdk:php-8.0
-      <<: *quality_tests
+################################################################
+# Quality Tests
+################################################################
 
-tests:php-8.0:
+.quality:    &quality
+  <<: *base
+  stage:      quality
+  script:
+    # Execute Grump Travis Testsuite
+    - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/ci/grumphp.sh | sh
+
+quality:php-8.1:
+  image: registry.gitlab.com/badpixxel-projects/php-sdk:php-8.0
+  <<: *quality
+
+quality:php-8.0:
+  image: registry.gitlab.com/badpixxel-projects/php-sdk:php-8.0
+  <<: *quality
+
+################################################################
+# Functional Tests
+################################################################
+
+.functional:    &functional
+    <<: *base
+    stage:      quality
+    script:
+      # Execute PhpUnit Tests
+      - vendor/bin/phpunit
+
+functional:php-8.1:
       image: registry.gitlab.com/badpixxel-projects/php-sdk:php-8.0
-      <<: *quality_tests
+      <<: *functional
+
+functional:php-8.0:
+      image: registry.gitlab.com/badpixxel-projects/php-sdk:php-8.0
+      <<: *functional
 
 ################################################################
 # Build Documentation
