@@ -45,19 +45,20 @@ stages:
 ################################################################
 
 .quality:    &quality
-  <<: *base
-  stage:      quality
-  script:
-    # Execute Grump Travis Testsuite
-    - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/ci/grumphp.sh | sh
+    <<: *base
+    stage:      quality
+    script:
+        # Execute Grumphp Testsuite
+        - wall-e grumphp:quality
+        - wall-e grumphp:stan
 
 quality:php-8.1:
-  image: registry.gitlab.com/badpixxel-projects/php-sdk:php-8.0
-  <<: *quality
+    image: registry.gitlab.com/badpixxel-projects/php-sdk:php-8.0
+    <<: *quality
 
 quality:php-8.0:
-  image: registry.gitlab.com/badpixxel-projects/php-sdk:php-8.0
-  <<: *quality
+    image: registry.gitlab.com/badpixxel-projects/php-sdk:php-8.0
+    <<: *quality
 
 ################################################################
 # Functional Tests
@@ -71,12 +72,12 @@ quality:php-8.0:
       - vendor/bin/phpunit
 
 functional:php-8.1:
-      image: registry.gitlab.com/badpixxel-projects/php-sdk:php-8.0
-      <<: *functional
+    image: registry.gitlab.com/badpixxel-projects/php-sdk:php-8.0
+    <<: *functional
 
 functional:php-8.0:
-      image: registry.gitlab.com/badpixxel-projects/php-sdk:php-8.0
-      <<: *functional
+    image: registry.gitlab.com/badpixxel-projects/php-sdk:php-8.0
+    <<: *functional
 
 ################################################################
 # Build Documentation
