@@ -30,9 +30,10 @@
         "splash/toolkit":                               "dev-master"
     },
     "config": {
+        "bin-dir":              "bin",
         "allow-plugins": {
-            "phpro/grumphp": true,
-            "symfony/runtime": true
+            "phpro/grumphp":    true,
+            "symfony/runtime":  true
         }
     }
 }

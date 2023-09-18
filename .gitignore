@@ -58,3 +58,4 @@
 /public/
 /var/
 /.phpunit.result.cache
+/bin/
