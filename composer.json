@@ -22,6 +22,11 @@
             "Splash\\Connectors\\Faker\\":          "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Splash\\Connectors\\Faker\\Tests\\":          "tests/"
+        }
+    },
     "require": {
         "php":                                          "^8.0"
     },

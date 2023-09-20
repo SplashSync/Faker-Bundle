@@ -21,6 +21,8 @@ use Splash\Connectors\Faker\Entity\FakeObject;
 
 /**
  * Splash Faker Objects Storage repository
+ *
+ * @extends  EntityRepository<FakeObject>
  */
 class FakeObjectRepository extends EntityRepository
 {
