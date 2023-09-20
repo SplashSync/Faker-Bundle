@@ -69,9 +69,9 @@ quality:php-8.0:
       # Execute PhpUnit Tests
       - vendor/bin/phpunit --log-junit $CI_PROJECT_DIR/full-report.xml
     artifacts:
-      when: always
-      reports:
-        junit: "*-report.xml"
+        when: always
+        reports:
+            junit: "*-report.xml"
 
 functional:php-8.1:
     image: registry.gitlab.com/badpixxel-projects/php-sdk:php-8.0
