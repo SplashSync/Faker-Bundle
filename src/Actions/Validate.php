@@ -43,8 +43,8 @@ class Validate extends AbstractController
         // If Currently NEW
         if (!$connector->getParameter('faker_validate_selftest', false)) {
             $connector->setParameter('faker_validate_selftest', true);
-            //====================================================================//
-            // If Currently Offline
+        //====================================================================//
+        // If Currently Offline
         } elseif (!$connector->getParameter('faker_validate_connect', false)) {
             $connector->setParameter('faker_validate_connect', true);
         }
