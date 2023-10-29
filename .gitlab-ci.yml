@@ -19,4 +19,4 @@
 # Include Pipeline Templates
 include:
   - remote: 'https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/gitlab/php/connectors.yaml'
-  - remote: 'https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/gitlab/php/packages.yaml'
+  - remote: 'https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/gitlab/php/package.yaml'
