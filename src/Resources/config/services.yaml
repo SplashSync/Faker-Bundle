@@ -38,8 +38,8 @@ services:
             - { name: "splash.standalone.object", type : "short" }            
             - { name: "splash.standalone.object", type : "simple" }
             - { name: "splash.standalone.object", type : "primary" }
-            - { name: "splash.standalone.object", type : "list" }
-            - { name: "splash.standalone.object", type : "image" }
+#            - { name: "splash.standalone.object", type : "list" }
+#            - { name: "splash.standalone.object", type : "image" }
             # Register Faker Actions
             - { name: "splash.standalone.action", type : "master",      action: Splash\Connectors\Faker\Actions\Master }
             - { name: "splash.standalone.action", type : "index",       action: Splash\Connectors\Faker\Actions\Master }
@@ -58,7 +58,13 @@ services:
             - { name: "splash.standalone.widget", type : "Empty" }            
             - { name: "splash.standalone.widget", type : "Text" }            
             - { name: "splash.standalone.widget", type : "Notifications" }            
-            - { name: "splash.standalone.widget", type : "Morris" }            
-            
-            
+            - { name: "splash.standalone.widget", type : "Morris" }
+
+    ########################################################################
+    # Splash Faker as Connector
+    ################################################################################
+    # AutoWire for Controllers
+    Splash\Connectors\Faker\Connectors\:
+        resource: '../../Connectors'
+        tags: ['splash.connector']
             

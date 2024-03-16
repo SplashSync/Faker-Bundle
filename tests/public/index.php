@@ -13,13 +13,10 @@
  *  file that was distributed with this source code.
  */
 
-namespace Splash\Connectors\Faker;
+use Splash\Toolkit\Kernel;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+require_once dirname(__DIR__).'/../vendor/autoload_runtime.php';
 
-/**
- * Splash Faker Connector Symfony Bundle Class
- */
-class FakerBundle extends Bundle
-{
-}
+return function (array $context): Kernel {
+    return new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
+};

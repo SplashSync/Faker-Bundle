@@ -17,7 +17,7 @@ namespace Splash\Connectors\Faker\Objects\Traits;
 
 use ArrayObject;
 use Splash\Client\Splash;
-use Splash\Connectors\Faker\Entity\FakeObject;
+use Splash\Connectors\Faker\Entity\FakeEntity;
 
 /**
  * Generic Faker Objects CRUD
@@ -42,19 +42,23 @@ trait CrudTrait
         Splash::log()->trace();
         //====================================================================//
         // Search in Repository
-        /** @var null|FakeObject $entity */
+        /** @var null|FakeEntity $entity */
         $entity = $this->entityManager
-            ->getRepository(FakeObject::class)
+            ->getRepository(FakeEntity::class)
             ->findOneBy(array(
+                'webserviceId' => $this->getWebserviceId(),
                 'type' => $this->getSplashType(),
                 'identifier' => $objectId,
             ));
         //====================================================================//
         // Check Object Entity was Found
         if (!$entity) {
-            Splash::log()->errTrace(
-                ' Unable to load '.$this->getName().' ('.$objectId.').'
-            );
+            Splash::log()->errTrace(sprintf(
+                ' Unable to load %s (%s) from %s.',
+                $this->getName(),
+                $objectId,
+                $this->getWebserviceId()
+            ));
 
             return null;
         }
@@ -79,7 +83,8 @@ trait CrudTrait
 
         //====================================================================//
         // Create New Entity
-        $this->entity = new FakeObject();
+        $this->entity = new FakeEntity();
+        $this->entity->setWebserviceId($this->getWebserviceId());
         $this->entity->setType($this->getSplashType());
         $this->entity->setIdentifier(uniqid());
         $this->entity->setData(array());

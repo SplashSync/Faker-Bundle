@@ -19,8 +19,8 @@ use ArrayObject;
 use Doctrine\ORM\EntityManagerInterface;
 use Splash\Bundle\Models\AbstractStandaloneObject;
 use Splash\Client\Splash;
-use Splash\Connectors\Faker\Entity\FakeObject;
-use Splash\Connectors\Faker\Repository\FakeObjectRepository;
+use Splash\Connectors\Faker\Entity\FakeEntity;
+use Splash\Connectors\Faker\Repository\FakeEntityRepository;
 use Splash\Connectors\Faker\Services\FieldsBuilder;
 use Splash\Models\Objects\IntelParserTrait;
 use Splash\Models\Objects\ListsTrait;
@@ -61,26 +61,14 @@ class Generic extends AbstractStandaloneObject implements PrimaryKeysAwareInterf
     //====================================================================//
 
     /**
-     * @var FakeObject
+     * @var FakeEntity
      */
-    protected FakeObject $entity;
+    protected FakeEntity $entity;
 
     /**
-     * @var ArrayObject
+     * @phpstan-var ArrayObject
      */
     protected object $object;
-
-    /**
-     * Doctrine Entity Manager
-     *
-     * @var EntityManagerInterface
-     */
-    protected EntityManagerInterface $entityManager;
-
-    /**
-     * @var FieldsBuilder
-     */
-    protected FieldsBuilder $fieldBuilder;
 
     //====================================================================//
     // Service Constructor
@@ -88,18 +76,11 @@ class Generic extends AbstractStandaloneObject implements PrimaryKeysAwareInterf
 
     /**
      * Service Constructor
-     *
-     * @param FieldsBuilder          $fieldsBuilder
-     * @param EntityManagerInterface $entityManager
      */
-    public function __construct(FieldsBuilder $fieldsBuilder, EntityManagerInterface $entityManager)
-    {
-        //====================================================================//
-        // Link to Fake Fields Builder Services
-        $this->fieldBuilder = $fieldsBuilder;
-        //====================================================================//
-        // Link to Doctrine Entity Manager Services
-        $this->entityManager = $entityManager;
+    public function __construct(
+        private FieldsBuilder $fieldBuilder,
+        private EntityManagerInterface $entityManager
+    ) {
     }
 
     //====================================================================//
@@ -184,12 +165,13 @@ class Generic extends AbstractStandaloneObject implements PrimaryKeysAwareInterf
         Splash::log()->trace();
 
         $response = array();
-        /** @var FakeObjectRepository $repository */
-        $repository = $this->entityManager->getRepository(FakeObject::class);
+        /** @var FakeEntityRepository $repository */
+        $repository = $this->entityManager->getRepository(FakeEntity::class);
 
         //====================================================================//
         // Prepare List Filters List
         $search = array(
+            'webserviceId' => $this->getWebserviceId(),
             'type' => $this->getSplashType(),
         );
         if (!empty($filter)) {
@@ -210,7 +192,7 @@ class Generic extends AbstractStandaloneObject implements PrimaryKeysAwareInterf
 
         //====================================================================//
         // Parse Data on Result Array
-        /** @var FakeObject $object */
+        /** @var FakeEntity $object */
         foreach ($data as $object) {
             $objectData = array(
                 'id' => $object->getIdentifier(),
@@ -245,11 +227,22 @@ class Generic extends AbstractStandaloneObject implements PrimaryKeysAwareInterf
         //====================================================================//
         // Stack Trace
         Splash::log()->trace();
-        /** @var FakeObjectRepository $repository */
-        $repository = $this->entityManager->getRepository(FakeObject::class);
+        /** @var FakeEntityRepository $repository */
+        $repository = $this->entityManager->getRepository(FakeEntity::class);
+
         //====================================================================//
         // Get Repository
-        $object = $repository->findByPrimaryKeys($this->getSplashType(), $keys);
+        try {
+            $object = $repository->findByPrimaryKeys(
+                $this->getWebserviceId(),
+                $this->getSplashType(),
+                $keys
+            );
+        } catch (\Exception $exception) {
+            Splash::log()->report($exception);
+
+            return null;
+        }
 
         return $object ? $object->getIdentifier() : null;
     }

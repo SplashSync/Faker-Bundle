@@ -15,62 +15,55 @@
 
 namespace Splash\Connectors\Faker\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Splash\Connectors\Faker\Repository\FakeEntityRepository;
 
 /**
  * Splash Fake/Testing Objects
- *
- * @ORM\Table(name="splash__faker__objects")
- *
- * @ORM\Entity(repositoryClass="Splash\Connectors\Faker\Repository\FakeObjectRepository")
  */
-class FakeObject
+#[ORM\Table("splash__faker__objects")]
+#[ORM\Entity(repositoryClass: FakeEntityRepository::class)]
+class FakeEntity
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected ?int $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    protected ?int $id = null;
 
     /**
-     * @var string
+     * Entity Version
      */
-    private $condition;
+    #[ORM\Column(type: Types::INTEGER)]
+    #[ORM\Version]
+    private int $version;
 
     //==============================================================================
     //      FAKER OBJECT DATA
     //==============================================================================
 
     /**
-     * Fake Object Type Name
-     *
-     * @var string
-     *
-     * @ORM\Column(name="type", type="string", length=255)
+     * Fake Server Webservice ID
      */
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private string $webserviceId;
+
+    /**
+     * Fake Object Type Name
+     */
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private string $type;
 
     /**
      * Fake Object Identifier
-     *
-     * @var string
-     *
-     * @ORM\Column(name="identifier", type="string", length=255)
      */
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private string $identifier;
 
     /**
      * Fake Object Data
-     *
-     * @var array
-     *
-     * @ORM\Column(name="data", type="object")
      */
+    #[ORM\Column(type: Types::ARRAY)]
     private array $data = array();
 
     //==============================================================================
@@ -102,13 +95,27 @@ class FakeObject
     }
 
     /**
-     * Set type.
-     *
-     * @param string $type
-     *
-     * @return $this
+     * Set Webserver ID.
      */
-    public function setType(string $type): self
+    public function setWebserviceId(string $webserviceId): static
+    {
+        $this->webserviceId = $webserviceId;
+
+        return $this;
+    }
+
+    /**
+     * Get Webserver ID.
+     */
+    public function getWebserviceId(): string
+    {
+        return $this->webserviceId;
+    }
+
+    /**
+     * Set Object Type.
+     */
+    public function setType(string $type): static
     {
         $this->type = $type;
 
@@ -116,9 +123,7 @@ class FakeObject
     }
 
     /**
-     * Get type.
-     *
-     * @return string
+     * Get Object Type.
      */
     public function getType(): string
     {
@@ -126,13 +131,9 @@ class FakeObject
     }
 
     /**
-     * Set identifier.
-     *
-     * @param string $identifier
-     *
-     * @return $this
+     * Set Object Identifier.
      */
-    public function setIdentifier(string $identifier): self
+    public function setIdentifier(string $identifier): static
     {
         $this->identifier = $identifier;
 
@@ -140,9 +141,7 @@ class FakeObject
     }
 
     /**
-     * Get identifier.
-     *
-     * @return string
+     * Get Object Identifier.
      */
     public function getIdentifier(): string
     {
@@ -152,14 +151,14 @@ class FakeObject
     /**
      * Set Field.
      *
-     * @param string            $objectId   Object ID
+     * @param string            $fieldId    Object ID
      * @param null|array|scalar $objectData Object Field Data
      *
      * @return $this
      */
-    public function setField(string $objectId, $objectData): self
+    public function setField(string $fieldId, $objectData): self
     {
-        $this->data[$objectId] = $objectData;
+        $this->data[$fieldId] = $objectData;
 
         return $this;
     }
@@ -185,7 +184,7 @@ class FakeObject
      *
      * @param null|string $fieldId Field Name or Null
      *
-     * @return null|array|string
+     * @return null|array|scalar
      */
     public function getData(string $fieldId = null)
     {
@@ -201,26 +200,20 @@ class FakeObject
     }
 
     /**
-     * Set condition.
-     *
-     * @param string $condition
-     *
-     * @return self
+     * Set Entity Version.
      */
-    public function setCondition($condition): self
+    public function setCondition(int $version): self
     {
-        $this->condition = $condition;
+        $this->version = $version;
 
         return $this;
     }
 
     /**
-     * Get condition.
-     *
-     * @return string
+     * Get Entity Version.
      */
-    public function getCondition()
+    public function getVersion(): ?int
     {
-        return $this->condition;
+        return $this->version;
     }
 }

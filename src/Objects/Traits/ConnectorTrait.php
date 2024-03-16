@@ -31,17 +31,17 @@ trait ConnectorTrait
      *
      * @return bool
      */
-    public function selftest()
+    public function selftest(): bool
     {
         if ($this->getParameter('faker_disable_'.$this->getSplashType(), false)) {
             return true;
         }
         if (!$this->getParameter('faker_validate_selftest', false)) {
             return  Splash::log()
-                ->Err($this->getName().' : Faker Selftest Not Validated... Use config page to validate it!');
+                ->err($this->getName().' : Faker Self-test Not Validated... Use config page to validate it!');
         }
 
-        return  Splash::log()->Msg($this->getName().' Selftest Object Passed');
+        return  Splash::log()->msg($this->getName().' Self-test Object Passed');
     }
 
     //====================================================================//

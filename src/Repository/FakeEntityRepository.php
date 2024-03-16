@@ -17,14 +17,14 @@ namespace Splash\Connectors\Faker\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Exception;
-use Splash\Connectors\Faker\Entity\FakeObject;
+use Splash\Connectors\Faker\Entity\FakeEntity;
 
 /**
  * Splash Faker Objects Storage repository
  *
- * @extends  EntityRepository<FakeObject>
+ * @extends  EntityRepository<FakeEntity>
  */
-class FakeObjectRepository extends EntityRepository
+class FakeEntityRepository extends EntityRepository
 {
     /**
      * Count Number of Objects of Same Type
@@ -60,21 +60,24 @@ class FakeObjectRepository extends EntityRepository
     /**
      * Identify Object Using Primary Keys
      *
+     * @param string                $webserviceId
      * @param string                $type
-     * @param array<string, string> $keys Primary Keys List
+     * @param array<string, string> $keys         Primary Keys List
      *
      * @throws Exception
      *
-     * @return null|FakeObject
+     * @return null|FakeEntity
      */
-    public function findByPrimaryKeys(string $type, array $keys): ?FakeObject
+    public function findByPrimaryKeys(string $webserviceId, string $type, array $keys): ?FakeEntity
     {
         $builder = $this->createQueryBuilder('o');
         //====================================================================//
         // Filter on Object Type
         $builder
-            ->where($builder->expr()->eq("o.type", ":fakeObjectType"))
-            ->setParameter(":fakeObjectType", $type)
+            ->where($builder->expr()->eq("o.type", ":objectType"))
+            ->andWhere($builder->expr()->eq("o.webserviceId", ":webserviceId"))
+            ->setParameter(":objectType", $type)
+            ->setParameter(":webserviceId", $webserviceId)
         ;
         //====================================================================//
         // Walk on Primary Keys

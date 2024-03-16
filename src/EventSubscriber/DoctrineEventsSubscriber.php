@@ -19,7 +19,8 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Splash\Bundle\Connectors\Standalone;
 use Splash\Bundle\Services\ConnectorsManager;
-use Splash\Connectors\Faker\Entity\FakeObject;
+use Splash\Connectors\Faker\Connectors\FakeConnector;
+use Splash\Connectors\Faker\Entity\FakeEntity;
 
 /**
  * Faker Objects Doctrine Events Subscriber.
@@ -114,12 +115,15 @@ class DoctrineEventsSubscriber implements EventSubscriber
     {
         //====================================================================//
         //  Check Entity is A Faker Object
-        if (!($entity instanceof FakeObject)) {
+        if (!($entity instanceof FakeEntity)) {
             return;
         }
         //====================================================================//
         //  Search in Configured Servers using Standalone Connector
-        $servers = $this->manager->getConnectorConfigurations(Standalone::NAME);
+        $servers = array_merge(
+            $this->manager->getConnectorConfigurations(Standalone::NAME),
+            $this->manager->getConnectorConfigurations(FakeConnector::NAME),
+        );
         //====================================================================//
         //  Walk on Configured Servers
         foreach (array_keys($servers) as $serverId) {
@@ -128,7 +132,7 @@ class DoctrineEventsSubscriber implements EventSubscriber
             $connector = $this->manager->get((string) $serverId);
             //====================================================================//
             //  Safety Check
-            if (null === $connector) {
+            if ((null === $connector) || ($connector->getWebserviceId() != $entity->getWebserviceId())) {
                 continue;
             }
             //====================================================================//

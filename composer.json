@@ -9,22 +9,22 @@
 
     "authors": [
         {
-            "name":"Splash Sync",
-            "email":"contact@splashsync.com"
+            "name":         "Splash Sync",
+            "email":        "contact@splashsync.com"
         },
         {
-            "name": "Bernard Paquier",
-            "email": "eshop.bpaquier@gmail.com"
+            "name":         "Bernard Paquier",
+            "email":        "eshop.bpaquier@gmail.com"
         }
     ],
     "autoload": {
         "psr-4": { 
-            "Splash\\Connectors\\Faker\\":          "src/"
+            "Splash\\Connectors\\Faker\\":              "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Splash\\Connectors\\Faker\\Tests\\":          "tests/"
+            "Splash\\Connectors\\Faker\\Tests\\":       "tests/"
         }
     },
     "require": {
@@ -40,14 +40,19 @@
             "symfony/runtime":  true
         }
     },
+    "extra": {
+        "public-dir": "tests/public"
+    },
     "scripts": {
         "auto-scripts": [
             "php bin/console cache:clear",
+            "php bin/console assets:install --relative",
             "php bin/console doctrine:schema:update --force --complete --no-interaction --no-debug",
             "find var/cache/dev/*.xml | while read -r i; do cp \"$i\" var/cache/dev/testContainer.xml; done"
         ],
         "post-install-cmd": [
-            "@auto-scripts"
+            "@auto-scripts",
+            "php bin/console sonata:user:create Toolkit toolkit@splashsync.com toolkit --super-admin || exit 0"
         ],
         "post-update-cmd": [
             "@auto-scripts"

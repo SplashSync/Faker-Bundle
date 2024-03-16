@@ -229,7 +229,7 @@ class FieldsBuilder
      *
      * @return bool
      */
-    public function compare(array $source, array$target): bool
+    public function compare(array $source, array $target): bool
     {
         //==============================================================================
         // Compare Each Array Row

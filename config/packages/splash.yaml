@@ -1,3 +1,6 @@
+parameters:
+    # Adds a fallback DATABASE_URL if the env var is not set.
+    env(SPLASH_HOST): 'http://localhost:8000'
 
 splash:
     ################################################################################
@@ -7,9 +10,19 @@ splash:
 
         ########################################################################
         # Faker Server
-        faker:
-            id:                 ThisIsFakerWsId
-            key:                ThisIsNotASecretKeyForFaker
-            name:               Serveur 1 (Faker)
-            host:               "http://127.0.0.1:8000/ws/soap"
-            server_host:        "http://127.0.0.1:8000"
+        standalone:
+            id:                 "ThisIsFakerWsId"
+            key:                "ThisIsNotASecretKeyForFaker"
+            name:               "[Faker] Standalone"
+            host:               "%env(SPLASH_HOST)%/ws/splash"
+            server_host:        "%env(SPLASH_HOST)%"
+
+        ########################################################################
+        # Faker Connector
+        connector:
+            id:                 "ThisIsFakerConnectorWsId"
+            key:                "ThisIsNotASecretKeyForFaker"
+            name:               "[Faker] Connector"
+            connector:          faker
+            host:               "%env(SPLASH_HOST)%/ws/faker"
+            server_host:        "%env(SPLASH_HOST)%"
