@@ -16,6 +16,9 @@
 namespace Splash\Connectors\Faker\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\QueryBuilder;
 use Exception;
 use Splash\Connectors\Faker\Entity\FakeEntity;
 
@@ -27,23 +30,29 @@ use Splash\Connectors\Faker\Entity\FakeEntity;
 class FakeEntityRepository extends EntityRepository
 {
     /**
-     * Count Number of Objects of Same Type
-     *
-     * @param string      $type
-     * @param null|string $filter
-     *
-     * @throws Exception
-     *
-     * @return int
+     * Create Webservice Query Builder
      */
-    public function getTypeCount(string $type, string $filter = null): int
+    public function createConnectorQueryBuilder(string $webserviceId, string $type): QueryBuilder
     {
         $builder = $this->createQueryBuilder('o');
 
-        $builder
+        return $builder
             ->select('COUNT(o.id)')
-            ->where('o.type = :type')
-            ->setParameter('type', $type)
+            ->where($builder->expr()->eq("o.type", ":objectType"))
+            ->andWhere($builder->expr()->eq("o.webserviceId", ":webserviceId"))
+            ->setParameter('objectType', $type)
+            ->setParameter("webserviceId", $webserviceId)
+        ;
+    }
+
+    /**
+     * Count Number of Objects of Same Type
+     */
+    public function getTypeCount(string $webserviceId, string $type, string $filter = null): int
+    {
+        $builder = $this
+            ->createConnectorQueryBuilder($webserviceId, $type)
+            ->select('COUNT(o.id)')
         ;
 
         if ($filter) {
@@ -53,32 +62,23 @@ class FakeEntityRepository extends EntityRepository
             ;
         }
 
-        // @phpstan-ignore-next-line
-        return $builder->getQuery()->getSingleScalarResult();
+        try {
+            return (int) $builder->getQuery()->getSingleScalarResult();
+        } catch (NoResultException|NonUniqueResultException $e) {
+            return 0;
+        }
     }
 
     /**
      * Identify Object Using Primary Keys
      *
-     * @param string                $webserviceId
-     * @param string                $type
-     * @param array<string, string> $keys         Primary Keys List
+     * @param array<string, string> $keys Primary Keys List
      *
      * @throws Exception
-     *
-     * @return null|FakeEntity
      */
     public function findByPrimaryKeys(string $webserviceId, string $type, array $keys): ?FakeEntity
     {
-        $builder = $this->createQueryBuilder('o');
-        //====================================================================//
-        // Filter on Object Type
-        $builder
-            ->where($builder->expr()->eq("o.type", ":objectType"))
-            ->andWhere($builder->expr()->eq("o.webserviceId", ":webserviceId"))
-            ->setParameter(":objectType", $type)
-            ->setParameter(":webserviceId", $webserviceId)
-        ;
+        $builder = $this->createConnectorQueryBuilder($webserviceId, $type);
         //====================================================================//
         // Walk on Primary Keys
         foreach ($keys as $name => $value) {

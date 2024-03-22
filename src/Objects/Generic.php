@@ -210,7 +210,7 @@ class Generic extends AbstractStandaloneObject implements PrimaryKeysAwareInterf
         //====================================================================//
         // Parse Meta Infos on Result Array
         $response['meta'] = array(
-            'total' => $repository->getTypeCount($this->getSplashType(), $filter),
+            'total' => $repository->getTypeCount($this->getWebserviceId(), $this->getSplashType(), $filter),
             'current' => \count($data),
         );
 
