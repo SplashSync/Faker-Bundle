@@ -37,7 +37,6 @@ class FakeEntityRepository extends EntityRepository
         $builder = $this->createQueryBuilder('o');
 
         return $builder
-            ->select('COUNT(o.id)')
             ->where($builder->expr()->eq("o.type", ":objectType"))
             ->andWhere($builder->expr()->eq("o.webserviceId", ":webserviceId"))
             ->setParameter('objectType', $type)
