@@ -20,6 +20,7 @@ use Psr\Log\LoggerInterface;
 use Splash\Bundle\Interfaces\Connectors\PrimaryKeysInterface;
 use Splash\Bundle\Models\AbstractConnector;
 use Splash\Client\Splash;
+use Splash\Connectors\Faker\Actions;
 use Splash\Connectors\Faker\Dictionary\FakeObjectsTypes;
 use Splash\Connectors\Faker\Dictionary\FakeWidgetsTypes;
 use Splash\Connectors\Faker\Form\FakerConfigForm;
@@ -28,6 +29,9 @@ use Splash\Connectors\Faker\Widgets\Generic as GenericWidget;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 #[Autoconfigure(
     bind: array(
         '$genericObject' => "@splash.connector.faker.object",
@@ -276,7 +280,13 @@ class FakeConnector extends AbstractConnector implements PrimaryKeysInterface
      */
     public function getPublicActions(): array
     {
-        return array();
+        return array(
+            "index" => Actions\Master::class,
+            "master" => Actions\Master::class,
+            "validate" => Actions\Validate::class,
+            "invalidate" => Actions\Invalidate::class,
+            "fail" => Actions\Fail::class,
+        );
     }
 
     /**

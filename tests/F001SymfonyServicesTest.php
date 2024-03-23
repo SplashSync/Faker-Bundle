@@ -19,6 +19,8 @@ use Exception;
 use PHPUnit\Framework\Assert;
 use Splash\Bundle\Models\AbstractConnector;
 use Splash\Connectors\Faker\Actions;
+use Splash\Connectors\Faker\Dictionary\FakeObjectsTypes;
+use Splash\Connectors\Faker\Dictionary\FakeWidgetsTypes;
 use Splash\Tests\Tools\TestCase;
 
 class F001SymfonyServicesTest extends TestCase
@@ -26,35 +28,63 @@ class F001SymfonyServicesTest extends TestCase
     /**
      * Test Declaration of Splash Objects
      *
-     * @throws Exception
+     * @dataProvider connectorIdProvider
      *
-     * @return void
+     * @throws Exception
      */
-    public function testSplashObjectsExists(): void
+    public function testSplashObjectsExists(string $connectorId): void
     {
-        $connector = $this->getConnector("faker");
+        //====================================================================//
+        // Load Connector
+        $connector = $this->getConnector($connectorId);
         $this->assertInstanceOf(AbstractConnector::class, $connector);
 
+        //====================================================================//
+        // Verify All Objects Types are Available
         $objectTypes = $connector->getAvailableObjects();
-        $this->assertContains("short", $objectTypes);
-        $this->assertContains("simple", $objectTypes);
-        $this->assertContains("primary", $objectTypes);
-        $this->assertContains("list", $objectTypes);
-        $this->assertContains("image", $objectTypes);
+        foreach (FakeObjectsTypes::getAll() as $objectType) {
+            $this->assertContains($objectType, $objectTypes);
+        }
+    }
+
+    /**
+     * Test Declaration of Splash Objects
+     *
+     * @dataProvider connectorIdProvider
+     *
+     * @throws Exception
+     */
+    public function testSplashWidgetsExists(string $connectorId): void
+    {
+        //====================================================================//
+        // Load Connector
+        $connector = $this->getConnector($connectorId);
+        $this->assertInstanceOf(AbstractConnector::class, $connector);
+
+        //====================================================================//
+        // Verify All Widgets Types are Available
+        $widgetTypes = $connector->getAvailableWidgets();
+        foreach (FakeWidgetsTypes::getAll() as $widgetType) {
+            $this->assertContains($widgetType, $widgetTypes);
+        }
     }
 
     /**
      * Test Declaration of Connector Actions
      *
-     * @throws Exception
+     * @dataProvider connectorIdProvider
      *
-     * @return void
+     * @throws Exception
      */
-    public function testConnectorActionsExists(): void
+    public function testConnectorActionsExists(string $connectorId): void
     {
-        $connector = $this->getConnector("faker");
+        //====================================================================//
+        // Load Connector
+        $connector = $this->getConnector($connectorId);
         $this->assertInstanceOf(AbstractConnector::class, $connector);
 
+        //====================================================================//
+        // Verify All Objects Types are Available
         $publicActions = $connector->getPublicActions();
         Assert::assertEquals(Actions\Master::class, $publicActions['master']);
         Assert::assertEquals(Actions\Master::class, $publicActions['index']);
@@ -68,11 +98,11 @@ class F001SymfonyServicesTest extends TestCase
      *
      * @throws Exception
      *
-     * @return void
+     * @dataProvider connectorIdProvider
      */
-    public function testConnectorActions(): void
+    public function testConnectorActions(string $connectorId): void
     {
-        $connector = $this->getConnector("faker");
+        $connector = $this->getConnector($connectorId);
         $this->assertInstanceOf(AbstractConnector::class, $connector);
 
         $this->assertPublicActionWorks($connector, null);
@@ -81,5 +111,16 @@ class F001SymfonyServicesTest extends TestCase
         $this->assertPublicActionWorks($connector, "validate");
         $this->assertPublicActionWorks($connector, "invalidate");
         $this->assertPublicActionFail($connector, "fail");
+    }
+
+    /**
+     * Configured Connectors Names
+     */
+    public function connectorIdProvider(): array
+    {
+        return array(
+            "Standalone" => array("standalone"),
+            "Connector" => array("connector"),
+        );
     }
 }
