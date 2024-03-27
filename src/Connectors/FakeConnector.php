@@ -139,7 +139,9 @@ class FakeConnector extends AbstractConnector implements PrimaryKeysInterface
      */
     public function getFile(string $filePath, string $fileMd5): ?array
     {
-        return null;
+        //====================================================================//
+        // Faker Only Works with Local Files
+        return Splash::file()->readFile($filePath, $fileMd5);
     }
 
     /**
