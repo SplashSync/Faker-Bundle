@@ -41,9 +41,24 @@ class FakeObjectsTypes
     const PRIMARY = "primary";
 
     /**
+     * Small Object with Link to Multiple Objects Types
+     */
+    const OBJECTS = "objects";
+
+    /**
      * Small Object with Image
      */
     const IMAGE = "image";
+
+    /**
+     * Small Object with File
+     */
+    const FILE = "file";
+
+    /**
+     * Small Object with Stream
+     */
+    const STREAM = "stream";
 
     /**
      * Get List of All Available Objects Types
@@ -56,8 +71,11 @@ class FakeObjectsTypes
             self::SHORT,
             self::SIMPLE,
             self::LIST,
+            self::OBJECTS,
             self::PRIMARY,
             self::IMAGE,
+            self::FILE,
+            self::STREAM,
         );
     }
 }

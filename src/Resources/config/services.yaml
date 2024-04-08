@@ -37,9 +37,12 @@ services:
             # Register Faker Standalone Connector Objects           
             - { name: "splash.standalone.object", type : "short" }            
             - { name: "splash.standalone.object", type : "simple" }
-            - { name: "splash.standalone.object", type : "primary" }
             - { name: "splash.standalone.object", type : "list" }
+            - { name: "splash.standalone.object", type : "primary" }
+            - { name: "splash.standalone.object", type : "objects" }
             - { name: "splash.standalone.object", type : "image" }
+            - { name: "splash.standalone.object", type : "file" }
+            - { name: "splash.standalone.object", type : "stream" }
             # Register Faker Actions
             - { name: "splash.standalone.action", type : "master",      action: Splash\Connectors\Faker\Actions\Master }
             - { name: "splash.standalone.action", type : "index",       action: Splash\Connectors\Faker\Actions\Master }
