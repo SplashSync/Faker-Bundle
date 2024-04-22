@@ -17,6 +17,7 @@ namespace Splash\Connectors\Faker\Objects;
 
 use ArrayObject;
 use Doctrine\ORM\EntityManagerInterface;
+use Splash\Bundle\Interfaces\Objects\TrackingInterface;
 use Splash\Bundle\Models\AbstractStandaloneObject;
 use Splash\Client\Splash;
 use Splash\Connectors\Faker\Entity\FakeEntity;
@@ -30,7 +31,7 @@ use Splash\Models\Objects\SimpleFieldsTrait;
 /**
  * Generic Faker Object.
  */
-class Generic extends AbstractStandaloneObject implements PrimaryKeysAwareInterface
+class Generic extends AbstractStandaloneObject implements PrimaryKeysAwareInterface, TrackingInterface
 {
     // Splash Php Core Traits
     use IntelParserTrait;
@@ -41,6 +42,7 @@ class Generic extends AbstractStandaloneObject implements PrimaryKeysAwareInterf
     use Traits\GeneratorTrait;
     use Traits\CrudTrait;
     use Traits\ConnectorTrait;
+    use Traits\TrackingTrait;
 
     //====================================================================//
     // Object Definition Parameters

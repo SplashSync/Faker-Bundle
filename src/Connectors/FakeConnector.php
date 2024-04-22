@@ -18,6 +18,7 @@ namespace Splash\Connectors\Faker\Connectors;
 use ArrayObject;
 use Psr\Log\LoggerInterface;
 use Splash\Bundle\Interfaces\Connectors\PrimaryKeysInterface;
+use Splash\Bundle\Interfaces\Connectors\TrackingInterface;
 use Splash\Bundle\Models\AbstractConnector;
 use Splash\Client\Splash;
 use Splash\Connectors\Faker\Actions;
@@ -38,8 +39,10 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
         '$genericWidget' => "@splash.connector.faker.widget",
     )
 )]
-class FakeConnector extends AbstractConnector implements PrimaryKeysInterface
+class FakeConnector extends AbstractConnector implements PrimaryKeysInterface, TrackingInterface
 {
+    use Traits\TrackingTrait;
+
     const NAME = 'faker';
 
     public function __construct(

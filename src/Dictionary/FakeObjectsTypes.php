@@ -61,6 +61,11 @@ class FakeObjectsTypes
     const STREAM = "stream";
 
     /**
+     * Small Object with Changes Tracking
+     */
+    const TRACKING = "tracking";
+
+    /**
      * Get List of All Available Objects Types
      *
      * @return string[]
@@ -76,6 +81,7 @@ class FakeObjectsTypes
             self::IMAGE,
             self::FILE,
             self::STREAM,
+            self::TRACKING,
         );
     }
 }

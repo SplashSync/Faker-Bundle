@@ -85,7 +85,7 @@ class FakeEntity
     //==============================================================================
 
     /**
-     * Get ID.
+     * Get Entity ID.
      *
      * @return null|int
      */
@@ -149,7 +149,7 @@ class FakeEntity
     }
 
     /**
-     * Set Field.
+     * Set a Single Field.
      *
      * @param string            $fieldId    Object ID
      * @param null|array|scalar $objectData Object Field Data
@@ -164,7 +164,7 @@ class FakeEntity
     }
 
     /**
-     * Set data.
+     * Set Whole Object Data.
      *
      * @param array<null|array|scalar> $objectData
      *
@@ -180,7 +180,7 @@ class FakeEntity
     }
 
     /**
-     * Get data.
+     * Get Whole Object Data.
      *
      * @param null|string $fieldId Field Name or Null
      *

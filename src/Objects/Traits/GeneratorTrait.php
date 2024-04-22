@@ -45,7 +45,7 @@ trait GeneratorTrait
         //==============================================================================
         // Populate Fields
         match ($fieldSetType) {
-            Types::SHORT => $this->generateShortObjectFields(),
+            Types::TRACKING, Types::SHORT => $this->generateShortObjectFields(),
             default => $this->generateSimpleObjectFields(),
             Types::PRIMARY => $this->generatePrimaryObjectFields(),
             Types::OBJECTS => $this->generateObjectsObjectFields(),

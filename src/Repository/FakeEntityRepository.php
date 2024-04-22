@@ -25,7 +25,7 @@ use Splash\Connectors\Faker\Entity\FakeEntity;
 /**
  * Splash Faker Objects Storage repository
  *
- * @extends  EntityRepository<FakeEntity>
+ * @template-extends  EntityRepository<FakeEntity>
  */
 class FakeEntityRepository extends EntityRepository
 {
@@ -95,5 +95,51 @@ class FakeEntityRepository extends EntityRepository
 
         // @phpstan-ignore-next-line
         return $builder->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * Identify Updated Objects for Changes Tracking Listener
+     *
+     * @return FakeEntity[]
+     */
+    public function getTrackedUpdated(string $webserviceId, string $type): array
+    {
+        $builder = $this->createConnectorQueryBuilder($webserviceId, $type);
+        //====================================================================//
+        // Build data Serialized Value
+        $serialized = serialize(array("varchar1" => "updated"));
+        $serializedString = substr($serialized, 5, strlen($serialized) - 6);
+        //====================================================================//
+        // Add Value to Query Builder
+        $builder
+            ->andWhere($builder->expr()->like("o.data", ":sequence"))
+            ->setParameter("sequence", '%'.$serializedString.'%')
+        ;
+
+        // @phpstan-ignore-next-line
+        return $builder->getQuery()->execute();
+    }
+
+    /**
+     * Identify Deleted Objects for Changes Tracking Listener
+     *
+     * @return FakeEntity[]
+     */
+    public function getTrackedDeleted(string $webserviceId, string $type): array
+    {
+        $builder = $this->createConnectorQueryBuilder($webserviceId, $type);
+        //====================================================================//
+        // Build data Serialized Value
+        $serialized = serialize(array("varchar1" => "deleted"));
+        $serializedString = substr($serialized, 5, strlen($serialized) - 6);
+        //====================================================================//
+        // Add Value to Query Builder
+        $builder
+            ->andWhere($builder->expr()->like("o.data", ":sequence"))
+            ->setParameter("sequence", '%'.$serializedString.'%')
+        ;
+
+        // @phpstan-ignore-next-line
+        return $builder->getQuery()->execute();
     }
 }
