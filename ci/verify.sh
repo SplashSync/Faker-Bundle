@@ -24,7 +24,7 @@ CONTAINERS="php-8.1,php-8.0"
 ################################################################################
 # Start Docker Compose Stack
 echo '===> Start Docker Stack'
-docker-compose up -d
+docker compose up -d
 ######################################
 # Walk on Docker Compose Container
 for ID in $(echo $CONTAINERS | tr "," "\n")
@@ -33,8 +33,8 @@ do
     echo "===> CHECKS ON $ID"
     echo "----------------------------------------------------"
     # Run Grumphp Test Suites
-    docker-compose exec $ID composer update -q
-    docker-compose exec $ID php vendor/bin/grumphp run --testsuite=travis
-    docker-compose exec $ID php vendor/bin/grumphp run --testsuite=csfixer
-    docker-compose exec $ID php vendor/bin/grumphp run --testsuite=phpstan
+    docker compose exec $ID composer update -q
+    docker compose exec $ID php vendor/bin/grumphp run --testsuite=travis
+    docker compose exec $ID php vendor/bin/grumphp run --testsuite=csfixer
+    docker compose exec $ID php vendor/bin/grumphp run --testsuite=phpstan
 done

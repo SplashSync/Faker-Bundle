@@ -93,7 +93,6 @@ class FakeEntityRepository extends EntityRepository
             ;
         }
 
-        // @phpstan-ignore-next-line
         return $builder->getQuery()->getOneOrNullResult();
     }
 
