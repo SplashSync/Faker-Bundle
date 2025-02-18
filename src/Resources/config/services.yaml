@@ -43,6 +43,7 @@ services:
             - { name: "splash.standalone.object", type : "image" }
             - { name: "splash.standalone.object", type : "file" }
             - { name: "splash.standalone.object", type : "stream" }
+            - { name: "splash.standalone.object", type : "tracking" }
             # Register Faker Actions
             - { name: "splash.standalone.action", type : "master",      action: Splash\Connectors\Faker\Actions\Master }
             - { name: "splash.standalone.action", type : "index",       action: Splash\Connectors\Faker\Actions\Master }
